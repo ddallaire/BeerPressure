@@ -1,0 +1,5 @@
+#!/bin/bash
+echo "Creating uberwar..."
+lein ring uberwar
+echo "Copying ROOT.war to tomcat dir"
+cp target/beerpressure-0.1.0-SNAPSHOT-standalone.war /var/lib/tomcat7/webapps/ROOT.war

@@ -1,0 +1,12 @@
+*.DS_Store
+*~
+*~
+\#*\#
+.\#*
+.lein-env
+.nrepl-port
+\target
+profiles.clj
+.lein-failures
+test/jmeter/*.jtl
+test/jmeter/*.log
