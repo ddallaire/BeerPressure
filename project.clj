@@ -12,7 +12,7 @@
                  [ring-cors "0.1.10"]]
   :plugins [[lein-ring "0.11.0"]
             [lein-environ "1.1.0"]]
-  :ring {:handler leaderboard-api.handler/app}
+  :ring {:handler beerpressure.handler/app}
   :profiles
   {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]
                         [ring/ring-mock "0.3.0"]]}})
