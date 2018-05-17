@@ -46,7 +46,7 @@ To start a web server for the application, run:
 
 Merge the following into your `$HOME/.lein/profiles.clj` file:
 
-{:user {:plugins [[jonase/eastwood "0.2.6"]] }}
+`{:user {:plugins [[jonase/eastwood "0.2.6"]] }}`
 
 To run the linter with the default set of lint warnings, use the command:
 
