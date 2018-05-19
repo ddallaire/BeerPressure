@@ -6,9 +6,20 @@ Back-end application for S6 semester projet.
 
 You will need the following things installed on your computer.
 
-* Java SDK must me installed, version 8 is recommended.
+* Java SDK, version 8 is recommended
 * PostgreSQL
-* You will need [Leiningen][] 2.0.0 or above installed.
+* [Leiningen][] 2.0.0 or above
+* [Tomcat7](https://tomcat.apache.org/download-70.cgi).
+
+Once Tomcat is installed, you should open tomcat-users.xml and simply add a user. Here is an example :
+<role rolename="manager-gui"/>
+<user username="tomcat" password="admin" roles="manager-gui"/>
+
+Try to remember the credentials, as they will be used to connect to the Tomcat manager.
+
+The recommended IDE is [Intellij IDEA Ultimate](https://www.jetbrains.com/student/). It can be obtained for free using your usherbrooke email.
+
+You should also add the Cursive plugin, which provides full Clojure support.
 
 [leiningen]: https://github.com/technomancy/leiningen
 
@@ -56,4 +67,11 @@ TODO: Set list of ignored files
 
 ### Deploying
 
-Let's go titienne! Va compléter le script `deploy_to_tomcat`!!!
+If you want to create a new war file manually, run :
+`lein uberwar`
+
+Take the newly generated .jar file in your target folder and put it in your /var/lib/tomcat7/webapps/ folder. Rename it to ROOT.war
+
+Then, to deploy, you simply need to navigate to your Tomcat Web Application Manager (localhost:8080/manager/html by default) and upload the file.
+
+Refer to the [HOW-TO](https://tomcat.apache.org/tomcat-7.0-doc/manager-howto.html) page for more information
