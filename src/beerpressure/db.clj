@@ -8,17 +8,17 @@
 (def db-spec {:classname "org.postgresql.Driver"
               :subprotocol "postgresql"
               :subname (str "//"
-                            (or (:db-host env)
+                            (or (env :db-host)
                                 (-> (s/split (System/getenv "DATABASE_URL") #":") (nth 2) (s/split #"@") second))
                             ":"
-                            (or (:db-port env)
+                            (or (env :db-port)
                                 (-> (s/split (System/getenv "DATABASE_URL") #":") (nth 3) (s/split #"/") first))
                             "/"
-                            (or (:db-name env)
+                            (or (env :db-name)
                                 (-> (s/split (System/getenv "DATABASE_URL") #":") (nth 3) (s/split #"/") second)))
-              :user (or (:db-username env)
+              :user (or (env :db-username)
                         (-> (s/split (System/getenv "DATABASE_URL") #":") second (s/split #"//") second))
-              :password (or (:db-password env)
+              :password (or (env :db-password)
                             (-> (s/split (System/getenv "DATABASE_URL") #":") (nth 2) (s/split #"@") first))})
 
 (defqueries "sql/operations.sql"
@@ -29,39 +29,20 @@
   [body]
   `(try ~body (catch Exception e# (throw (Exception.(:cause (Throwable->map (.getNextException e#))))))))
 
-(defn resolve-game
+(defn resolve-brewery
+  [context {:keys [id]} _value]
+  (first
+    (check-error (get-brewery {:id id}))))
+
+(defn resolve-breweries
   [context args _value]
-  (let [developer (:authorization @(:cache context))]
-    (first
-     (check-error (get-game (assoc args :developer developer))))))
+  (check-error (get-breweries)))
 
-(defn resolve-games
+(defn resolve-beer
+  [context {:keys [id]} _value]
+  (first
+    (check-error (get-beer {:id id}))))
+
+(defn resolve-beers
   [context args _value]
-  (let [developer (:authorization @(:cache context))]
-    (check-error (get-games {:developer developer}))))
-
-(defn resolve-create-game!
-  [context args _value]
-  (let [developer (:authorization @(:cache context))]
-    (dissoc (create-game<! (core/new-game (:name args) developer)) :developer)))
-
-(defn resolve-create-score!
-  [context args _value]
-  (create-score<! args))
-
-(defn resolve-recent-scores
-  [context {:keys [game_key last]} _value]
-  (let [last (if (> last 100)
-               100
-               last)]
-    (get-recent-scores {:game_key game_key
-                        :last last})))
-
-(defn resolve-top-scores
-  [context {:keys [game_key last keyword]} _value]
-  (let [last (if (> last 100)
-               100
-               last)]
-    (get-top-scores {:game_key game_key
-                     :last last
-                     :keyword keyword})))
+  (check-error (get-beers)))
