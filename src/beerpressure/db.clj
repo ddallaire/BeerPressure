@@ -29,8 +29,10 @@
   [body]
   `(try ~body (catch Exception e# (throw (Exception.(:cause (Throwable->map (.getNextException e#))))))))
 
-(defn convertNamingConvention [queryResult]
+(defn convertNamingConvention
+  [queryResult]
   (map #(clojure.set/rename-keys % {:image_path :imagePath, :alcohol_percent, :alcoholPercent}) queryResult))
+
 
 (defn resolve-brewery
   [context {:keys [id]} _value]
@@ -41,11 +43,17 @@
   [context args _value]
   (convertNamingConvention (check-error (get-breweries))))
 
+
+(defn fillBeerBreweries
+  [beer]
+  (assoc beer :breweries (convertNamingConvention (get-beer-breweries {:id (get beer :id)}))))
+
 (defn resolve-beer
   [context {:keys [id]} _value]
-  (first
-    (convertNamingConvention (check-error (get-beer {:id id})))))
+  (def beer (first (convertNamingConvention (check-error (get-beer {:id id})))))
+  (fillBeerBreweries beer))
 
 (defn resolve-beers
   [context args _value]
-  (convertNamingConvention (check-error (get-beers))))
+  (def beers (convertNamingConvention (check-error (get-beers))))
+  (map #(fillBeerBreweries %) beers))
