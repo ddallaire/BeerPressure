@@ -29,20 +29,23 @@
   [body]
   `(try ~body (catch Exception e# (throw (Exception.(:cause (Throwable->map (.getNextException e#))))))))
 
+(defn convertNamingConvention [queryResult]
+  (map #(clojure.set/rename-keys % {:image_path :imagePath, :alcohol_percent, :alcoholPercent}) queryResult))
+
 (defn resolve-brewery
   [context {:keys [id]} _value]
   (first
-    (check-error (get-brewery {:id id}))))
+    (convertNamingConvention (check-error (get-brewery {:id id})))))
 
 (defn resolve-breweries
   [context args _value]
-  (check-error (get-breweries)))
+  (convertNamingConvention (check-error (get-breweries))))
 
 (defn resolve-beer
   [context {:keys [id]} _value]
   (first
-    (check-error (get-beer {:id id}))))
+    (convertNamingConvention (check-error (get-beer {:id id})))))
 
 (defn resolve-beers
   [context args _value]
-  (check-error (get-beers)))
+  (convertNamingConvention (check-error (get-beers))))

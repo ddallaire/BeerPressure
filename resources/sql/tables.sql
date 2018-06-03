@@ -208,7 +208,7 @@ CREATE TABLE beer (
    name                 VARCHAR(256)         NOT NULL,
    description          VARCHAR(1024)        NOT NULL,
    ibu                  INT4                 NOT NULL,
-   alcool_percent       FLOAT8               NOT NULL,
+   alcohol_percent       FLOAT8               NOT NULL,
    image_path           VARCHAR(1024)         NULL,
    CONSTRAINT pk_beer PRIMARY KEY (id_beer)
 );

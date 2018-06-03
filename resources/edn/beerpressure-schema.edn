@@ -3,9 +3,9 @@
                                    :description "The identifier of the brewery in the system"}
                               :name {:type (non-null String)
                                      :description "The displayed name of the brewery"}
-                              :description {:type (non-null String)
+                              :description {:type String
                                             :description "The description of the brewery"}
-                              :imagePath {:type (null String)
+                              :imagePath {:type String
                                           :description "The logo or the building of the brewery"}}}
            :Beer {:description "A beer produced by a brewery"
                   :fields {:id {:type Int
@@ -18,7 +18,7 @@
                                  :description "The IBU value of the beer"}
                            :alcoholPercent {:type Float
                                            :description "The alcohol percentage content of the beer"}
-                           :imagePath {:type (null String)
+                           :imagePath {:type String
                                        :description "The logo or the building of the beer"}
                            :breweries {:type (list :Brewery)
                                        :description "The breweries that have created the beer"}}}}
