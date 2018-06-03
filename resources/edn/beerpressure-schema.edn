@@ -29,6 +29,10 @@
                      :resolve :resolve-brewery}
            :breweries {:type (list :Brewery)
                        :description "Retrive all breweries"
+                       :args {:skip {:type Int
+                                     :description "Brewery quantity to skip"}
+                              :first {:type Int
+                                      :description "Brewery quantity to return"}}
                        :resolve :resolve-breweries}
            :beer {:type :Beer
                   :description "Retrive a single beer by its id"
@@ -37,5 +41,9 @@
                   :resolve :resolve-beer}
            :beers {:type (list :Beer)
                    :description "Retrive all beers"
+                   :args {:skip {:type Int
+                                 :description "Brewery quantity to skip"}
+                          :first {:type Int
+                                  :description "Brewery quantity to return"}}
                    :resolve :resolve-beers}}
  :mutations {}}

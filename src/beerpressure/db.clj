@@ -35,13 +35,13 @@
 
 
 (defn resolve-brewery
-  [context {:keys [id]} _value]
+  [context args _value]
   (first
-    (convert-naming-convention (check-error (get-brewery {:id id})))))
+    (convert-naming-convention (check-error (get-brewery args)))))
 
 (defn resolve-breweries
   [context args _value]
-  (convert-naming-convention (check-error (get-breweries))))
+  (convert-naming-convention (check-error (get-breweries args))))
 
 
 (defn fill-beer-breweries
@@ -49,11 +49,11 @@
   (assoc beer :breweries (convert-naming-convention (get-beer-breweries {:id (get beer :id)}))))
 
 (defn resolve-beer
-  [context {:keys [id]} _value]
-  (def beer (first (convert-naming-convention (check-error (get-beer {:id id})))))
+  [context args _value]
+  (def beer (first (convert-naming-convention (check-error (get-beer args)))))
   (fill-beer-breweries beer))
 
 (defn resolve-beers
   [context args _value]
-  (def beers (convert-naming-convention (check-error (get-beers))))
+  (def beers (convert-naming-convention (check-error (get-beers args))))
   (map #(fill-beer-breweries %) beers))
