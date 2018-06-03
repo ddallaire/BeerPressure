@@ -12,10 +12,10 @@
 
 (defn resolve-beer
   [context args _value]
-  (def beer (first (convert-naming-convention (check-error (get-beer args)))))
-  (fill-beer-breweries beer))
+  (let [beer (first (convert-naming-convention (check-error (get-beer args))))]
+    (fill-beer-breweries beer)))
 
 (defn resolve-beers
   [context args _value]
-  (def beers (convert-naming-convention (check-error (get-beers args))))
-  (map #(fill-beer-breweries %) beers))
+  (let [beers (convert-naming-convention (check-error (get-beers args)))]
+    (map #(fill-beer-breweries %) beers)))
