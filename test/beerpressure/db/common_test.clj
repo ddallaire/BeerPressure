@@ -14,7 +14,7 @@
 (defn format-sql-statement
   [statement]
   (str/trim (str/replace (str/replace
-                            (remove-sql-comments statement) #"\n" " ")
+                           (remove-sql-comments statement) #"\n" " ")
                          #"\x{FEFF}" "")))
 
 (defn execute-statement

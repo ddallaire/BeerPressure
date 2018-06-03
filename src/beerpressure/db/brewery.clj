@@ -14,4 +14,3 @@
 (defn resolve-breweries
   [context args _value]
   (convert-naming-convention (check-error (get-breweries args))))
-
