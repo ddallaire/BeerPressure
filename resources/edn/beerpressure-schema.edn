@@ -1,4 +1,9 @@
-{:objects   {:Brewery {:description "A brewery that produces beers"
+{:objects   {:Tag     {:description "A tag applied to a beer or brewery"
+                       :fields      {:id   {:type        Int
+                                            :description "The identifier of the tag in the system"}
+                                     :name {:type        (non-null String)
+                                            :description "The displayed name of the tag"}}}
+             :Brewery {:description "A brewery that produces beers"
                        :fields      {:id          {:type        Int
                                                    :description "The identifier of the brewery in the system"}
                                      :name        {:type        (non-null String)
@@ -22,28 +27,35 @@
                                                       :description "The logo or the building of the beer"}
                                      :breweries      {:type        (list :Brewery)
                                                       :description "The breweries that have created the beer"}}}}
- :queries   {:brewery   {:type        :Brewery
-                         :description "Retrieve a single brewery by its id"
-                         :args        {:id {:type        Int
-                                            :description "The id of the desired brewery"}}
-                         :resolve     :resolve-brewery}
-             :breweries {:type        (list :Brewery)
-                         :description "Retrieve all breweries"
-                         :args        {:skip  {:type        Int
-                                               :description "Brewery quantity to skip"}
-                                       :first {:type        Int
-                                               :description "Brewery quantity to return"}}
-                         :resolve     :resolve-breweries}
-             :beer      {:type        :Beer
-                         :description "Retrieve a single beer by its id"
-                         :args        {:id {:type        Int
-                                            :description "The id of the desired beer"}}
-                         :resolve     :resolve-beer}
-             :beers     {:type        (list :Beer)
-                         :description "Retrieve all beers"
-                         :args        {:skip  {:type        Int
-                                               :description "Brewery quantity to skip"}
-                                       :first {:type        Int
-                                               :description "Brewery quantity to return"}}
-                         :resolve     :resolve-beers}}
+ :queries   {:tagsOrderedByPopularity {:type        (list :Tag)
+                                       :description "Retrieve all tags ordered by popularity"
+                                       :args        {:skip  {:type        Int
+                                                             :description "Brewery quantity to skip"}
+                                                     :first {:type        Int
+                                                             :description "Brewery quantity to return"}}
+                                       :resolve     :resolve-tags-ordered-by-popularity}
+             :brewery                 {:type        :Brewery
+                                       :description "Retrieve a single brewery by its id"
+                                       :args        {:id {:type        Int
+                                                          :description "The id of the desired brewery"}}
+                                       :resolve     :resolve-brewery}
+             :breweries               {:type        (list :Brewery)
+                                       :description "Retrieve all breweries"
+                                       :args        {:skip  {:type        Int
+                                                             :description "Brewery quantity to skip"}
+                                                     :first {:type        Int
+                                                             :description "Brewery quantity to return"}}
+                                       :resolve     :resolve-breweries}
+             :beer                    {:type        :Beer
+                                       :description "Retrieve a single beer by its id"
+                                       :args        {:id {:type        Int
+                                                          :description "The id of the desired beer"}}
+                                       :resolve     :resolve-beer}
+             :beers                   {:type        (list :Beer)
+                                       :description "Retrieve all beers"
+                                       :args        {:skip  {:type        Int
+                                                             :description "Brewery quantity to skip"}
+                                                     :first {:type        Int
+                                                             :description "Brewery quantity to return"}}
+                                       :resolve     :resolve-beers}}
  :mutations {}}
