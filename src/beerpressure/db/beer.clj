@@ -55,3 +55,21 @@
                               :ASC (get-beers-filtered-by-breweries-tags-ordered-by-rating-asc args)
                               :DESC (get-beers-filtered-by-breweries-tags-ordered-by-rating-desc args))))))]
     (convert-naming-convention (map #(fill-beer-tags (fill-beer-breweries %)) beers))))
+
+(defn resolve-beer-review
+  [context args _value]
+   (first
+     (convert-naming-convention (check-error (get-beer-review args)))))
+
+(defn resolve-beer-reviews
+  [context args _value]
+  (convert-naming-convention (check-error (get-beer-reviews args))))
+
+(defn resolve-beer-review-comment
+  [context args _value]
+  (first
+    (check-error (get-beer-review-comment args))))
+
+(defn resolve-beer-review-comments
+  [context args _value]
+  (check-error (get-beer-review-comments args)))
