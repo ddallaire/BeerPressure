@@ -1,4 +1,4 @@
-{:objects   {:Brewery {:description "A brewery that preduces beers"
+{:objects   {:Brewery {:description "A brewery that produces beers"
                        :fields      {:id          {:type        Int
                                                    :description "The identifier of the brewery in the system"}
                                      :name        {:type        (non-null String)
@@ -28,19 +28,19 @@
                                             :description "The id of the desired brewery"}}
                          :resolve     :resolve-brewery}
              :breweries {:type        (list :Brewery)
-                         :description "Retrive all breweries"
+                         :description "Retrieve all breweries"
                          :args        {:skip  {:type        Int
                                                :description "Brewery quantity to skip"}
                                        :first {:type        Int
                                                :description "Brewery quantity to return"}}
                          :resolve     :resolve-breweries}
              :beer      {:type        :Beer
-                         :description "Retrive a single beer by its id"
+                         :description "Retrieve a single beer by its id"
                          :args        {:id {:type        Int
-                                            :description "The id oh the desired beer"}}
+                                            :description "The id of the desired beer"}}
                          :resolve     :resolve-beer}
              :beers     {:type        (list :Beer)
-                         :description "Retrive all beers"
+                         :description "Retrieve all beers"
                          :args        {:skip  {:type        Int
                                                :description "Brewery quantity to skip"}
                                        :first {:type        Int
