@@ -27,35 +27,49 @@
                                                       :description "The logo or the building of the beer"}
                                      :breweries      {:type        (list :Brewery)
                                                       :description "The breweries that have created the beer"}}}}
- :queries   {:tagsOrderedByPopularity {:type        (list :Tag)
-                                       :description "Retrieve all tags ordered by popularity"
-                                       :args        {:skip  {:type        Int
-                                                             :description "Brewery quantity to skip"}
-                                                     :first {:type        Int
-                                                             :description "Brewery quantity to return"}}
-                                       :resolve     :resolve-tags-ordered-by-popularity}
-             :brewery                 {:type        :Brewery
-                                       :description "Retrieve a single brewery by its id"
-                                       :args        {:id {:type        Int
-                                                          :description "The id of the desired brewery"}}
-                                       :resolve     :resolve-brewery}
-             :breweries               {:type        (list :Brewery)
-                                       :description "Retrieve all breweries"
-                                       :args        {:skip  {:type        Int
-                                                             :description "Brewery quantity to skip"}
-                                                     :first {:type        Int
-                                                             :description "Brewery quantity to return"}}
-                                       :resolve     :resolve-breweries}
-             :beer                    {:type        :Beer
-                                       :description "Retrieve a single beer by its id"
-                                       :args        {:id {:type        Int
-                                                          :description "The id of the desired beer"}}
-                                       :resolve     :resolve-beer}
-             :beers                   {:type        (list :Beer)
-                                       :description "Retrieve all beers"
-                                       :args        {:skip  {:type        Int
-                                                             :description "Brewery quantity to skip"}
-                                                     :first {:type        Int
-                                                             :description "Brewery quantity to return"}}
-                                       :resolve     :resolve-beers}}
+ :queries   {:tags                           {:type        (list :Tag)
+                                              :description "Retrieve all tags ordered by name"
+                                              :args        {:skip  {:type        Int
+                                                                    :description "Brewery quantity to skip"}
+                                                            :first {:type        Int
+                                                                    :description "Brewery quantity to return"}}
+                                              :resolve     :resolve-tags-ordered-by-name}
+             :tagsOrderedByBreweryPopularity {:type        (list :Tag)
+                                              :description "Retrieve all tags ordered by brewery popularity"
+                                              :args        {:skip  {:type        Int
+                                                                    :description "Brewery quantity to skip"}
+                                                            :first {:type        Int
+                                                                    :description "Brewery quantity to return"}}
+                                              :resolve     :resolve-tags-ordered-by-brewery-popularity}
+             :tagsOrderedByBeerPopularity    {:type        (list :Tag)
+                                              :description "Retrieve all tags ordered by beer popularity"
+                                              :args        {:skip  {:type        Int
+                                                                    :description "Brewery quantity to skip"}
+                                                            :first {:type        Int
+                                                                    :description "Brewery quantity to return"}}
+                                              :resolve     :resolve-tags-ordered-by-beer-popularity}
+             :brewery                        {:type        :Brewery
+                                              :description "Retrieve a single brewery by its id"
+                                              :args        {:id {:type        Int
+                                                                 :description "The id of the desired brewery"}}
+                                              :resolve     :resolve-brewery}
+             :breweries                      {:type        (list :Brewery)
+                                              :description "Retrieve all breweries"
+                                              :args        {:skip  {:type        Int
+                                                                    :description "Brewery quantity to skip"}
+                                                            :first {:type        Int
+                                                                    :description "Brewery quantity to return"}}
+                                              :resolve     :resolve-breweries}
+             :beer                           {:type        :Beer
+                                              :description "Retrieve a single beer by its id"
+                                              :args        {:id {:type        Int
+                                                                 :description "The id of the desired beer"}}
+                                              :resolve     :resolve-beer}
+             :beers                          {:type        (list :Beer)
+                                              :description "Retrieve all beers"
+                                              :args        {:skip  {:type        Int
+                                                                    :description "Brewery quantity to skip"}
+                                                            :first {:type        Int
+                                                                    :description "Brewery quantity to return"}}
+                                              :resolve     :resolve-beers}}
  :mutations {}}
