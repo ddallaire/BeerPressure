@@ -1,56 +1,49 @@
-{:objects {
-           :Game {:description "A game owned by a developer for which scores can be recorded"
-                  :fields {:key {:type (non-null String)
-                                 :description "Unique identifier for this game"}
-                           :name {:type (non-null String)}
-                           :created {:type Int
-                                     :description "Unix epoch seconds when game was added to database"}}}
-           :Score  {:description "Score that is entered for name"
-                    :fields {:id {:type Int}
-                             :name {:type (non-null String)}
-                             :game_key {:type (non-null String)}
-                             :score {:type (non-null String)}
-                             :created {:type Int
-                                       :description "Unix epch seconds when score was added to database"}}}}
- :queries {:game {:type :Game
-                  :description "Retrieve a single Game by its name"
-                  :args {:name {:type (non-null String)
-                                :description "Unique name for game."}}
-                  :resolve :resolve-game}
-           :games {:type (list :Game)
-                   :description "Retrieve all of a developers Games"
-                   :resolve :resolve-games}
-           :recentScores {:type (list :Score)
-                          :description "Retrieve the most recently submitted game scores"
-                          :args {:game_key {:type (non-null String)
-                                            :description "Unique game key for game"}
-                                 :last {:type Int
-                                        :description "Retrieve the n most recently submitted scores. Default is 5, max is 100"
-                                        :default-value 5}}
-                          :resolve :resolve-recent-scores}
-           :topScores {:type (list :Score)
-                       :description "Retrieve the top scores for <keyword> where <keyword is a member of the JSON score object"
-                       :args {:game_key {:type (non-null String)
-                                         :description "Unique game key for game"}
-                              :last {:type Int
-                                     :description "Retrieve the top n scores. Default is 5, max is 100"
-                                     :default-value 5}
-                              :keyword {:type (non-null String)
-                                        :description "Keyword to return the top n scores for"}}
-                       :resolve :resolve-top-scores}}
- :mutations {:game {:type :Game
-                    :description "Create a new Game"
-                    :args {:name {:type (non-null String)
-                                  :description "Unique name for game."}}
-                    :resolve :resolve-create-game!
-                    }
-             :score {:type :Score
-                     :description "Create a new Score entry"
-                     :args {:name {:type (non-null String)
-                                   :description "Name of individual associated with this score."}
-                            :game_key {:type (non-null String)
-                                       :description "Key associated with the game for which the score is being entered"}
-                            :score {:type (non-null String)
-                                    :description "JSON string representing the score.\n\n ex:\n\n {\"points\": 100}\n\n{\"level\":1, \"points\":100}\n\n{\"level\":1, \"points\":100, \"time\": 160}"}
-                            }
-                     :resolve :resolve-create-score!}}}
+{:objects   {:Brewery {:description "A brewery that produces beers"
+                       :fields      {:id          {:type        Int
+                                                   :description "The identifier of the brewery in the system"}
+                                     :name        {:type        (non-null String)
+                                                   :description "The displayed name of the brewery"}
+                                     :description {:type        String
+                                                   :description "The description of the brewery"}
+                                     :imagePath   {:type        String
+                                                   :description "The logo or the building of the brewery"}}}
+             :Beer    {:description "A beer produced by a brewery"
+                       :fields      {:id             {:type        Int
+                                                      :description "The identifier of the beer in the system"}
+                                     :name           {:type        (non-null String)
+                                                      :description "The displayed name of the beer"}
+                                     :description    {:type        (non-null String)
+                                                      :description "The description of the brewery"}
+                                     :ibu            {:type        Int
+                                                      :description "The IBU value of the beer"}
+                                     :alcoholPercent {:type        Float
+                                                      :description "The alcohol percentage content of the beer"}
+                                     :imagePath      {:type        String
+                                                      :description "The logo or the building of the beer"}
+                                     :breweries      {:type        (list :Brewery)
+                                                      :description "The breweries that have created the beer"}}}}
+ :queries   {:brewery   {:type        :Brewery
+                         :description "Retrieve a single brewery by its id"
+                         :args        {:id {:type        Int
+                                            :description "The id of the desired brewery"}}
+                         :resolve     :resolve-brewery}
+             :breweries {:type        (list :Brewery)
+                         :description "Retrieve all breweries"
+                         :args        {:skip  {:type        Int
+                                               :description "Brewery quantity to skip"}
+                                       :first {:type        Int
+                                               :description "Brewery quantity to return"}}
+                         :resolve     :resolve-breweries}
+             :beer      {:type        :Beer
+                         :description "Retrieve a single beer by its id"
+                         :args        {:id {:type        Int
+                                            :description "The id of the desired beer"}}
+                         :resolve     :resolve-beer}
+             :beers     {:type        (list :Beer)
+                         :description "Retrieve all beers"
+                         :args        {:skip  {:type        Int
+                                               :description "Brewery quantity to skip"}
+                                       :first {:type        Int
+                                               :description "Brewery quantity to return"}}
+                         :resolve     :resolve-beers}}
+ :mutations {}}
