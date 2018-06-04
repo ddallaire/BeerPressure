@@ -38,6 +38,8 @@ SELECT brewery.id_brewery AS id, name, description, image_path FROM brewery
 
 -- name: get-breweries-ordered-by-rating-asc
 WITH all_brewery_ratings AS (
+    SELECT id_brewery, 0.0 as rating FROM brewery_review
+    UNION ALL
     SELECT id_brewery, rating FROM brewery_review
     UNION ALL
     SELECT id_brewery, rating FROM brewery_user_rating
@@ -50,6 +52,8 @@ SELECT brewery.id_brewery AS id, name, description, image_path FROM brewery
 
 -- name: get-breweries-ordered-by-rating-desc
 WITH all_brewery_ratings AS (
+    SELECT id_brewery, 0.0 as rating FROM brewery_review
+    UNION ALL
     SELECT id_brewery, rating FROM brewery_review
     UNION ALL
     SELECT id_brewery, rating FROM brewery_user_rating
@@ -63,6 +67,8 @@ SELECT brewery.id_brewery AS id, name, description, image_path FROM brewery
 
 -- name: get-breweries-filtered-by-tags-ordered-by-rating-asc
 WITH all_brewery_ratings AS (
+    SELECT id_brewery, 0.0 as rating FROM brewery_review
+    UNION ALL
     SELECT id_brewery, rating FROM brewery_review
     UNION ALL
     SELECT id_brewery, rating FROM brewery_user_rating
@@ -77,6 +83,8 @@ SELECT brewery.id_brewery AS id, name, description, image_path FROM brewery
 
 -- name: get-breweries-filtered-by-tags-ordered-by-rating-desc
 WITH all_brewery_ratings AS (
+    SELECT id_brewery, 0.0 as rating FROM brewery_review
+    UNION ALL
     SELECT id_brewery, rating FROM brewery_review
     UNION ALL
     SELECT id_brewery, rating FROM brewery_user_rating
