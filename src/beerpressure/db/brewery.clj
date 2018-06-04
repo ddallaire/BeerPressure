@@ -6,11 +6,30 @@
 (defqueries "sql/operations_brewery.sql"
             {:connection db-spec})
 
+(defn fill-brewery-tags
+  [brewery]
+  (assoc brewery :tags (check-error (get-brewery-tags {:id (get brewery :id)}))))
+
 (defn resolve-brewery
   [context args _value]
-  (first
-    (convert-naming-convention (check-error (get-brewery args)))))
+  (let [brewery (first (convert-naming-convention (check-error (get-brewery args))))]
+    (fill-brewery-tags brewery)))
 
 (defn resolve-breweries
   [context args _value]
-  (convert-naming-convention (check-error (get-breweries args))))
+  (let [breweries (case (get args :orderBy)
+                    :NAME (case (get args :tags)
+                            [] (case (get args :orderType)
+                                 :ASC (check-error (get-breweries-ordered-by-name-asc args))
+                                 :DESC (check-error (get-breweries-ordered-by-name-desc args)))
+                            (case (get args :orderType)
+                              :ASC (check-error (get-breweries-filtered-by-tags-ordered-by-name-asc args))
+                              :DESC (check-error (get-breweries-filtered-by-tags-ordered-by-name-desc args))))
+                    :RATING (case (get args :tags)
+                              [] (case (get args :orderType)
+                                   :ASC (check-error (get-breweries-ordered-by-rating-asc args))
+                                   :DESC (check-error (get-breweries-ordered-by-rating-desc args)))
+                              (case (get args :orderType)
+                                :ASC (check-error (get-breweries-filtered-by-tags-ordered-by-rating-asc args))
+                                :DESC (check-error (get-breweries-filtered-by-tags-ordered-by-rating-desc args)))))]
+    (convert-naming-convention (map #(fill-brewery-tags %) breweries))))

@@ -1,7 +1,7 @@
 (ns beerpressure.db.beer
   (:require [environ.core :refer [env]]
             [yesql.core :refer [defqueries]]
-            [beerpressure.db.common :refer [db-spec, check-error, convert-naming-convention]]))
+            [beerpressure.db.common :refer :all]))
 
 (defqueries "sql/operations_beer.sql"
             {:connection db-spec})
