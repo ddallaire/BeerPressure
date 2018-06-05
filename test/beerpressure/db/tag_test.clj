@@ -53,7 +53,7 @@
           response (execute-graphql-query graphql-query)]
       (is (is-data-equal response expected-response)))))
 
-(deftest resolve-tags-ordered-by-brewery-popularity
+(deftest test-resolve-tags-ordered-by-brewery-popularity
   (testing "tagsOrderedByBreweryPopularity(skip: 1, first: 3, orderType: ASC) "
     (let [graphql-query (long-str "{"
                                   "  tagsOrderedByBreweryPopularity(skip: 1, first: 3, orderType: ASC) {"
@@ -109,7 +109,7 @@
           response (execute-graphql-query graphql-query)]
       (is (is-data-equal response expected-response)))))
 
-(deftest resolve-tags-ordered-by-beer-popularity
+(deftest test-resolve-tags-ordered-by-beer-popularity
   (testing "tagsOrderedByBeerPopularity(skip: 0, first: 2, orderType: ASC) "
     (let [graphql-query (long-str "{"
                                   "  tagsOrderedByBeerPopularity(skip: 0, first: 2, orderType: ASC) {"

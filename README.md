@@ -42,7 +42,8 @@ You can manage these environment variables by creating a `.lein-env` in the root
  :db-port "5432"
  :db-name "beerpressure"
  :db-username "postgres"
- :db-password ""}
+ :db-password ""
+ :frontend-url "http://localhost:4200"}
 ```
 
 To start a web server for the application, run:

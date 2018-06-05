@@ -9,7 +9,9 @@
                  [yesql "0.5.3"]
                  [com.walmartlabs/lacinia "0.25.0"]
                  [ring/ring-core "1.6.0"]
-                 [ring-cors "0.1.10"]]
+                 [ring-cors "0.1.10"]
+                 [clj-http "3.9.0"]
+                 [com.github.kyleburton/clj-xpath "1.4.3"]]
   :plugins [[lein-ring "0.11.0"]
             [lein-environ "1.1.0"]]
   :ring {:handler beerpressure.handler/app}

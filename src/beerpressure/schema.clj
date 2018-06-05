@@ -1,5 +1,6 @@
 (ns beerpressure.schema
   (:require
+   [beerpressure.db.user :as db.user]
    [beerpressure.db.tag :as db.tag]
    [beerpressure.db.beer :as db.beer]
    [beerpressure.db.brewery :as db.brewery]
@@ -13,7 +14,9 @@
   (-> (io/resource "edn/beerpressure-schema.edn")
       slurp
       edn/read-string
-      (attach-resolvers {:resolve-tags-ordered-by-name db.tag/resolve-tags-ordered-by-name
+      (attach-resolvers {:resolve-login db.user/resolve-login
+                         :resolve-logout db.user/resolve-logout
+                         :resolve-tags-ordered-by-name db.tag/resolve-tags-ordered-by-name
                          :resolve-tags-ordered-by-brewery-popularity db.tag/resolve-tags-ordered-by-brewery-popularity
                          :resolve-tags-ordered-by-beer-popularity db.tag/resolve-tags-ordered-by-beer-popularity
                          :resolve-brewery db.brewery/resolve-brewery

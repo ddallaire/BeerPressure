@@ -26,3 +26,7 @@
 (defn convert-naming-convention
   [queryResult]
   (map #(clojure.set/rename-keys % {:image_path :imagePath, :alcohol_percent :alcoholPercent}) queryResult))
+
+(defn get-authentication-token-from-context
+  [context]
+  (get @(get context :cache) :authorization))

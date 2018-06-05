@@ -17,7 +17,7 @@
                            (remove-sql-comments statement) #"\n" " ")
                          #"\x{FEFF}" "")))
 
-(defn execute-statement
+(defn execute-sql-statement
   [statement]
   (jdbc/execute! db-spec [statement]))
 
@@ -25,7 +25,7 @@
   [filename]
   (let [file-content (slurp (io/resource filename))
         statements (str/split file-content #";")]
-    (doseq [statement statements] (execute-statement (format-sql-statement statement)))))
+    (doseq [statement statements] (execute-sql-statement (format-sql-statement statement)))))
 
 (defn db-setup
   [f]
