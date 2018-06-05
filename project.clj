@@ -7,7 +7,7 @@
                  [org.clojure/data.json "0.2.6"]
                  [org.postgresql/postgresql "9.4-1201-jdbc41"]
                  [yesql "0.5.3"]
-                 [com.walmartlabs/lacinia "0.15.0"]
+                 [com.walmartlabs/lacinia "0.25.0"]
                  [ring/ring-core "1.6.0"]
                  [ring-cors "0.1.10"]]
   :plugins [[lein-ring "0.11.0"]
