@@ -19,7 +19,9 @@
                                      :imagePath   {:type        String
                                                    :description "The logo or the building of the brewery"}
                                      :tags        {:type        (list :Tag)
-                                                   :description "The tags associated to the brewery"}}}
+                                                   :description "The tags associated to the brewery"}
+                                     :rating      {:type        Float
+                                                   :description "The brewery rating"}}}
              :Beer    {:description "A beer produced by a brewery"
                        :fields      {:id             {:type        Int
                                                       :description "The identifier of the beer in the system"}
@@ -35,8 +37,10 @@
                                                       :description "The logo or the building of the beer"}
                                      :breweries      {:type        (list :Brewery)
                                                       :description "The breweries that have created the beer"}
-                                     :tags        {:type        (list :Tag)
-                                                   :description "The tags associated to the beer"}}}}
+                                     :tags           {:type        (list :Tag)
+                                                      :description "The tags associated to the beer"}
+                                     :rating         {:type        Float
+                                                      :description "The beer rating"}}}}
  :queries   {:tags                           {:type        (list :Tag)
                                               :description "Retrieve all tags ordered by name"
                                               :args        {:skip      {:type        Int
