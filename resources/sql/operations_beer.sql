@@ -3,13 +3,13 @@ SELECT brewery.id_brewery AS id, name, description, image_path, rating FROM brew
     INNER JOIN beer_brewery ON beer_brewery.id_brewery = brewery.id_brewery
     WHERE id_beer = :id;
 -- name: get-beer-review
-SELECT id_beer_review, cip, id_beer, title, content, image_path, rating, time FROM Beer_Review Where id_beer_review = :id-beer-review;
+SELECT id_beer_review, cip, id_beer, title, content, image_path, rating, time FROM Beer_Review Where id_beer_review = :idBeerReview;
 -- name: get-beer-reviews
 SELECT id_beer_review, cip, id_beer, title, content, image_path, rating, time FROM Beer_Review LIMIT :first OFFSET :skip;
 -- name: get-beer-review-comment
-SELECT id_beer_review_comment, id_beer_review, cip, content, time FROM Beer_Review_Comment Where id_beer_review_comment = :id-beer-review-comment;
+SELECT id_beer_review_comment, id_beer_review, cip, content, time FROM Beer_Review_Comment Where id_beer_review_comment = :idBeerReviewComment;
 -- name: get-beer-review-comments
-SELECT id_beer_review_comment, id_beer_review, cip, content, time FROM Beer_Review_Comment Where id_beer_review = :id-beer-review LIMIT :first OFFSET :skip;
+SELECT id_beer_review_comment, id_beer_review, cip, content, time FROM Beer_Review_Comment Where id_beer_review = :idBeerReview LIMIT :first OFFSET :skip;
 
 -- name: get-beer-tags
 SELECT tag.id_tag AS id, name FROM tag
