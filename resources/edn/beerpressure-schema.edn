@@ -1,4 +1,15 @@
-{:objects   {:Brewery {:description "A brewery that produces beers"
+{:enums     {:OrderType    {:description "Ascending or descending sort enum"
+                            :values      [:ASC :DESC]}
+             :BreweryOrder {:description "Define how breweries can be sorted"
+                            :values      [:NAME :RATING]}
+             :BeerOrder    {:description "Define how beers can be sorted"
+                            :values      [:NAME :RATING]}}
+ :objects   {:Tag     {:description "A tag applied to a beer or brewery"
+                       :fields      {:id   {:type        Int
+                                            :description "The identifier of the tag in the system"}
+                                     :name {:type        (non-null String)
+                                            :description "The displayed name of the tag"}}}
+             :Brewery {:description "A brewery that produces beers"
                        :fields      {:id          {:type        Int
                                                    :description "The identifier of the brewery in the system"}
                                      :name        {:type        (non-null String)
@@ -6,7 +17,11 @@
                                      :description {:type        String
                                                    :description "The description of the brewery"}
                                      :imagePath   {:type        String
-                                                   :description "The logo or the building of the brewery"}}}
+                                                   :description "The logo or the building of the brewery"}
+                                     :tags        {:type        (list :Tag)
+                                                   :description "The tags associated to the brewery"}
+                                     :rating      {:type        Float
+                                                   :description "The brewery rating"}}}
              :Beer    {:description "A beer produced by a brewery"
                        :fields      {:id             {:type        Int
                                                       :description "The identifier of the beer in the system"}
@@ -21,29 +36,74 @@
                                      :imagePath      {:type        String
                                                       :description "The logo or the building of the beer"}
                                      :breweries      {:type        (list :Brewery)
-                                                      :description "The breweries that have created the beer"}}}}
- :queries   {:brewery   {:type        :Brewery
-                         :description "Retrieve a single brewery by its id"
-                         :args        {:id {:type        Int
-                                            :description "The id of the desired brewery"}}
-                         :resolve     :resolve-brewery}
-             :breweries {:type        (list :Brewery)
-                         :description "Retrieve all breweries"
-                         :args        {:skip  {:type        Int
-                                               :description "Brewery quantity to skip"}
-                                       :first {:type        Int
-                                               :description "Brewery quantity to return"}}
-                         :resolve     :resolve-breweries}
-             :beer      {:type        :Beer
-                         :description "Retrieve a single beer by its id"
-                         :args        {:id {:type        Int
-                                            :description "The id of the desired beer"}}
-                         :resolve     :resolve-beer}
-             :beers     {:type        (list :Beer)
-                         :description "Retrieve all beers"
-                         :args        {:skip  {:type        Int
-                                               :description "Brewery quantity to skip"}
-                                       :first {:type        Int
-                                               :description "Brewery quantity to return"}}
-                         :resolve     :resolve-beers}}
+                                                      :description "The breweries that have created the beer"}
+                                     :tags           {:type        (list :Tag)
+                                                      :description "The tags associated to the beer"}
+                                     :rating         {:type        Float
+                                                      :description "The beer rating"}}}}
+ :queries   {:tags                           {:type        (list :Tag)
+                                              :description "Retrieve all tags ordered by name"
+                                              :args        {:skip      {:type        Int
+                                                                        :description "Brewery quantity to skip"}
+                                                            :first     {:type        Int
+                                                                        :description "Brewery quantity to return"}
+                                                            :orderType {:type        :OrderType
+                                                                        :description "Ascending or descending sort"}}
+                                              :resolve     :resolve-tags-ordered-by-name}
+             :tagsOrderedByBreweryPopularity {:type        (list :Tag)
+                                              :description "Retrieve all tags ordered by brewery popularity"
+                                              :args        {:skip      {:type        Int
+                                                                        :description "Brewery quantity to skip"}
+                                                            :first     {:type        Int
+                                                                        :description "Brewery quantity to return"}
+                                                            :orderType {:type        :OrderType
+                                                                        :description "Ascending or descending sort"}}
+                                              :resolve     :resolve-tags-ordered-by-brewery-popularity}
+             :tagsOrderedByBeerPopularity    {:type        (list :Tag)
+                                              :description "Retrieve all tags ordered by beer popularity"
+                                              :args        {:skip      {:type        Int
+                                                                        :description "Brewery quantity to skip"}
+                                                            :first     {:type        Int
+                                                                        :description "Brewery quantity to return"}
+                                                            :orderType {:type        :OrderType
+                                                                        :description "Ascending or descending sort"}}
+                                              :resolve     :resolve-tags-ordered-by-beer-popularity}
+             :brewery                        {:type        :Brewery
+                                              :description "Retrieve a single brewery by its id"
+                                              :args        {:id {:type        Int
+                                                                 :description "The id of the desired brewery"}}
+                                              :resolve     :resolve-brewery}
+             :breweries                      {:type        (list :Brewery)
+                                              :description "Retrieve all breweries"
+                                              :args        {:skip      {:type        Int
+                                                                        :description "Brewery quantity to skip"}
+                                                            :first     {:type        Int
+                                                                        :description "Brewery quantity to return"}
+                                                            :orderBy   {:type        :BreweryOrder
+                                                                        :description "Determine how to sort the result"}
+                                                            :orderType {:type        :OrderType
+                                                                        :description "Ascending or descending sort"}
+                                                            :tags      {:type        (list Int)
+                                                                        :description "Filter breweries by tag ids. ([] = disabled filter)"}}
+                                              :resolve     :resolve-breweries}
+             :beer                           {:type        :Beer
+                                              :description "Retrieve a single beer by its id"
+                                              :args        {:id {:type        Int
+                                                                 :description "The id of the desired beer"}}
+                                              :resolve     :resolve-beer}
+             :beers                          {:type        (list :Beer)
+                                              :description "Retrieve all beers"
+                                              :args        {:skip      {:type        Int
+                                                                        :description "Brewery quantity to skip"}
+                                                            :first     {:type        Int
+                                                                        :description "Brewery quantity to return"}
+                                                            :orderBy   {:type        :BeerOrder
+                                                                        :description "Determine how to sort the result"}
+                                                            :orderType {:type        :OrderType
+                                                                        :description "Ascending or descending sort"}
+                                                            :breweries {:type        (list Int)
+                                                                        :description "Filter breweries by brewery ids. ([] = disabled filter)"}
+                                                            :tags      {:type        (list Int)
+                                                                        :description "Filter breweries by tag ids. ([] = disabled filter)"}}
+                                              :resolve     :resolve-beers}}
  :mutations {}}

@@ -1010,3 +1010,31 @@ ALTER TABLE user_review_activity
       REFERENCES review_activity (id_review_activity)
       ON DELETE RESTRICT ON UPDATE RESTRICT;
 
+
+CREATE OR REPLACE VIEW beer_with_rating AS
+    WITH all_beer_ratings AS (
+        SELECT id_beer, rating FROM beer_review
+        UNION ALL
+        SELECT id_beer, rating FROM beer_user_rating
+    )
+    SELECT beer.id_beer AS id_beer, name, description, ibu, alcohol_percent, image_path,
+            (CASE WHEN avg(rating) is NULL THEN 0
+                ELSE avg(rating)
+             END) as rating
+        FROM beer
+        LEFT JOIN all_beer_ratings ON all_beer_ratings.id_beer = beer.id_beer
+        GROUP BY beer.id_beer, name, description, ibu, alcohol_percent, image_path;
+
+CREATE OR REPLACE VIEW brewery_with_rating AS
+    WITH all_brewery_ratings AS (
+        SELECT id_brewery, rating FROM brewery_review
+        UNION ALL
+        SELECT id_brewery, rating FROM brewery_user_rating
+    )
+    SELECT brewery.id_brewery AS id_brewery, name, description, image_path,
+        (CASE WHEN avg(rating) is NULL THEN 0
+                ELSE avg(rating)
+             END) as rating
+        FROM brewery
+        LEFT JOIN all_brewery_ratings ON all_brewery_ratings.id_brewery = brewery.id_brewery
+        GROUP BY brewery.id_brewery, name, description, image_path;
