@@ -3,7 +3,7 @@
             [beerpressure.handler :refer :all]
             [beerpressure.db.common-test :refer :all]))
 
-(use-fixtures :once db-setup)
+(use-fixtures :once db-setup-with-logged-user-fixture)
 
 (deftest test-resolve-brewery-review
   (testing "breweryReview(idBreweryReview: 2)"
