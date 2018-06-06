@@ -43,7 +43,8 @@ You can manage these environment variables by creating a `.lein-env` in the root
  :db-name "beerpressure"
  :db-username "postgres"
  :db-password ""
- :frontend-url "http://localhost:4200"}
+ :frontend-url "http://localhost:4200"
+ :session-duration-sec "3600"}
 ```
 
 To start a web server for the application, run:

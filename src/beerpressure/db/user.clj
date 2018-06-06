@@ -16,6 +16,14 @@
   [token]
   (update-token-time-db! {:token token}))
 
+(defn is-token-time-valid
+  [token-time]
+  (let [token-time-ms (.getTime token-time)
+        time-now-ms (System/currentTimeMillis)
+        session-duration-sec (Integer/parseInt (env :session-duration-sec))
+        session-duration-ms (* session-duration-sec 1000)]
+    (>= (+ token-time-ms session-duration-ms) time-now-ms)))
+
 (defn extract-user-from-cas-xml-response
   [response]
   (with-namespace-context (xmlnsmap-from-root-node response)

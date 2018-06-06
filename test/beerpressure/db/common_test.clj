@@ -27,11 +27,21 @@
         statements (str/split file-content #";")]
     (doseq [statement statements] (execute-sql-statement (format-sql-statement statement)))))
 
-(defn db-setup
+(defn db-setup-fixture
   [f]
   (execute-sql-file "sql/tables.sql")
   (execute-sql-file "sql/test-data.sql")
   (f))
+
+(defn db-setup-with-logged-user-fixture
+  [f]
+  (execute-sql-file "sql/tables.sql")
+  (execute-sql-file "sql/test-data.sql")
+  (execute-sql-statement "INSERT INTO \"user\"(cip, name, surname) VALUES('test1234', 'testName', 'testSurname')")
+  (execute-sql-statement "INSERT INTO authentication_token(cip, token, time) VALUES('test1234', 'authentication_token', now());")
+  (f)
+  (execute-sql-statement "DELETE FROM authentication_token WHERE cip = 'test1234'")
+  (execute-sql-statement "DELETE FROM \"user\" WHERE cip = 'test1234'"))
 
 
 (defn long-str [& strings] (clojure.string/join "\n" strings))
@@ -39,7 +49,8 @@
 (defn execute-graphql-query
   [graphql-query]
   (let [request (mock/body
-                  (mock/content-type (mock/request :post "/graphql") "application/json")
+                  (mock/header (mock/content-type (mock/request :post "/graphql") "application/json")
+                               "authorization" "authentication_token")
                   (str "{\"query\":\"" graphql-query "\"}"))]
     (app request)))
 

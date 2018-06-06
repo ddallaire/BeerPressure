@@ -2,9 +2,10 @@
   (:require [clojure.test :refer :all]
             [beerpressure.handler :refer :all]
             [beerpressure.db.user :refer :all]
-            [beerpressure.db.common-test :refer :all]))
+            [beerpressure.db.common-test :refer :all]
+            [environ.core :refer [env]]))
 
-(use-fixtures :once db-setup)
+(use-fixtures :once db-setup-fixture)
 
 (deftest test-extract-user-from-cas-xml-response
   (testing "extract-user-from-cas-xml-response"
@@ -83,3 +84,11 @@
       (Thread/sleep 1000)
       (update-token-time token)
       (is (not= (get (get-logged-user token) :time) (get db-logged-user :time))))))
+
+(deftest test-is-token-time-valid
+  (testing "test-is-token-time-valid"
+    (let [time-now-ms (System/currentTimeMillis)
+          session-duration-sec (Integer/parseInt (env :session-duration-sec))
+          session-duration-ms (* session-duration-sec 1000)]
+      (is (is-token-time-valid (java.sql.Timestamp. (- time-now-ms 41))))
+      (is (not (is-token-time-valid (java.sql.Timestamp. (- time-now-ms (+ session-duration-ms 1)))))))))
