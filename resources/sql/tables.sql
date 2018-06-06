@@ -215,6 +215,7 @@ CREATE TABLE beer (
    ibu                  INT4                 NOT NULL,
    alcohol_percent       FLOAT8               NOT NULL,
    image_path           VARCHAR(1024)         NULL,
+   style                VARCHAR(256)         NOT NULL,
    CONSTRAINT pk_beer PRIMARY KEY (id_beer)
 );
 
@@ -1022,13 +1023,13 @@ CREATE OR REPLACE VIEW beer_with_rating AS
         UNION ALL
         SELECT id_beer, rating FROM beer_user_rating
     )
-    SELECT beer.id_beer AS id_beer, name, description, ibu, alcohol_percent, image_path,
+    SELECT beer.id_beer AS id_beer, name, description, ibu, alcohol_percent, image_path, style,
             (CASE WHEN avg(rating) is NULL THEN 0
                 ELSE avg(rating)
              END) as rating
         FROM beer
         LEFT JOIN all_beer_ratings ON all_beer_ratings.id_beer = beer.id_beer
-        GROUP BY beer.id_beer, name, description, ibu, alcohol_percent, image_path;
+        GROUP BY beer.id_beer, name, description, ibu, alcohol_percent, image_path, style;
 
 CREATE OR REPLACE VIEW brewery_with_rating AS
     WITH all_brewery_ratings AS (

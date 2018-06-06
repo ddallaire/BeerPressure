@@ -49,7 +49,9 @@
                                      :tags           {:type        (list :Tag)
                                                       :description "The tags associated to the beer"}
                                      :rating         {:type        Float
-                                                      :description "The beer rating"}}}}
+                                                      :description "The beer rating"}
+                                     :style          {:type        (non-null String)
+                                                      :description "The style of the beer"}}}}
  :queries   {:tags                           {:type        (list :Tag)
                                               :description "Retrieve all tags ordered by name"
                                               :args        {:skip      {:type        Int

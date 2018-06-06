@@ -31,6 +31,7 @@
                                   "      name"
                                   "    }"
                                   "    rating"
+                                  "    style"
                                   "  }"
                                   "}")
           expected-response (long-str "{"
@@ -68,6 +69,7 @@
                                       "        }"
                                       "      ],"
                                       "      \"rating\": 1.5"
+                                      "      \"style\": \"Light lager\""
                                       "    }"
                                       "  }"
                                       "}")
