@@ -25,9 +25,8 @@
 
 (defn convert-naming-convention
   [queryResult]
-  (map #(clojure.set/rename-keys % {:image_path :imagePath, :alcohol_percent :alcoholPercent, :id_beer :idBeer, :id_beer_review :idBeerReview,
-                                    :id_beer_review_comment :idBeerReviewComment, :id_brewery :idBrewery, :id_brewery_review :idBreweryReview,
-                                    :id_brewery_review_comment :idBreweryReviewComment}) queryResult))
+  (map #(clojure.set/rename-keys % {{:image_path :alcohol_percent :id_beer :id_beer_review :id_beer_review_comment :id_brewery :id_brewery_review :id_brewery_review_comment}
+                                    {:imagePath :alcoholPercent :idBeer :idBeerReview :idBeerReviewComment :idBrewery :idBreweryReview :idBreweryReviewComment}}) queryResult))
 
 (defn get-authentication-token-from-context
   [context]

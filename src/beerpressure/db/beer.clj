@@ -68,8 +68,8 @@
 (defn resolve-beer-review-comment
   [context args _value]
   (first
-    (check-error (get-beer-review-comment args))))
+    (convert-naming-convention (check-error (get-beer-review-comment args)))))
 
 (defn resolve-beer-review-comments
   [context args _value]
-  (check-error (get-beer-review-comments args)))
+  (convert-naming-convention (check-error (get-beer-review-comments args))))
