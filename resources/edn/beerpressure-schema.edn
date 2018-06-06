@@ -105,17 +105,19 @@
              :beers                          {:type        (list :Beer)
                                               :description "Retrieve all beers"
                                               :args        {:skip      {:type        Int
-                                                                        :description "Brewery quantity to skip"}
+                                                                        :description "Beer quantity to skip"}
                                                             :first     {:type        Int
-                                                                        :description "Brewery quantity to return"}
+                                                                        :description "Beer quantity to return"}
                                                             :orderBy   {:type        :BeerOrder
                                                                         :description "Determine how to sort the result"}
                                                             :orderType {:type        :OrderType
                                                                         :description "Ascending or descending sort"}
                                                             :breweries {:type        (list Int)
-                                                                        :description "Filter breweries by brewery ids. ([] = disabled filter)"}
+                                                                        :description "Filter beers by brewery ids. ([] = disabled filter)"}
                                                             :tags      {:type        (list Int)
-                                                                        :description "Filter breweries by tag ids. ([] = disabled filter)"}}
+                                                                        :description "Filter beers by tag ids. ([] = disabled filter)"}
+                                                            :styles    {:type        (list Int)
+                                                                        :description "Filter beers by style ids. ([] = disabled filter)"}}
                                               :resolve     :resolve-beers}}
  :mutations {:login  {:type        :User
                       :description "Login the user using the CAS ticket"

@@ -13,6 +13,10 @@ DROP INDEX IF EXISTS beer_pk;
 
 DROP TABLE IF EXISTS beer CASCADE;
 
+DROP INDEX IF EXISTS beer_style_pk;
+
+DROP TABLE IF EXISTS beer_style CASCADE;
+
 DROP INDEX IF EXISTS user_beer_activity_fk;
 
 DROP INDEX IF EXISTS beer_beer_activity_fk;
@@ -215,7 +219,7 @@ CREATE TABLE beer (
    ibu                  INT4                 NOT NULL,
    alcohol_percent       FLOAT8               NOT NULL,
    image_path           VARCHAR(1024)         NULL,
-   style                VARCHAR(256)         NOT NULL,
+   id_style             INT4                 NOT NULL,
    CONSTRAINT pk_beer PRIMARY KEY (id_beer)
 );
 
@@ -224,6 +228,22 @@ CREATE TABLE beer (
 /*==============================================================*/
 CREATE UNIQUE INDEX beer_pk ON beer (
 id_beer
+);
+
+/*==============================================================*/
+/* Table: beer                                                  */
+/*==============================================================*/
+CREATE TABLE beer_style (
+   id_style              SERIAL NOT NULL,
+   name                 VARCHAR(256)         NOT NULL,
+   CONSTRAINT pk_beer_style PRIMARY KEY (id_style)
+);
+
+/*==============================================================*/
+/* Index: beer_pk                                               */
+/*==============================================================*/
+CREATE UNIQUE INDEX beer_style_pk ON beer_style (
+id_style
 );
 
 /*==============================================================*/
@@ -836,6 +856,11 @@ CREATE  INDEX user_review_activity2_fk ON user_review_activity (
 id_review_activity
 );
 
+ALTER TABLE beer
+   ADD CONSTRAINT fk_beer_beer_style FOREIGN KEY (id_style)
+      REFERENCES beer_style (id_style)
+      ON DELETE RESTRICT ON UPDATE RESTRICT;
+
 ALTER TABLE beer_activity
    ADD CONSTRAINT fk_beer_act_beer_beer_beer FOREIGN KEY (id_beer)
       REFERENCES beer (id_beer)
@@ -1023,13 +1048,14 @@ CREATE OR REPLACE VIEW beer_with_rating AS
         UNION ALL
         SELECT id_beer, rating FROM beer_user_rating
     )
-    SELECT beer.id_beer AS id_beer, name, description, ibu, alcohol_percent, image_path, style,
+    SELECT beer.id_beer AS id_beer, beer.name, description, ibu, alcohol_percent, image_path, beer_style.name AS style,
             (CASE WHEN avg(rating) is NULL THEN 0
                 ELSE avg(rating)
              END) as rating
         FROM beer
         LEFT JOIN all_beer_ratings ON all_beer_ratings.id_beer = beer.id_beer
-        GROUP BY beer.id_beer, name, description, ibu, alcohol_percent, image_path, style;
+        LEFT JOIN beer_style ON beer.id_style = beer_style.id_style
+        GROUP BY beer.id_beer, beer.name, description, ibu, alcohol_percent, image_path, beer_style.name;
 
 CREATE OR REPLACE VIEW brewery_with_rating AS
     WITH all_brewery_ratings AS (
