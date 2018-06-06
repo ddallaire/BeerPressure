@@ -60,7 +60,7 @@
   [query token]
   (let [logged-user (db.user/get-logged-user token)]
     (or (and (not= logged-user nil) (db.user/is-token-time-valid (get logged-user :time)))
-        (str/starts-with? (str/replace query #"[ \n]" "") "mutation{login"))))
+        (str/starts-with? (str/replace query #"[ \n]" "") "mutationlogin"))))
 
 (defn ^:private graphql-handler
   "Accepts a GraphQL query via GET or POST, and executes the query.
