@@ -3,6 +3,11 @@
 /* Created on:     2018-05-30 5:34:06 PM                        */
 /*==============================================================*/
 
+DROP INDEX IF EXISTS authentication_token_pk;
+
+DROP INDEX IF EXISTS authentication_token_token;
+
+DROP TABLE IF EXISTS authentication_token CASCADE ;
 
 DROP INDEX IF EXISTS beer_pk;
 
@@ -1038,3 +1043,15 @@ CREATE OR REPLACE VIEW brewery_with_rating AS
         FROM brewery
         LEFT JOIN all_brewery_ratings ON all_brewery_ratings.id_brewery = brewery.id_brewery
         GROUP BY brewery.id_brewery, name, description, image_path;
+
+CREATE TABLE authentication_token(
+    cip CHAR(8) PRIMARY KEY REFERENCES "user"(cip),
+    token VARCHAR(1024) NOT NULL,
+    time TIMESTAMPTZ NOT NULL
+);
+CREATE INDEX authentication_token_pk ON authentication_token (
+    cip
+);
+CREATE INDEX authentication_token_token ON authentication_token (
+    token
+);

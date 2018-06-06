@@ -5,7 +5,9 @@
             [beerpressure.schema :refer [beerpressure-schema]]
             [ring.middleware.cors :refer [wrap-cors]]
             [ring.middleware.params :refer [wrap-params]]
-            [ring.util.request :refer [body-string]]))
+            [ring.util.request :refer [body-string]]
+            [beerpressure.db.user :as db.user]
+            [clojure.string :as str]))
 
 (defn variable-map
   "Reads the `variables` query parameter, which contains a JSON string
@@ -34,7 +36,7 @@
   query is still a plain string."
   [request]
   (case (:request-method request)
-    :get  (get-in request [:query-params "query"])
+    :get (get-in request [:query-params "query"])
     :post (try (-> request
                    :body
                    (json/read-str :key-fn keyword)
@@ -54,31 +56,41 @@
         last)
     nil))
 
+(defn is-authorized
+  [query token]
+  (let [logged-user (db.user/get-logged-user token)]
+    (or (and (not= logged-user nil) (db.user/is-token-time-valid (get logged-user :time)))
+        (str/starts-with? (str/replace query #"[ \n]" "") "mutationlogin"))))
+
 (defn ^:private graphql-handler
   "Accepts a GraphQL query via GET or POST, and executes the query.
   Returns the result as text/json."
   [compiled-schema]
   (let [context {:cache (atom {})}]
     (fn [request]
-      (swap! (:cache context) assoc :authorization
-             (extract-authorization-key request))
-      (let [vars (variable-map request)
-            query (extract-query request)
-            result (execute compiled-schema query vars context)
-            status (if (-> result :errors seq)
-                     400
-                     200)]
-        {:status status
-         :headers {"Content-Type" "application/json"}
-         :body (json/write-str result)}))))
+      (let [authorization (extract-authorization-key request)
+            query (extract-query request)]
+        (swap! (:cache context) assoc :authorization
+               authorization)
+        (if (is-authorized query authorization)
+          (do (db.user/update-token-time authorization)
+              (let [vars (variable-map request)
+                    result (execute compiled-schema query vars context)
+                    status (if (-> result :errors seq)
+                             400
+                             200)]
+                {:status  status
+                 :headers {"Content-Type" "application/json"}
+                 :body    (json/write-str result)}))
+          {:status 401})))))
 
 (defn handler [request]
   (let [uri (:uri request)]
     (if (= uri "/graphql")
       ((graphql-handler (beerpressure-schema)) request)
-      {:status 404
+      {:status  404
        :headers {"Content-Type" "text/html"}
-       :body (str "Only GraphQL JSON requests to /graphql are accepted on this server")})))
+       :body    (str "Only GraphQL JSON requests to /graphql are accepted on this server")})))
 
 (defn wrap-body-string [handler]
   (fn [request]
