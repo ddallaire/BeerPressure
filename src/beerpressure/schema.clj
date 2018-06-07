@@ -17,9 +17,7 @@
       edn/read-string
       (attach-resolvers {:resolve-login db.user/resolve-login
                          :resolve-logout db.user/resolve-logout
-                         :resolve-tags-ordered-by-name db.tag/resolve-tags-ordered-by-name
-                         :resolve-tags-ordered-by-brewery-popularity db.tag/resolve-tags-ordered-by-brewery-popularity
-                         :resolve-tags-ordered-by-beer-popularity db.tag/resolve-tags-ordered-by-beer-popularity
+                         :resolve-tags db.tag/resolve-tags
                          :resolve-brewery db.brewery/resolve-brewery
                          :resolve-breweries db.brewery/resolve-breweries
                          :resolve-beer-styles-ordered-by-name db.beer-style/resolve-beer-styles-ordered-by-name
