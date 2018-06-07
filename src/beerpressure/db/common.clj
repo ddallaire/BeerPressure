@@ -30,3 +30,7 @@
 (defn get-authentication-token-from-context
   [context]
   (get @(get context :cache) :authorization))
+
+(defn integer-list-to-in-clause
+  [list]
+  (str "(" (s/join ", " list) ")"))
