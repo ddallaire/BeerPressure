@@ -1048,7 +1048,7 @@ CREATE OR REPLACE VIEW beer_with_rating AS
         UNION ALL
         SELECT id_beer, rating FROM beer_user_rating
     )
-    SELECT beer.id_beer AS id_beer, beer.name, description, ibu, alcohol_percent, image_path, beer_style.name AS style,
+    SELECT beer.id_beer AS id_beer, beer.name, description, ibu, alcohol_percent, image_path, beer.id_style AS id_style, beer_style.name AS name_style,
             (CASE WHEN avg(rating) is NULL THEN 0
                 ELSE avg(rating)
              END) as rating

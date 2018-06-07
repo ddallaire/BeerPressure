@@ -16,10 +16,14 @@
   [beer]
   (assoc beer :tags (get-beer-tags {:id (get beer :id)})))
 
+(defn fill-beer-style
+  [beer]
+  (assoc beer :style {:id (get beer :id_style), :name (get beer :name_style)}))
+
 (defn resolve-beer
   [context args _value]
   (let [beer (first (convert-naming-convention (check-error (get-beer args))))]
-    (fill-beer-tags (fill-beer-breweries beer))))
+    (fill-beer-style (fill-beer-tags (fill-beer-breweries beer)))))
 
 (defn resolve-beers
   [context args _value]
@@ -54,4 +58,4 @@
                             (case (get args :orderType)
                               :ASC (get-beers-filtered-by-breweries-tags-ordered-by-rating-asc args)
                               :DESC (get-beers-filtered-by-breweries-tags-ordered-by-rating-desc args))))))]
-    (convert-naming-convention (map #(fill-beer-tags (fill-beer-breweries %)) beers))))
+    (convert-naming-convention (map #(fill-beer-style (fill-beer-tags (fill-beer-breweries %))) beers))))

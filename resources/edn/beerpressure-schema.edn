@@ -4,54 +4,59 @@
                             :values      [:NAME :RATING]}
              :BeerOrder    {:description "Define how beers can be sorted"
                             :values      [:NAME :RATING]}}
- :objects   {:User    {:description "A user logged into the system"
-                       :fields      {:cip     {:type        (non-null String)
-                                               :description "The cip of the user"}
-                                     :name    {:type        (non-null String)
-                                               :descriprion "The name of the user"}
-                                     :surname {:type        (non-null String)
-                                               :description "The surname of the user"}
-                                     :token   {:type        String
-                                               :description "The authentication token"}}}
-             :Tag     {:description "A tag applied to a beer or brewery"
-                       :fields      {:id   {:type        Int
-                                            :description "The identifier of the tag in the system"}
-                                     :name {:type        (non-null String)
-                                            :description "The displayed name of the tag"}}}
-             :Brewery {:description "A brewery that produces beers"
-                       :fields      {:id          {:type        Int
-                                                   :description "The identifier of the brewery in the system"}
-                                     :name        {:type        (non-null String)
-                                                   :description "The displayed name of the brewery"}
-                                     :description {:type        String
-                                                   :description "The description of the brewery"}
-                                     :imagePath   {:type        String
-                                                   :description "The logo or the building of the brewery"}
-                                     :tags        {:type        (list :Tag)
-                                                   :description "The tags associated to the brewery"}
-                                     :rating      {:type        Float
-                                                   :description "The brewery rating"}}}
-             :Beer    {:description "A beer produced by a brewery"
-                       :fields      {:id             {:type        Int
-                                                      :description "The identifier of the beer in the system"}
-                                     :name           {:type        (non-null String)
-                                                      :description "The displayed name of the beer"}
-                                     :description    {:type        (non-null String)
-                                                      :description "The description of the brewery"}
-                                     :ibu            {:type        Int
-                                                      :description "The IBU value of the beer"}
-                                     :alcoholPercent {:type        Float
-                                                      :description "The alcohol percentage content of the beer"}
-                                     :imagePath      {:type        String
-                                                      :description "The logo or the building of the beer"}
-                                     :breweries      {:type        (list :Brewery)
-                                                      :description "The breweries that have created the beer"}
-                                     :tags           {:type        (list :Tag)
-                                                      :description "The tags associated to the beer"}
-                                     :rating         {:type        Float
-                                                      :description "The beer rating"}
-                                     :style          {:type        (non-null String)
-                                                      :description "The style of the beer"}}}}
+ :objects   {:User      {:description "A user logged into the system"
+                         :fields      {:cip     {:type        (non-null String)
+                                                 :description "The cip of the user"}
+                                       :name    {:type        (non-null String)
+                                                 :descriprion "The name of the user"}
+                                       :surname {:type        (non-null String)
+                                                 :description "The surname of the user"}
+                                       :token   {:type        String
+                                                 :description "The authentication token"}}}
+             :Tag       {:description "A tag applied to a beer or brewery"
+                         :fields      {:id   {:type        Int
+                                              :description "The identifier of the tag in the system"}
+                                       :name {:type        (non-null String)
+                                              :description "The displayed name of the tag"}}}
+             :Brewery   {:description "A brewery that produces beers"
+                         :fields      {:id          {:type        Int
+                                                     :description "The identifier of the brewery in the system"}
+                                       :name        {:type        (non-null String)
+                                                     :description "The displayed name of the brewery"}
+                                       :description {:type        String
+                                                     :description "The description of the brewery"}
+                                       :imagePath   {:type        String
+                                                     :description "The logo or the building of the brewery"}
+                                       :tags        {:type        (list :Tag)
+                                                     :description "The tags associated to the brewery"}
+                                       :rating      {:type        Float
+                                                     :description "The brewery rating"}}}
+             :BeerStyle {:description "A style of a beer"
+                         :fields      {:id   {:type        Int
+                                              :description "The identifier of the beer style"}
+                                       :name {:type        (non-null String)
+                                              :description "The name of the beer style"}}}
+             :Beer      {:description "A beer produced by a brewery"
+                         :fields      {:id             {:type        Int
+                                                        :description "The identifier of the beer in the system"}
+                                       :name           {:type        (non-null String)
+                                                        :description "The displayed name of the beer"}
+                                       :description    {:type        (non-null String)
+                                                        :description "The description of the brewery"}
+                                       :ibu            {:type        Int
+                                                        :description "The IBU value of the beer"}
+                                       :alcoholPercent {:type        Float
+                                                        :description "The alcohol percentage content of the beer"}
+                                       :imagePath      {:type        String
+                                                        :description "The logo or the building of the beer"}
+                                       :breweries      {:type        (list :Brewery)
+                                                        :description "The breweries that have created the beer"}
+                                       :tags           {:type        (list :Tag)
+                                                        :description "The tags associated to the beer"}
+                                       :rating         {:type        Float
+                                                        :description "The beer rating"}
+                                       :style          {:type        :BeerStyle
+                                                        :description "The style of the beer"}}}}
  :queries   {:tags                           {:type        (list :Tag)
                                               :description "Retrieve all tags ordered by name"
                                               :args        {:skip      {:type        Int
