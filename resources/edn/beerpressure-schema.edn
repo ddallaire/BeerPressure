@@ -102,6 +102,9 @@
                                                             :tags      {:type        (list Int)
                                                                         :description "Filter breweries by tag ids. ([] = disabled filter)"}}
                                               :resolve     :resolve-breweries}
+             :beerStylesOrderedByName        {:type        (list :BeerStyle)
+                                              :description "Retrieve all beer styles ordered by name"
+                                              :resolve     :resolve-beer-styles-ordered-by-name}
              :beer                           {:type        :Beer
                                               :description "Retrieve a single beer by its id"
                                               :args        {:id {:type        Int

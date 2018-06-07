@@ -2,6 +2,7 @@
   (:require
    [beerpressure.db.user :as db.user]
    [beerpressure.db.tag :as db.tag]
+   [beerpressure.db.beer-style :as db.beer-style]
    [beerpressure.db.beer :as db.beer]
    [beerpressure.db.brewery :as db.brewery]
    [clojure.java.io :as io]
@@ -21,6 +22,7 @@
                          :resolve-tags-ordered-by-beer-popularity db.tag/resolve-tags-ordered-by-beer-popularity
                          :resolve-brewery db.brewery/resolve-brewery
                          :resolve-breweries db.brewery/resolve-breweries
+                         :resolve-beer-styles-ordered-by-name db.beer-style/resolve-beer-styles-ordered-by-name
                          :resolve-beer db.beer/resolve-beer
                          :resolve-beers db.beer/resolve-beers})
       schema/compile))
