@@ -89,9 +89,9 @@
                                       "}")
           response (execute-graphql-query graphql-query)]
       (is (is-data-equal response expected-response))))
-  (testing "breweries(skip: 1, first: 2, orderBy: NAME, orderType: DESC)"
+  (testing "breweries(skip: 1, first: 2, orderBy: NAME, orderType: DESC, tags: [])"
     (let [graphql-query (long-str "{"
-                                  "  breweries(skip: 1, first: 2, orderBy: NAME, orderType: DESC) {"
+                                  "  breweries(skip: 1, first: 2, orderBy: NAME, orderType: DESC, tags: []) {"
                                   "    id"
                                   "    name"
                                   "    description"
@@ -233,9 +233,9 @@
                                       "}")
           response (execute-graphql-query graphql-query)]
       (is (is-data-equal response expected-response))))
-  (testing "breweries(skip: 0, first: 2, orderBy: RATING, orderType: ASC)"
+  (testing "breweries(skip: 0, first: 2, orderBy: RATING, orderType: ASC, tags: [])"
     (let [graphql-query (long-str "{"
-                                  "  breweries(skip: 0, first: 2, orderBy: RATING, orderType: ASC) {"
+                                  "  breweries(skip: 0, first: 2, orderBy: RATING, orderType: ASC, tags: []) {"
                                   "    id"
                                   "    name"
                                   "    description"
@@ -281,9 +281,9 @@
                                       "}")
           response (execute-graphql-query graphql-query)]
       (is (is-data-equal response expected-response))))
-  (testing "breweries(skip: 0, first: 2, orderBy: RATING, orderType: DESC)"
+  (testing "breweries(skip: 0, first: 2, orderBy: RATING, orderType: DESC, tags: [])"
     (let [graphql-query (long-str "{"
-                                  "  breweries(skip: 0, first: 2, orderBy: RATING, orderType: DESC) {"
+                                  "  breweries(skip: 0, first: 2, orderBy: RATING, orderType: DESC, tags: []) {"
                                   "    id"
                                   "    name"
                                   "    description"

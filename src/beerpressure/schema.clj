@@ -3,7 +3,6 @@
     [beerpressure.db.user :as db.user]
     [beerpressure.db.tag :as db.tag]
     [beerpressure.db.beer :as db.beer]
-    [beerpressure.db.beer-style :as db.beer-style]
     [beerpressure.db.brewery :as db.brewery]
     [beerpressure.db.comment.beer-comment :as beer-comment]
     [beerpressure.db.review.beer-review :as beer-review]
@@ -21,12 +20,13 @@
       edn/read-string
       (attach-resolvers {:resolve-login                              db.user/resolve-login
                          :resolve-logout                             db.user/resolve-logout
-                         :resolve-tags                               db.tag/resolve-tags
+                         :resolve-tags-ordered-by-name               db.tag/resolve-tags-ordered-by-name
+                         :resolve-tags-ordered-by-brewery-popularity db.tag/resolve-tags-ordered-by-brewery-popularity
+                         :resolve-tags-ordered-by-beer-popularity    db.tag/resolve-tags-ordered-by-beer-popularity
                          :resolve-brewery                            db.brewery/resolve-brewery
                          :resolve-breweries                          db.brewery/resolve-breweries
                          :resolve-beer                               db.beer/resolve-beer
                          :resolve-beers                              db.beer/resolve-beers
-                         :resolve-beer-styles                        db.beer-style/resolve-beer-styles
                          :resolve-brewery-review                     brewery-review/resolve-brewery-review
                          :resolve-brewery-reviews                    brewery-review/resolve-brewery-reviews
                          :resolve-brewery-review-comment             brewery-comment/resolve-brewery-review-comment
