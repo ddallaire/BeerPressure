@@ -12,6 +12,7 @@ DELETE FROM tag_brewery;
 DELETE FROM tag;
 DELETE FROM beer_brewery;
 DELETE FROM beer;
+DELETE FROM beer_style;
 DELETE FROM brewery;
 DELETE FROM user_follow;
 DELETE FROM "user";
@@ -42,12 +43,18 @@ INSERT INTO brewery(id_brewery, name, description, image_path) VALUES
     (5, 'Siboire', 'Une brasserie de Sherbrooke.', 'http://www.ambq.ca/mod/file/MembreFile/c45147dee729311ef5b5c3003946c48f.png'),
     (6, 'SherBroue', 'Génie Sherbrooke!!!', 'http://sherbroue.ca/accueil/wp-content/uploads/2012/02/Couverture-Facebook-1.jpg');
 
-INSERT INTO beer(id_beer, name, description, ibu, alcohol_percent, image_path) VALUES
-    (1, 'Molson Canadian', 'Une bière avec une feuille d''érable dessus...', 15, 5.0, 'https://decrescente.net/images/suppliers/millercoors/molson/molson-canadian/canadian-bottle-lg.png'),
-    (2, 'Blue', 'Une bière bleu... Étrange', 12, 5.0, 'https://www.google.com/url?sa=i&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwir8pfW-7DbAhWr5oMKHX3oDtMQjRx6BAgBEAU&url=https%3A%2F%2Fwww.liquormarts.ca%2Fproduct%2Flabatt-blue%2F24-x-355-ml&psig=AOvVaw1n1N32iTLqUZu3QGlvQy7F&ust=1527891003844616'),
-    (3, 'Don de Dieu', 'Une bière pas bonne qui souale...', 10, 9.0, 'https://res.cloudinary.com/ratebeer/image/upload/d_beerdefault_m1aurr.png,f_auto/beer_1929'),
-    (4, 'Péché Mortel', 'La seule bonne bière du site.', 76, 9.5, 'http://images.lpcdn.ca/641x427/201703/31/1377153.jpg'),
-    (5, 'Ingénieuse', 'Bière collaborative.', 17, 5.1, 'https://cdn.narcity.com/uploads/249500_90d9f57c70a3e15b6e0a08e67dcf1d944038212a.jpg');
+INSERT INTO beer_style(id_style, name) VALUES
+    (1, 'Light lager'),
+    (2, 'Belgian ale'),
+    (3, 'Imperial stout'),
+    (4, 'Irish ale');
+
+INSERT INTO beer(id_beer, name, description, ibu, alcohol_percent, image_path, id_style) VALUES
+    (1, 'Molson Canadian', 'Une bière avec une feuille d''érable dessus...', 15, 5.0, 'https://decrescente.net/images/suppliers/millercoors/molson/molson-canadian/canadian-bottle-lg.png', 1),
+    (2, 'Blue', 'Une bière bleu... Étrange', 12, 5.0, 'https://www.google.com/url?sa=i&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwir8pfW-7DbAhWr5oMKHX3oDtMQjRx6BAgBEAU&url=https%3A%2F%2Fwww.liquormarts.ca%2Fproduct%2Flabatt-blue%2F24-x-355-ml&psig=AOvVaw1n1N32iTLqUZu3QGlvQy7F&ust=1527891003844616', 1),
+    (3, 'Don de Dieu', 'Une bière pas bonne qui souale...', 10, 9.0, 'https://res.cloudinary.com/ratebeer/image/upload/d_beerdefault_m1aurr.png,f_auto/beer_1929', 2),
+    (4, 'Péché Mortel', 'La seule bonne bière du site.', 76, 9.5, 'http://images.lpcdn.ca/641x427/201703/31/1377153.jpg', 3),
+    (5, 'Ingénieuse', 'Bière collaborative.', 17, 5.1, 'https://cdn.narcity.com/uploads/249500_90d9f57c70a3e15b6e0a08e67dcf1d944038212a.jpg', 4);
 
 INSERT INTO beer_brewery(id_brewery, id_beer) VALUES
     (1, 1),
