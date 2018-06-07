@@ -1,5 +1,6 @@
 (ns beerpressure.db.beer
-  (:require [environ.core :refer [env]]
+  (:require [clojure.string :as str]
+            [environ.core :refer [env]]
             [yesql.core :refer [defqueries]]
             [beerpressure.db.common :refer :all]
             [beerpressure.db.brewery :refer [fill-brewery-tags]]
@@ -42,18 +43,36 @@
         INNER JOIN beer_brewery ON beer_brewery.id_beer = beer.id_beer
         INNER JOIN beer_tag ON beer_tag.id_beer = beer.id_beer"))))
 
+(defn generate-beers-query-in-clause-breweries
+  [args]
+  (let [breweries (get args :breweries)]
+    (if (not= breweries [])
+      (str "id_brewery IN " (integer-list-to-in-clause breweries))
+      "")))
+
+(defn generate-beers-query-in-clause-tags
+  [args]
+  (let [tags (get args :tags)]
+    (if (not= tags [])
+      (str "id_tag IN " (integer-list-to-in-clause tags))
+      "")))
+
+(defn generate-beers-query-in-clause-styles
+  [args]
+  (let [styles (get args :styles)]
+    (if (not= styles [])
+      (str "id_style IN " (integer-list-to-in-clause styles))
+      "")))
+
 (defn generate-beers-query-where
   [args]
-  (let [breweries (get args :breweries)
-        tags (get args :tags)]
-    (case breweries
-      [] (case tags
-           [] ""
-           (str "WHERE id_tag IN " (integer-list-to-in-clause tags)))
-      (case tags
-        [] (str "WHERE id_brewery IN " (integer-list-to-in-clause breweries))
-        (str "WHERE id_brewery IN " (integer-list-to-in-clause breweries)
-             " AND id_tag IN " (integer-list-to-in-clause tags))))))
+  (let [in-clauses [(generate-beers-query-in-clause-breweries args)
+                    (generate-beers-query-in-clause-tags args)
+                    (generate-beers-query-in-clause-styles args)]
+        valid-in-clauses (filter #(not= "" %) in-clauses)]
+    (if (not= valid-in-clauses [])
+      (str "WHERE " (str/join " AND " valid-in-clauses))
+      "")))
 
 (defn generate-beers-query-group-by
   [args]

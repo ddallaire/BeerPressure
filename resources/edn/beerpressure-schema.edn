@@ -59,29 +59,29 @@
                                                         :description "The style of the beer"}}}}
  :queries   {:tags                           {:type        (list :Tag)
                                               :description "Retrieve all tags ordered by name"
-                                              :args        {:skip      {:type        Int
+                                              :args        {:skip      {:type        (non-null Int)
                                                                         :description "Brewery quantity to skip"}
-                                                            :first     {:type        Int
+                                                            :first     {:type        (non-null Int)
                                                                         :description "Brewery quantity to return"}
-                                                            :orderType {:type        :OrderType
+                                                            :orderType {:type        (non-null :OrderType)
                                                                         :description "Ascending or descending sort"}}
                                               :resolve     :resolve-tags-ordered-by-name}
              :tagsOrderedByBreweryPopularity {:type        (list :Tag)
                                               :description "Retrieve all tags ordered by brewery popularity"
-                                              :args        {:skip      {:type        Int
+                                              :args        {:skip      {:type        (non-null Int)
                                                                         :description "Brewery quantity to skip"}
-                                                            :first     {:type        Int
+                                                            :first     {:type        (non-null Int)
                                                                         :description "Brewery quantity to return"}
-                                                            :orderType {:type        :OrderType
+                                                            :orderType {:type        (non-null :OrderType)
                                                                         :description "Ascending or descending sort"}}
                                               :resolve     :resolve-tags-ordered-by-brewery-popularity}
              :tagsOrderedByBeerPopularity    {:type        (list :Tag)
                                               :description "Retrieve all tags ordered by beer popularity"
-                                              :args        {:skip      {:type        Int
+                                              :args        {:skip      {:type        (non-null Int)
                                                                         :description "Brewery quantity to skip"}
-                                                            :first     {:type        Int
+                                                            :first     {:type        (non-null Int)
                                                                         :description "Brewery quantity to return"}
-                                                            :orderType {:type        :OrderType
+                                                            :orderType {:type        (non-null :OrderType)
                                                                         :description "Ascending or descending sort"}}
                                               :resolve     :resolve-tags-ordered-by-beer-popularity}
              :brewery                        {:type        :Brewery
@@ -91,15 +91,15 @@
                                               :resolve     :resolve-brewery}
              :breweries                      {:type        (list :Brewery)
                                               :description "Retrieve all breweries"
-                                              :args        {:skip      {:type        Int
+                                              :args        {:skip      {:type        (non-null Int)
                                                                         :description "Brewery quantity to skip"}
-                                                            :first     {:type        Int
+                                                            :first     {:type        (non-null Int)
                                                                         :description "Brewery quantity to return"}
-                                                            :orderBy   {:type        :BreweryOrder
+                                                            :orderBy   {:type        (non-null :BreweryOrder)
                                                                         :description "Determine how to sort the result"}
-                                                            :orderType {:type        :OrderType
+                                                            :orderType {:type        (non-null :OrderType)
                                                                         :description "Ascending or descending sort"}
-                                                            :tags      {:type        (list Int)
+                                                            :tags      {:type        (non-null (list Int))
                                                                         :description "Filter breweries by tag ids. ([] = disabled filter)"}}
                                               :resolve     :resolve-breweries}
              :beerStylesOrderedByName        {:type        (list :BeerStyle)
@@ -112,19 +112,19 @@
                                               :resolve     :resolve-beer}
              :beers                          {:type        (list :Beer)
                                               :description "Retrieve all beers"
-                                              :args        {:skip      {:type        Int
+                                              :args        {:skip      {:type        (non-null Int)
                                                                         :description "Beer quantity to skip"}
-                                                            :first     {:type        Int
+                                                            :first     {:type        (non-null Int)
                                                                         :description "Beer quantity to return"}
-                                                            :orderBy   {:type        :BeerOrder
+                                                            :orderBy   {:type        (non-null :BeerOrder)
                                                                         :description "Determine how to sort the result"}
-                                                            :orderType {:type        :OrderType
+                                                            :orderType {:type        (non-null :OrderType)
                                                                         :description "Ascending or descending sort"}
-                                                            :breweries {:type        (list Int)
+                                                            :breweries {:type        (non-null (list Int))
                                                                         :description "Filter beers by brewery ids. ([] = disabled filter)"}
-                                                            :tags      {:type        (list Int)
+                                                            :tags      {:type        (non-null (list Int))
                                                                         :description "Filter beers by tag ids. ([] = disabled filter)"}
-                                                            :styles    {:type        (list Int)
+                                                            :styles    {:type        (non-null (list Int))
                                                                         :description "Filter beers by style ids. ([] = disabled filter)"}}
                                               :resolve     :resolve-beers}}
  :mutations {:login  {:type        :User

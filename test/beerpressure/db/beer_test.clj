@@ -109,9 +109,9 @@
       (is (is-data-equal response expected-response)))))
 
 (deftest test-resolve-beers
-  (testing "beers(skip: 0, first: 1, orderBy: NAME, orderType: ASC, breweries: [], tags: [])"
+  (testing "beers(skip: 0, first: 1, orderBy: NAME, orderType: ASC, breweries: [], tags: [], styles: [])"
     (let [graphql-query (long-str "{"
-                                  "  beers(skip: 0, first: 1, orderBy: NAME, orderType: ASC, breweries: [], tags: []) {"
+                                  "  beers(skip: 0, first: 1, orderBy: NAME, orderType: ASC, breweries: [], tags: [], styles: []) {"
                                   "    id"
                                   "    name"
                                   "    description"
@@ -186,9 +186,9 @@
                                       "}")
           response (execute-graphql-query graphql-query)]
       (is (is-data-equal response expected-response))))
-  (testing "beers(skip: 0, first: 1, orderBy: NAME, orderType: DESC, breweries: [], tags: [])"
+  (testing "beers(skip: 0, first: 1, orderBy: NAME, orderType: DESC, breweries: [], tags: [], styles: [])"
     (let [graphql-query (long-str "{"
-                                  "  beers(skip: 0, first: 1, orderBy: NAME, orderType: DESC, breweries: [], tags: []) {"
+                                  "  beers(skip: 0, first: 1, orderBy: NAME, orderType: DESC, breweries: [], tags: [], styles: []) {"
                                   "    id"
                                   "  }"
                                   "}")
@@ -203,9 +203,9 @@
                                       "}")
           response (execute-graphql-query graphql-query)]
       (is (is-data-equal response expected-response))))
-  (testing "beers(skip: 0, first: 1, orderBy: NAME, orderType: ASC, breweries: [1], tags: [])"
+  (testing "beers(skip: 0, first: 1, orderBy: NAME, orderType: ASC, breweries: [1], tags: [], styles: [])"
     (let [graphql-query (long-str "{"
-                                  "  beers(skip: 0, first: 1, orderBy: NAME, orderType: ASC, breweries: [1], tags: []) {"
+                                  "  beers(skip: 0, first: 1, orderBy: NAME, orderType: ASC, breweries: [1], tags: [], styles: []) {"
                                   "    id"
                                   "  }"
                                   "}")
@@ -220,9 +220,9 @@
                                       "}")
           response (execute-graphql-query graphql-query)]
       (is (is-data-equal response expected-response))))
-  (testing "beers(skip: 0, first: 1, orderBy: NAME, orderType: DESC, breweries: [2], tags: [])"
+  (testing "beers(skip: 0, first: 1, orderBy: NAME, orderType: DESC, breweries: [2], tags: [], styles: [])"
     (let [graphql-query (long-str "{"
-                                  "  beers(skip: 0, first: 1, orderBy: NAME, orderType: DESC, breweries: [2], tags: []) {"
+                                  "  beers(skip: 0, first: 1, orderBy: NAME, orderType: DESC, breweries: [2], tags: [], styles: []) {"
                                   "    id"
                                   "  }"
                                   "}")
@@ -237,9 +237,9 @@
                                       "}")
           response (execute-graphql-query graphql-query)]
       (is (is-data-equal response expected-response))))
-  (testing "beers(skip: 0, first: 2, orderBy: NAME, orderType: ASC, breweries: [], tags: [1])"
+  (testing "beers(skip: 0, first: 2, orderBy: NAME, orderType: ASC, breweries: [], tags: [1], styles: [])"
     (let [graphql-query (long-str "{"
-                                  "  beers(skip: 0, first: 2, orderBy: NAME, orderType: ASC, breweries: [], tags: [1]) {"
+                                  "  beers(skip: 0, first: 2, orderBy: NAME, orderType: ASC, breweries: [], tags: [1], styles: []) {"
                                   "    id"
                                   "  }"
                                   "}")
@@ -257,9 +257,9 @@
                                       "}")
           response (execute-graphql-query graphql-query)]
       (is (is-data-equal response expected-response))))
-  (testing "beers(skip: 0, first: 2, orderBy: NAME, orderType: DESC, breweries: [], tags: [2])"
+  (testing "beers(skip: 0, first: 2, orderBy: NAME, orderType: DESC, breweries: [], tags: [2], styles: [])"
     (let [graphql-query (long-str "{"
-                                  "  beers(skip: 0, first: 2, orderBy: NAME, orderType: DESC, breweries: [], tags: [2]) {"
+                                  "  beers(skip: 0, first: 2, orderBy: NAME, orderType: DESC, breweries: [], tags: [2], styles: []) {"
                                   "    id"
                                   "  }"
                                   "}")
@@ -277,9 +277,9 @@
                                       "}")
           response (execute-graphql-query graphql-query)]
       (is (is-data-equal response expected-response))))
-  (testing "beers(skip: 0, first: 2, orderBy: NAME, orderType: ASC, breweries: [1,3], tags: [2])"
+  (testing "beers(skip: 0, first: 2, orderBy: NAME, orderType: ASC, breweries: [1,3], tags: [2], styles: [])"
     (let [graphql-query (long-str "{"
-                                  "  beers(skip: 0, first: 2, orderBy: NAME, orderType: ASC, breweries: [1,3], tags: [2]) {"
+                                  "  beers(skip: 0, first: 2, orderBy: NAME, orderType: ASC, breweries: [1,3], tags: [2], styles: []) {"
                                   "    id"
                                   "  }"
                                   "}")
@@ -294,9 +294,9 @@
                                       "}")
           response (execute-graphql-query graphql-query)]
       (is (is-data-equal response expected-response))))
-  (testing "beers(skip: 0, first: 2, orderBy: NAME, orderType: DESC, breweries: [1,3,4], tags: [2])"
+  (testing "beers(skip: 0, first: 2, orderBy: NAME, orderType: DESC, breweries: [1,3,4], tags: [2], styles: [])"
     (let [graphql-query (long-str "{"
-                                  "  beers(skip: 0, first: 2, orderBy: NAME, orderType: DESC, breweries: [1,3,4], tags: [2]) {"
+                                  "  beers(skip: 0, first: 2, orderBy: NAME, orderType: DESC, breweries: [1,3,4], tags: [2], styles: []) {"
                                   "    id"
                                   "  }"
                                   "}")
@@ -314,9 +314,9 @@
                                       "}")
           response (execute-graphql-query graphql-query)]
       (is (is-data-equal response expected-response))))
-  (testing "beers(skip: 0, first: 2, orderBy: RATING, orderType: ASC, breweries: [], tags: [])"
+  (testing "beers(skip: 0, first: 2, orderBy: RATING, orderType: ASC, breweries: [], tags: [], styles: [])"
     (let [graphql-query (long-str "{"
-                                  "  beers(skip: 0, first: 2, orderBy: RATING, orderType: ASC, breweries: [], tags: []) {"
+                                  "  beers(skip: 0, first: 2, orderBy: RATING, orderType: ASC, breweries: [], tags: [], styles: []) {"
                                   "    id"
                                   "  }"
                                   "}")
@@ -334,9 +334,9 @@
                                       "}")
           response (execute-graphql-query graphql-query)]
       (is (is-data-equal response expected-response))))
-  (testing "beers(skip: 0, first: 2, orderBy: RATING, orderType: DESC, breweries: [], tags: [])"
+  (testing "beers(skip: 0, first: 2, orderBy: RATING, orderType: DESC, breweries: [], tags: [], styles: [])"
     (let [graphql-query (long-str "{"
-                                  "  beers(skip: 0, first: 2, orderBy: RATING, orderType: DESC, breweries: [], tags: []) {"
+                                  "  beers(skip: 0, first: 2, orderBy: RATING, orderType: DESC, breweries: [], tags: [], styles: []) {"
                                   "    id"
                                   "  }"
                                   "}")
@@ -354,9 +354,9 @@
                                       "}")
           response (execute-graphql-query graphql-query)]
       (is (is-data-equal response expected-response))))
-  (testing "beers(skip: 0, first: 2, orderBy: RATING, orderType: ASC, breweries: [1,2], tags: [])"
+  (testing "beers(skip: 0, first: 2, orderBy: RATING, orderType: ASC, breweries: [1,2], tags: [], styles: [])"
     (let [graphql-query (long-str "{"
-                                  "  beers(skip: 0, first: 2, orderBy: RATING, orderType: ASC, breweries: [1,2], tags: []) {"
+                                  "  beers(skip: 0, first: 2, orderBy: RATING, orderType: ASC, breweries: [1,2], tags: [], styles: []) {"
                                   "    id"
                                   "  }"
                                   "}")
@@ -374,9 +374,9 @@
                                       "}")
           response (execute-graphql-query graphql-query)]
       (is (is-data-equal response expected-response))))
-  (testing "beers(skip: 0, first: 2, orderBy: RATING, orderType: DESC, breweries: [2,3], tags: [])"
+  (testing "beers(skip: 0, first: 2, orderBy: RATING, orderType: DESC, breweries: [2,3], tags: [], styles: [])"
     (let [graphql-query (long-str "{"
-                                  "  beers(skip: 0, first: 2, orderBy: RATING, orderType: DESC, breweries: [2,3], tags: []) {"
+                                  "  beers(skip: 0, first: 2, orderBy: RATING, orderType: DESC, breweries: [2,3], tags: [], styles: []) {"
                                   "    id"
                                   "  }"
                                   "}")
@@ -394,9 +394,9 @@
                                       "}")
           response (execute-graphql-query graphql-query)]
       (is (is-data-equal response expected-response))))
-  (testing "beers(skip: 0, first: 2, orderBy: RATING, orderType: ASC, breweries: [], tags: [1])"
+  (testing "beers(skip: 0, first: 2, orderBy: RATING, orderType: ASC, breweries: [], tags: [1], styles: [])"
     (let [graphql-query (long-str "{"
-                                  "  beers(skip: 0, first: 2, orderBy: RATING, orderType: ASC, breweries: [], tags: [1]) {"
+                                  "  beers(skip: 0, first: 2, orderBy: RATING, orderType: ASC, breweries: [], tags: [1], styles: []) {"
                                   "    id"
                                   "  }"
                                   "}")
@@ -414,9 +414,9 @@
                                       "}")
           response (execute-graphql-query graphql-query)]
       (is (is-data-equal response expected-response))))
-  (testing "beers(skip: 0, first: 2, orderBy: RATING, orderType: DESC, breweries: [], tags: [2])"
+  (testing "beers(skip: 0, first: 2, orderBy: RATING, orderType: DESC, breweries: [], tags: [2], styles: [])"
     (let [graphql-query (long-str "{"
-                                  "  beers(skip: 0, first: 2, orderBy: RATING, orderType: DESC, breweries: [], tags: [2]) {"
+                                  "  beers(skip: 0, first: 2, orderBy: RATING, orderType: DESC, breweries: [], tags: [2], styles: []) {"
                                   "    id"
                                   "  }"
                                   "}")
@@ -434,9 +434,9 @@
                                       "}")
           response (execute-graphql-query graphql-query)]
       (is (is-data-equal response expected-response))))
-  (testing "beers(skip: 0, first: 2, orderBy: RATING, orderType: ASC, breweries: [1,3,5], tags: [2,3])"
+  (testing "beers(skip: 0, first: 2, orderBy: RATING, orderType: ASC, breweries: [1,3,5], tags: [2,3], styles: [])"
     (let [graphql-query (long-str "{"
-                                  "  beers(skip: 0, first: 2, orderBy: RATING, orderType: ASC, breweries: [1,3,5], tags: [2,3]) {"
+                                  "  beers(skip: 0, first: 2, orderBy: RATING, orderType: ASC, breweries: [1,3,5], tags: [2,3], styles: []) {"
                                   "    id"
                                   "  }"
                                   "}")
@@ -454,9 +454,9 @@
                                       "}")
           response (execute-graphql-query graphql-query)]
       (is (is-data-equal response expected-response))))
-  (testing "beers(skip: 0, first: 2, orderBy: RATING, orderType: DESC, breweries: [1,3,4], tags: [1,2])"
+  (testing "beers(skip: 0, first: 2, orderBy: RATING, orderType: DESC, breweries: [1,3,4], tags: [1,2], styles: [])"
     (let [graphql-query (long-str "{"
-                                  "  beers(skip: 0, first: 2, orderBy: RATING, orderType: DESC, breweries: [1,3,4], tags: [1,2]) {"
+                                  "  beers(skip: 0, first: 2, orderBy: RATING, orderType: DESC, breweries: [1,3,4], tags: [1,2], styles: []) {"
                                   "    id"
                                   "  }"
                                   "}")
@@ -468,6 +468,29 @@
                                       "      },"
                                       "      {"
                                       "        \"id\": 3"
+                                      "      }"
+                                      "    ]"
+                                      "  }"
+                                      "}")
+          response (execute-graphql-query graphql-query)]
+      (is (is-data-equal response expected-response))))
+  (testing "beers(skip: 0, first: 10, orderBy: RATING, orderType: DESC, breweries: [], tags: [], styles: [1,2])"
+    (let [graphql-query (long-str "{"
+                                  "  beers(skip: 0, first: 10, orderBy: RATING, orderType: DESC, breweries: [], tags: [], styles: [1, 2]) {"
+                                  "    id"
+                                  "  }"
+                                  "}")
+          expected-response (long-str "{"
+                                      "  \"data\": {"
+                                      "    \"beers\": ["
+                                      "      {"
+                                      "        \"id\": 3"
+                                      "      },"
+                                      "      {"
+                                      "        \"id\": 1"
+                                      "      },"
+                                      "      {"
+                                      "        \"id\": 2"
                                       "      }"
                                       "    ]"
                                       "  }"
