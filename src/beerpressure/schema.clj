@@ -20,7 +20,7 @@
                          :resolve-tags db.tag/resolve-tags
                          :resolve-brewery db.brewery/resolve-brewery
                          :resolve-breweries db.brewery/resolve-breweries
-                         :resolve-beer-styles-ordered-by-name db.beer-style/resolve-beer-styles-ordered-by-name
+                         :resolve-beer-styles db.beer-style/resolve-beer-styles
                          :resolve-beer db.beer/resolve-beer
                          :resolve-beers db.beer/resolve-beers})
       schema/compile))

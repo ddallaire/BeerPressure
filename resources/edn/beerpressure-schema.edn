@@ -1,11 +1,13 @@
-{:enums     {:OrderType    {:description "Ascending or descending sort enum"
-                            :values      [:ASC :DESC]}
-             :TagOrder     {:description "Define how tags can be sorted"
-                            :values      [:NAME :BREWERY_POPULARITY :BEER_POPULARITY]}
-             :BreweryOrder {:description "Define how breweries can be sorted"
-                            :values      [:NAME :RATING]}
-             :BeerOrder    {:description "Define how beers can be sorted"
-                            :values      [:NAME :RATING]}}
+{:enums     {:OrderType      {:description "Ascending or descending sort enum"
+                              :values      [:ASC :DESC]}
+             :TagOrder       {:description "Define how tags can be sorted"
+                              :values      [:NAME :BREWERY_POPULARITY :BEER_POPULARITY]}
+             :BreweryOrder   {:description "Define how breweries can be sorted"
+                              :values      [:NAME :RATING]}
+             :BeerStyleOrder {:description "Define how breweries can be sorted"
+                              :values      [:NAME]}
+             :BeerOrder      {:description "Define how beers can be sorted"
+                              :values      [:NAME :RATING]}}
  :objects   {:User      {:description "A user logged into the system"
                          :fields      {:cip     {:type        (non-null String)
                                                  :description "The cip of the user"}
@@ -59,60 +61,68 @@
                                                         :description "The beer rating"}
                                        :style          {:type        :BeerStyle
                                                         :description "The style of the beer"}}}}
- :queries   {:tags                    {:type        (list :Tag)
-                                       :description "Retrieve all tags ordered by name"
-                                       :args        {:skip      {:type        (non-null Int)
-                                                                 :description "Brewery quantity to skip"}
-                                                     :first     {:type        (non-null Int)
-                                                                 :description "Brewery quantity to return"}
-                                                     :orderBy   {:type        (non-null :TagOrder)
-                                                                 :description "Determine how to sort the result"}
-                                                     :orderType {:type        (non-null :OrderType)
-                                                                 :description "Ascending or descending sort"}}
-                                       :resolve     :resolve-tags}
-             :brewery                 {:type        :Brewery
-                                       :description "Retrieve a single brewery by its id"
-                                       :args        {:id {:type        Int
-                                                          :description "The id of the desired brewery"}}
-                                       :resolve     :resolve-brewery}
-             :breweries               {:type        (list :Brewery)
-                                       :description "Retrieve all breweries"
-                                       :args        {:skip      {:type        (non-null Int)
-                                                                 :description "Brewery quantity to skip"}
-                                                     :first     {:type        (non-null Int)
-                                                                 :description "Brewery quantity to return"}
-                                                     :orderBy   {:type        (non-null :BreweryOrder)
-                                                                 :description "Determine how to sort the result"}
-                                                     :orderType {:type        (non-null :OrderType)
-                                                                 :description "Ascending or descending sort"}
-                                                     :tags      {:type        (non-null (list Int))
-                                                                 :description "Filter breweries by tag ids. ([] = disabled filter)"}}
-                                       :resolve     :resolve-breweries}
-             :beerStylesOrderedByName {:type        (list :BeerStyle)
-                                       :description "Retrieve all beer styles ordered by name"
-                                       :resolve     :resolve-beer-styles-ordered-by-name}
-             :beer                    {:type        :Beer
-                                       :description "Retrieve a single beer by its id"
-                                       :args        {:id {:type        Int
-                                                          :description "The id of the desired beer"}}
-                                       :resolve     :resolve-beer}
-             :beers                   {:type        (list :Beer)
-                                       :description "Retrieve all beers"
-                                       :args        {:skip      {:type        (non-null Int)
-                                                                 :description "Beer quantity to skip"}
-                                                     :first     {:type        (non-null Int)
-                                                                 :description "Beer quantity to return"}
-                                                     :orderBy   {:type        (non-null :BeerOrder)
-                                                                 :description "Determine how to sort the result"}
-                                                     :orderType {:type        (non-null :OrderType)
-                                                                 :description "Ascending or descending sort"}
-                                                     :breweries {:type        (non-null (list Int))
-                                                                 :description "Filter beers by brewery ids. ([] = disabled filter)"}
-                                                     :tags      {:type        (non-null (list Int))
-                                                                 :description "Filter beers by tag ids. ([] = disabled filter)"}
-                                                     :styles    {:type        (non-null (list Int))
-                                                                 :description "Filter beers by style ids. ([] = disabled filter)"}}
-                                       :resolve     :resolve-beers}}
+ :queries   {:tags       {:type        (list :Tag)
+                          :description "Retrieve all tags ordered by name"
+                          :args        {:skip      {:type        (non-null Int)
+                                                    :description "Tag quantity to skip"}
+                                        :first     {:type        (non-null Int)
+                                                    :description "Tag quantity to return"}
+                                        :orderBy   {:type        (non-null :TagOrder)
+                                                    :description "Determine how to sort the result"}
+                                        :orderType {:type        (non-null :OrderType)
+                                                    :description "Ascending or descending sort"}}
+                          :resolve     :resolve-tags}
+             :brewery    {:type        :Brewery
+                          :description "Retrieve a single brewery by its id"
+                          :args        {:id {:type        Int
+                                             :description "The id of the desired brewery"}}
+                          :resolve     :resolve-brewery}
+             :breweries  {:type        (list :Brewery)
+                          :description "Retrieve all breweries"
+                          :args        {:skip      {:type        (non-null Int)
+                                                    :description "Brewery quantity to skip"}
+                                        :first     {:type        (non-null Int)
+                                                    :description "Brewery quantity to return"}
+                                        :orderBy   {:type        (non-null :BreweryOrder)
+                                                    :description "Determine how to sort the result"}
+                                        :orderType {:type        (non-null :OrderType)
+                                                    :description "Ascending or descending sort"}
+                                        :tags      {:type        (non-null (list Int))
+                                                    :description "Filter breweries by tag ids. ([] = disabled filter)"}}
+                          :resolve     :resolve-breweries}
+             :beerStyles {:type        (list :BeerStyle)
+                          :description "Retrieve all beer styles ordered by name"
+                          :args        {:skip      {:type        (non-null Int)
+                                                    :description "Beer style quantity to skip"}
+                                        :first     {:type        (non-null Int)
+                                                    :description "Beer style quantity to return"}
+                                        :orderBy   {:type        (non-null :BeerStyleOrder)
+                                                    :description "Determine how to sort the result"}
+                                        :orderType {:type        (non-null :OrderType)
+                                                    :description "Ascending or descending sort"}}
+                          :resolve     :resolve-beer-styles}
+             :beer       {:type        :Beer
+                          :description "Retrieve a single beer by its id"
+                          :args        {:id {:type        Int
+                                             :description "The id of the desired beer"}}
+                          :resolve     :resolve-beer}
+             :beers      {:type        (list :Beer)
+                          :description "Retrieve all beers"
+                          :args        {:skip      {:type        (non-null Int)
+                                                    :description "Beer quantity to skip"}
+                                        :first     {:type        (non-null Int)
+                                                    :description "Beer quantity to return"}
+                                        :orderBy   {:type        (non-null :BeerOrder)
+                                                    :description "Determine how to sort the result"}
+                                        :orderType {:type        (non-null :OrderType)
+                                                    :description "Ascending or descending sort"}
+                                        :breweries {:type        (non-null (list Int))
+                                                    :description "Filter beers by brewery ids. ([] = disabled filter)"}
+                                        :tags      {:type        (non-null (list Int))
+                                                    :description "Filter beers by tag ids. ([] = disabled filter)"}
+                                        :styles    {:type        (non-null (list Int))
+                                                    :description "Filter beers by style ids. ([] = disabled filter)"}}
+                          :resolve     :resolve-beers}}
  :mutations {:login  {:type        :User
                       :description "Login the user using the CAS ticket"
                       :args        {:ticket {:type        (non-null String)
