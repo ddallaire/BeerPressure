@@ -46,17 +46,13 @@
               :ASC "ORDER BY rating ASC, name ASC"
               :DESC "ORDER BY rating DESC, name ASC")))
 
-(defn generate-breweries-query-limit-offset
-  [args]
-  (str "LIMIT " (get args :first) " OFFSET " (get args :skip)))
-
 (defn generate-breweries-query
   [args]
   (str (generate-breweries-query-beginning args) " "
        (generate-breweries-query-where args) " "
        (generate-breweries-query-group-by args) " "
        (generate-breweries-query-order-by args) " "
-       (generate-breweries-query-limit-offset args)))
+       (generate-query-limit-offset args)))
 
 (defn resolve-breweries
   [context args _value]
