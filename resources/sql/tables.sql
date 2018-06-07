@@ -243,7 +243,7 @@ CREATE TABLE beer_style (
 /* Index: beer_pk                                               */
 /*==============================================================*/
 CREATE UNIQUE INDEX beer_style_pk ON beer_style (
-id_style
+    id_style
 );
 
 /*==============================================================*/

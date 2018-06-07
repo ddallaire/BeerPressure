@@ -87,8 +87,9 @@
                                                     :description "Determine how to sort the result"}
                                         :orderType {:type        (non-null :OrderType)
                                                     :description "Ascending or descending sort"}
-                                        :tags      {:type        (non-null (list Int))
-                                                    :description "Filter breweries by tag ids. ([] = disabled filter)"}}
+                                        :tags      {:type          (list Int)
+                                                    :description   "Filter breweries by tag ids. ([] = disabled filter)"
+                                                    :default-value []}}
                           :resolve     :resolve-breweries}
              :beerStyles {:type        (list :BeerStyle)
                           :description "Retrieve all beer styles ordered by name"
@@ -116,12 +117,15 @@
                                                     :description "Determine how to sort the result"}
                                         :orderType {:type        (non-null :OrderType)
                                                     :description "Ascending or descending sort"}
-                                        :breweries {:type        (non-null (list Int))
-                                                    :description "Filter beers by brewery ids. ([] = disabled filter)"}
-                                        :tags      {:type        (non-null (list Int))
-                                                    :description "Filter beers by tag ids. ([] = disabled filter)"}
-                                        :styles    {:type        (non-null (list Int))
-                                                    :description "Filter beers by style ids. ([] = disabled filter)"}}
+                                        :breweries {:type          (list Int)
+                                                    :description   "Filter beers by brewery ids. ([] = disabled filter)"
+                                                    :default-value []}
+                                        :tags      {:type          (list Int)
+                                                    :description   "Filter beers by tag ids. ([] = disabled filter)"
+                                                    :default-value []}
+                                        :styles    {:type          (list Int)
+                                                    :description   "Filter beers by style ids. ([] = disabled filter)"
+                                                    :default-value []}}
                           :resolve     :resolve-beers}}
  :mutations {:login  {:type        :User
                       :description "Login the user using the CAS ticket"
