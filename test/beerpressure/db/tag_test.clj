@@ -5,10 +5,10 @@
 
 (use-fixtures :once db-setup-with-logged-user-fixture)
 
-(deftest test-resolve-tags
-  (testing "tags(skip: 1, first: 2, orderBy: NAME, orderType: ASC)"
+(deftest test-resolve-tags-ordered-by-name
+  (testing "tags(skip: 1, first: 2, orderType: ASC) "
     (let [graphql-query (long-str "{"
-                                  "  tags(skip: 1, first: 2, orderBy: NAME, orderType: ASC) {"
+                                  "  tags(skip: 1, first: 2, orderType: ASC) {"
                                   "    id"
                                   "    name"
                                   "  }"
@@ -29,9 +29,9 @@
                                       "}")
           response (execute-graphql-query graphql-query)]
       (is (is-data-equal response expected-response))))
-  (testing "tags(skip: 0, first: 2, orderBy: NAME, orderType: DESC)"
+  (testing "tags(skip: 0, first: 2, orderType: DESC) "
     (let [graphql-query (long-str "{"
-                                  "  tags(skip: 0, first: 2, orderBy: NAME, orderType: DESC) {"
+                                  "  tags(skip: 0, first: 2, orderType: DESC) {"
                                   "    id"
                                   "    name"
                                   "  }"
@@ -51,17 +51,19 @@
                                       "  }"
                                       "}")
           response (execute-graphql-query graphql-query)]
-      (is (is-data-equal response expected-response))))
-  (testing "tags(skip: 1, first: 3, orderBy: BREWERY_POPULARITY, orderType: ASC)"
+      (is (is-data-equal response expected-response)))))
+
+(deftest test-resolve-tags-ordered-by-brewery-popularity
+  (testing "tagsOrderedByBreweryPopularity(skip: 1, first: 3, orderType: ASC) "
     (let [graphql-query (long-str "{"
-                                  "  tags(skip: 1, first: 3, orderBy: BREWERY_POPULARITY, orderType: ASC) {"
+                                  "  tagsOrderedByBreweryPopularity(skip: 1, first: 3, orderType: ASC) {"
                                   "    id"
                                   "    name"
                                   "  }"
                                   "}")
           expected-response (long-str "{"
                                       "  \"data\": {"
-                                      "    \"tags\": ["
+                                      "    \"tagsOrderedByBreweryPopularity\": ["
                                       "      {"
                                       "        \"id\": 3,"
                                       "        \"name\": \"Bon choix\""
@@ -79,16 +81,16 @@
                                       "}")
           response (execute-graphql-query graphql-query)]
       (is (is-data-equal response expected-response))))
-  (testing "tags(skip: 1, first: 3, orderBy: BREWERY_POPULARITY, orderType: DESC)"
+  (testing "tagsOrderedByBreweryPopularity(skip: 1, first: 3, orderType: DESC) "
     (let [graphql-query (long-str "{"
-                                  "  tags(skip: 1, first: 3, orderBy: BREWERY_POPULARITY, orderType: DESC) {"
+                                  "  tagsOrderedByBreweryPopularity(skip: 1, first: 3, orderType: DESC) {"
                                   "    id"
                                   "    name"
                                   "  }"
                                   "}")
           expected-response (long-str "{"
                                       "  \"data\": {"
-                                      "    \"tags\": ["
+                                      "    \"tagsOrderedByBreweryPopularity\": ["
                                       "      {"
                                       "        \"id\": 1,"
                                       "        \"name\": \"Industrielle\""
@@ -105,17 +107,19 @@
                                       "  }"
                                       "}")
           response (execute-graphql-query graphql-query)]
-      (is (is-data-equal response expected-response))))
-  (testing "tags(skip: 0, first: 2, orderBy: BEER_POPULARITY, orderType: ASC)"
+      (is (is-data-equal response expected-response)))))
+
+(deftest test-resolve-tags-ordered-by-beer-popularity
+  (testing "tagsOrderedByBeerPopularity(skip: 0, first: 2, orderType: ASC) "
     (let [graphql-query (long-str "{"
-                                  "  tags(skip: 0, first: 2, orderBy: BEER_POPULARITY, orderType: ASC) {"
+                                  "  tagsOrderedByBeerPopularity(skip: 0, first: 2, orderType: ASC) {"
                                   "    id"
                                   "    name"
                                   "  }"
                                   "}")
           expected-response (long-str "{"
                                       "  \"data\": {"
-                                      "    \"tags\": ["
+                                      "    \"tagsOrderedByBeerPopularity\": ["
                                       "      {"
                                       "        \"id\": 3,"
                                       "        \"name\": \"Bon choix\""
@@ -129,16 +133,16 @@
                                       "}")
           response (execute-graphql-query graphql-query)]
       (is (is-data-equal response expected-response))))
-  (testing "tags(skip: 0, first: 2, orderBy: BEER_POPULARITY, orderType: DESC)"
+  (testing "tagsOrderedByBeerPopularity(skip: 0, first: 2, orderType: DESC) "
     (let [graphql-query (long-str "{"
-                                  "  tags(skip: 0, first: 2, orderBy: BEER_POPULARITY, orderType: DESC) {"
+                                  "  tagsOrderedByBeerPopularity(skip: 0, first: 2, orderType: DESC) {"
                                   "    id"
                                   "    name"
                                   "  }"
                                   "}")
           expected-response (long-str "{"
                                       "  \"data\": {"
-                                      "    \"tags\": ["
+                                      "    \"tagsOrderedByBeerPopularity\": ["
                                       "      {"
                                       "        \"id\": 4,"
                                       "        \"name\": \"Mauvais choix\""
