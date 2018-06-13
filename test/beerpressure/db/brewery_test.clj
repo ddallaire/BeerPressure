@@ -89,9 +89,9 @@
                                       "}")
           response (execute-graphql-query graphql-query)]
       (is (is-data-equal response expected-response))))
-  (testing "breweries(skip: 1, first: 2, orderBy: NAME, orderType: DESC, tags: [])"
+  (testing "breweries(skip: 1, first: 2, orderBy: NAME, orderType: DESC)"
     (let [graphql-query (long-str "{"
-                                  "  breweries(skip: 1, first: 2, orderBy: NAME, orderType: DESC, tags: []) {"
+                                  "  breweries(skip: 1, first: 2, orderBy: NAME, orderType: DESC) {"
                                   "    id"
                                   "    name"
                                   "    description"
@@ -233,9 +233,9 @@
                                       "}")
           response (execute-graphql-query graphql-query)]
       (is (is-data-equal response expected-response))))
-  (testing "breweries(skip: 0, first: 2, orderBy: RATING, orderType: ASC, tags: [])"
+  (testing "breweries(skip: 0, first: 2, orderBy: RATING, orderType: ASC)"
     (let [graphql-query (long-str "{"
-                                  "  breweries(skip: 0, first: 2, orderBy: RATING, orderType: ASC, tags: []) {"
+                                  "  breweries(skip: 0, first: 2, orderBy: RATING, orderType: ASC) {"
                                   "    id"
                                   "    name"
                                   "    description"
@@ -281,9 +281,9 @@
                                       "}")
           response (execute-graphql-query graphql-query)]
       (is (is-data-equal response expected-response))))
-  (testing "breweries(skip: 0, first: 2, orderBy: RATING, orderType: DESC, tags: [])"
+  (testing "breweries(skip: 0, first: 2, orderBy: RATING, orderType: DESC)"
     (let [graphql-query (long-str "{"
-                                  "  breweries(skip: 0, first: 2, orderBy: RATING, orderType: DESC, tags: []) {"
+                                  "  breweries(skip: 0, first: 2, orderBy: RATING, orderType: DESC) {"
                                   "    id"
                                   "    name"
                                   "    description"
