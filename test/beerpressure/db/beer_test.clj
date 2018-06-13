@@ -203,9 +203,9 @@
                                       "}")
           response (execute-graphql-query graphql-query)]
       (is (is-data-equal response expected-response))))
-  (testing "beers(skip: 0, first: 1, orderBy: NAME, orderType: ASC, styles: [])"
+  (testing "beers(skip: 0, first: 1, orderBy: NAME, orderType: ASC, breweries: [1], styles: [])"
     (let [graphql-query (long-str "{"
-                                  "  beers(skip: 0, first: 1, orderBy: NAME, orderType: ASC, styles: []) {"
+                                  "  beers(skip: 0, first: 1, orderBy: NAME, orderType: ASC, breweries: [1], styles: []) {"
                                   "    id"
                                   "  }"
                                   "}")
