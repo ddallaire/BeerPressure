@@ -496,4 +496,4 @@
                                       "  }"
                                       "}")
           response (execute-graphql-query graphql-query)]
-
+      (is (is-data-equal response expected-response)))))

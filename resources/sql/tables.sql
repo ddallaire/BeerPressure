@@ -851,9 +851,9 @@ id_review_activity
 );
 
 ALTER TABLE beer
-+   ADD CONSTRAINT fk_beer_beer_style FOREIGN KEY (id_style)
-+      REFERENCES beer_style (id_style)
-+      ON DELETE RESTRICT ON UPDATE RESTRICT;
+   ADD CONSTRAINT fk_beer_beer_style FOREIGN KEY (id_style)
+      REFERENCES beer_style (id_style)
+      ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 ALTER TABLE beer_activity
    ADD CONSTRAINT fk_beer_act_beer_beer_beer FOREIGN KEY (id_beer)
