@@ -135,16 +135,17 @@
                                      :resolve     :resolve-brewery}
              :breweries             {:type        (list :Brewery)
                                      :description "Retrieve all breweries"
-                                     :args        {:skip      {:type        Int
+                                     :args        {:skip      {:type        (non-null Int)
                                                                :description "Brewery quantity to skip"}
-                                                   :first     {:type        Int
+                                                   :first     {:type        (non-null Int)
                                                                :description "Brewery quantity to return"}
-                                                   :orderBy   {:type        :BreweryOrder
+                                                   :orderBy   {:type        (non-null :BreweryOrder)
                                                                :description "Determine how to sort the result"}
-                                                   :orderType {:type        :OrderType
+                                                   :orderType {:type        (non-null :OrderType)
                                                                :description "Ascending or descending sort"}
-                                                   :tags      {:type        (list Int)
-                                                               :description "Filter breweries by tag ids. ([] = disabled filter)"}}
+                                                   :tags      {:type          (list Int)
+                                                               :description   "Filter breweries by tag ids. ([] = disabled filter)"
+                                                               :default-value []}}
                                      :resolve     :resolve-breweries}
              :breweryReview         {:type        :BreweryReview
                                      :description "Retrieve a single brewery review by its id"
