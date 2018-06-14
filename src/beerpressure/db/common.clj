@@ -31,3 +31,11 @@
 (defn get-authentication-token-from-context
   [context]
   (get @(get context :cache) :authorization))
+
+(defn integer-list-to-in-clause
+  [list]
+  (str "(" (s/join ", " list) ")"))
+
+(defn generate-query-limit-offset
+  [args]
+  (str "LIMIT " (get args :first) " OFFSET " (get args :skip)))

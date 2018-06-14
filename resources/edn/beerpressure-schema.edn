@@ -1,9 +1,13 @@
-{:enums     {:OrderType    {:description "Ascending or descending sort enum"
-                            :values      [:ASC :DESC]}
-             :BreweryOrder {:description "Define how breweries can be sorted"
-                            :values      [:NAME :RATING]}
-             :BeerOrder    {:description "Define how beers can be sorted"
-                            :values      [:NAME :RATING]}}
+{:enums     {:OrderType      {:description "Ascending or descending sort enum"
+                              :values      [:ASC :DESC]}
+             :TagOrder       {:description "Define how tags can be sorted"
+                              :values      [:NAME :BREWERY_POPULARITY :BEER_POPULARITY]}
+             :BreweryOrder   {:description "Define how breweries can be sorted"
+                              :values      [:NAME :RATING]}
+             :BeerStyleOrder {:description "Define how breweries can be sorted"
+                              :values      [:NAME]}
+             :BeerOrder      {:description "Define how beers can be sorted"
+                              :values      [:NAME :RATING]}}
  :objects   {:User                 {:description "A user logged into the system"
                                     :fields      {:cip     {:type        (non-null String)
                                                             :description "The cip of the user"}
@@ -31,6 +35,11 @@
                                                                 :description "The tags associated to the brewery"}
                                                   :rating      {:type        Float
                                                                 :description "The brewery rating"}}}
+             :BeerStyle            {:description "A style of a beer"
+                                    :fields      {:id   {:type        Int
+                                                         :description "The identifier of the beer style"}
+                                                  :name {:type        (non-null String)
+                                                         :description "The name of the beer style"}}}
              :Beer                 {:description "A beer produced by a brewery"
                                     :fields      {:id             {:type        Int
                                                                    :description "The identifier of the beer in the system"}
@@ -49,7 +58,9 @@
                                                   :tags           {:type        (list :Tag)
                                                                    :description "The tags associated to the beer"}
                                                   :rating         {:type        Float
-                                                                   :description "The beer rating"}}}
+                                                                   :description "The beer rating"}
+                                                  :style          {:type        :BeerStyle
+                                                                   :description "The style of the beer"}}}
              :BeerReview           {:description "A review of a beer"
                                     :fields      {:idBeerReview {:type        Int
                                                                  :description "The identifier of the beer review in the system"}
@@ -106,123 +117,124 @@
                                                                            :description "The content of the comment"}
                                                   :time                   {:type        (non-null String)
                                                                            :description "Time at which the comment was posted"}}}}
- :queries   {:tags                           {:type        (list :Tag)
-                                              :description "Retrieve all tags ordered by name"
-                                              :args        {:skip      {:type        Int
-                                                                        :description "Brewery quantity to skip"}
-                                                            :first     {:type        Int
-                                                                        :description "Brewery quantity to return"}
-                                                            :orderType {:type        :OrderType
-                                                                        :description "Ascending or descending sort"}}
-                                              :resolve     :resolve-tags-ordered-by-name}
-             :tagsOrderedByBreweryPopularity {:type        (list :Tag)
-                                              :description "Retrieve all tags ordered by brewery popularity"
-                                              :args        {:skip      {:type        Int
-                                                                        :description "Brewery quantity to skip"}
-                                                            :first     {:type        Int
-                                                                        :description "Brewery quantity to return"}
-                                                            :orderType {:type        :OrderType
-                                                                        :description "Ascending or descending sort"}}
-                                              :resolve     :resolve-tags-ordered-by-brewery-popularity}
-             :tagsOrderedByBeerPopularity    {:type        (list :Tag)
-                                              :description "Retrieve all tags ordered by beer popularity"
-                                              :args        {:skip      {:type        Int
-                                                                        :description "Brewery quantity to skip"}
-                                                            :first     {:type        Int
-                                                                        :description "Brewery quantity to return"}
-                                                            :orderType {:type        :OrderType
-                                                                        :description "Ascending or descending sort"}}
-                                              :resolve     :resolve-tags-ordered-by-beer-popularity}
-             :brewery                        {:type        :Brewery
-                                              :description "Retrieve a single brewery by its id"
-                                              :args        {:id {:type        Int
-                                                                 :description "The id of the desired brewery"}}
-                                              :resolve     :resolve-brewery}
-             :breweries                      {:type        (list :Brewery)
-                                              :description "Retrieve all breweries"
-                                              :args        {:skip      {:type        Int
-                                                                        :description "Brewery quantity to skip"}
-                                                            :first     {:type        Int
-                                                                        :description "Brewery quantity to return"}
-                                                            :orderBy   {:type        :BreweryOrder
-                                                                        :description "Determine how to sort the result"}
-                                                            :orderType {:type        :OrderType
-                                                                        :description "Ascending or descending sort"}
-                                                            :tags      {:type        (list Int)
-                                                                        :description "Filter breweries by tag ids. ([] = disabled filter)"}}
-                                              :resolve     :resolve-breweries}
-             :breweryReview                  {:type        :BreweryReview
-                                              :description "Retrieve a single brewery review by its id"
-                                              :args        {:idBreweryReview {:type        Int
-                                                                              :description "The id of the desired brewery review"}}
-                                              :resolve     :resolve-brewery-review}
-             :breweryReviews                 {:type        (list :BreweryReview)
-                                              :description "Retrieve all reviews for a brewery"
-                                              :args        {:skip  {:type        Int
-                                                                    :description "Brewery reviews to skip"}
-                                                            :first {:type        Int
-                                                                    :description "Brewery reviews to return"}}
-                                              :resolve     :resolve-brewery-reviews}
-             :breweryReviewComment           {:type        :BreweryReviewComment
-                                              :description "Retrieve a single brewery review comment by its id"
-                                              :args        {:idBreweryReviewComment {:type        Int
-                                                                                     :description "The id of the desired brewery review comment"}}
-                                              :resolve     :resolve-brewery-review-comment}
-             :breweryReviewComments          {:type        (list :BreweryReviewComment)
-                                              :description "Retrieve all comments for a brewery review"
-                                              :args        {:skip            {:type        Int
-                                                                              :description "Brewery review comments to skip"}
-                                                            :first           {:type        Int
-                                                                              :description "Brewery review comments to return"}
-                                                            :idBreweryReview {:type        Int
-                                                                              :description "The id of the desired brewery review"}}
-                                              :resolve     :resolve-brewery-review-comments}
-             :beer                           {:type        :Beer
-                                              :description "Retrieve a single beer by its id"
-                                              :args        {:id {:type        Int
-                                                                 :description "The id of the desired beer"}}
-                                              :resolve     :resolve-beer}
-             :beers                          {:type        (list :Beer)
-                                              :description "Retrieve all beers"
-                                              :args        {:skip      {:type        Int
-                                                                        :description "Brewery quantity to skip"}
-                                                            :first     {:type        Int
-                                                                        :description "Brewery quantity to return"}
-                                                            :orderBy   {:type        :BeerOrder
-                                                                        :description "Determine how to sort the result"}
-                                                            :orderType {:type        :OrderType
-                                                                        :description "Ascending or descending sort"}
-                                                            :breweries {:type        (list Int)
-                                                                        :description "Filter breweries by brewery ids. ([] = disabled filter)"}
-                                                            :tags      {:type        (list Int)
-                                                                        :description "Filter breweries by tag ids. ([] = disabled filter)"}}
-                                              :resolve     :resolve-beers}
-             :beerReview                     {:type        :BeerReview
-                                              :description "Retrieve a single beer review by its id"
-                                              :args        {:idBeerReview {:type        Int
-                                                                           :description "The id of the desired beer review"}}
-                                              :resolve     :resolve-beer-review}
-             :beerReviews                    {:type        (list :BeerReview)
-                                              :description "Retrieve all reviews for a beer"
-                                              :args        {:skip  {:type        Int
-                                                                    :description "Beer reviews to skip"}
-                                                            :first {:type        Int
-                                                                    :description "Beer reviews to return"}}
-                                              :resolve     :resolve-beer-reviews}
-             :beerReviewComment              {:type        :BeerReviewComment
-                                              :description "Retrieve a single beer review comment by its id"
-                                              :args        {:idBeerReviewComment {:type        Int
-                                                                                  :description "The id of the desired beer review comment"}}
-                                              :resolve     :resolve-beer-review-comment}
-             :beerReviewComments             {:type        (list :BeerReviewComment)
-                                              :description "Retrieve all comments for a beer review"
-                                              :args        {:skip         {:type        Int
-                                                                           :description "Beer review comments to skip"}
-                                                            :first        {:type        Int
-                                                                           :description "Beer review comments to return"}
-                                                            :idBeerReview {:type        Int
-                                                                           :description "Id of the related beer review"}}
-                                              :resolve     :resolve-beer-review-comments}}
+ :queries   {:tags                  {:type        (list :Tag)
+                                     :description "Retrieve all tags ordered by name"
+                                     :args        {:skip      {:type        (non-null Int)
+                                                               :description "Tag quantity to skip"}
+                                                   :first     {:type        (non-null Int)
+                                                               :description "Tag quantity to return"}
+                                                   :orderBy   {:type        (non-null :TagOrder)
+                                                               :description "Determine how to sort the result"}
+                                                   :orderType {:type        (non-null :OrderType)
+                                                               :description "Ascending or descending sort"}}
+                                     :resolve     :resolve-tags}
+             :brewery               {:type        :Brewery
+                                     :description "Retrieve a single brewery by its id"
+                                     :args        {:id {:type        Int
+                                                        :description "The id of the desired brewery"}}
+                                     :resolve     :resolve-brewery}
+             :breweries             {:type        (list :Brewery)
+                                     :description "Retrieve all breweries"
+                                     :args        {:skip      {:type        (non-null Int)
+                                                               :description "Brewery quantity to skip"}
+                                                   :first     {:type        (non-null Int)
+                                                               :description "Brewery quantity to return"}
+                                                   :orderBy   {:type        (non-null :BreweryOrder)
+                                                               :description "Determine how to sort the result"}
+                                                   :orderType {:type        (non-null :OrderType)
+                                                               :description "Ascending or descending sort"}
+                                                   :tags      {:type          (list Int)
+                                                               :description   "Filter breweries by tag ids. ([] = disabled filter)"
+                                                               :default-value []}}
+                                     :resolve     :resolve-breweries}
+             :breweryReview         {:type        :BreweryReview
+                                     :description "Retrieve a single brewery review by its id"
+                                     :args        {:idBreweryReview {:type        Int
+                                                                     :description "The id of the desired brewery review"}}
+                                     :resolve     :resolve-brewery-review}
+             :breweryReviews        {:type        (list :BreweryReview)
+                                     :description "Retrieve all reviews for a brewery"
+                                     :args        {:skip  {:type        Int
+                                                           :description "Brewery reviews to skip"}
+                                                   :first {:type        Int
+                                                           :description "Brewery reviews to return"}}
+                                     :resolve     :resolve-brewery-reviews}
+             :breweryReviewComment  {:type        :BreweryReviewComment
+                                     :description "Retrieve a single brewery review comment by its id"
+                                     :args        {:idBreweryReviewComment {:type        Int
+                                                                            :description "The id of the desired brewery review comment"}}
+                                     :resolve     :resolve-brewery-review-comment}
+             :breweryReviewComments {:type        (list :BreweryReviewComment)
+                                     :description "Retrieve all comments for a brewery review"
+                                     :args        {:skip            {:type        Int
+                                                                     :description "Brewery review comments to skip"}
+                                                   :first           {:type        Int
+                                                                     :description "Brewery review comments to return"}
+                                                   :idBreweryReview {:type        Int
+                                                                     :description "The id of the desired brewery review"}}
+                                     :resolve     :resolve-brewery-review-comments}
+             :beerStyles            {:type        (list :BeerStyle)
+                                     :description "Retrieve all beer styles ordered by name"
+                                     :args        {:skip      {:type        (non-null Int)
+                                                               :description "Beer style quantity to skip"}
+                                                   :first     {:type        (non-null Int)
+                                                               :description "Beer style quantity to return"}
+                                                   :orderBy   {:type        (non-null :BeerStyleOrder)
+                                                               :description "Determine how to sort the result"}
+                                                   :orderType {:type        (non-null :OrderType)
+                                                               :description "Ascending or descending sort"}}
+                                     :resolve     :resolve-beer-styles}
+             :beer                  {:type        :Beer
+                                     :description "Retrieve a single beer by its id"
+                                     :args        {:id {:type        Int
+                                                        :description "The id of the desired beer"}}
+                                     :resolve     :resolve-beer}
+             :beers                 {:type        (list :Beer)
+                                     :description "Retrieve all beers"
+                                     :args        {:skip      {:type        (non-null Int)
+                                                               :description "Beer quantity to skip"}
+                                                   :first     {:type        (non-null Int)
+                                                               :description "Beer quantity to return"}
+                                                   :orderBy   {:type        (non-null :BeerOrder)
+                                                               :description "Determine how to sort the result"}
+                                                   :orderType {:type        (non-null :OrderType)
+                                                               :description "Ascending or descending sort"}
+                                                   :breweries {:type          (list Int)
+                                                               :description   "Filter beers by brewery ids. ([] = disabled filter)"
+                                                               :default-value []}
+                                                   :tags      {:type          (list Int)
+                                                               :description   "Filter beers by tag ids. ([] = disabled filter)"
+                                                               :default-value []}
+                                                   :styles    {:type          (list Int)
+                                                               :description   "Filter beers by style ids. ([] = disabled filter)"
+                                                               :default-value []}}
+                                     :resolve     :resolve-beers}
+             :beerReview            {:type        :BeerReview
+                                     :description "Retrieve a single beer review by its id"
+                                     :args        {:idBeerReview {:type        Int
+                                                                  :description "The id of the desired beer review"}}
+                                     :resolve     :resolve-beer-review}
+             :beerReviews           {:type        (list :BeerReview)
+                                     :description "Retrieve all reviews for a beer"
+                                     :args        {:skip  {:type        Int
+                                                           :description "Beer reviews to skip"}
+                                                   :first {:type        Int
+                                                           :description "Beer reviews to return"}}
+                                     :resolve     :resolve-beer-reviews}
+             :beerReviewComment     {:type        :BeerReviewComment
+                                     :description "Retrieve a single beer review comment by its id"
+                                     :args        {:idBeerReviewComment {:type        Int
+                                                                         :description "The id of the desired beer review comment"}}
+                                     :resolve     :resolve-beer-review-comment}
+             :beerReviewComments    {:type        (list :BeerReviewComment)
+                                     :description "Retrieve all comments for a beer review"
+                                     :args        {:skip         {:type        Int
+                                                                  :description "Beer review comments to skip"}
+                                                   :first        {:type        Int
+                                                                  :description "Beer review comments to return"}
+                                                   :idBeerReview {:type        Int
+                                                                  :description "Id of the related beer review"}}
+                                     :resolve     :resolve-beer-review-comments}}
  :mutations {:login  {:type        :User
                       :description "Login the user using the CAS ticket"
                       :args        {:ticket {:type        (non-null String)
