@@ -137,4 +137,98 @@
                                       " }"
                                       "}")
           response (execute-graphql-query graphql-query)]
+      (is (is-data-equal response expected-response))))
+  (testing "beerReviews(skip: 0, first: 1, orderBy: TIME, orderType: ASC)"
+    (let [graphql-query (long-str "{"
+                                  "  beerReviews(skip: 0, first: 1, orderBy: TIME, orderType: ASC) {"
+                                  "    idBeerReview"
+                                  "  }"
+                                  "}")
+          expected-response (long-str "{"
+                                      " \"data\": {"
+                                      "   \"beerReviews\": ["
+                                      "     {"
+                                      "       \"idBeerReview\": 1"
+                                      "     }"
+                                      "   ]"
+                                      " }"
+                                      "}")
+          response (execute-graphql-query graphql-query)]
+      (is (is-data-equal response expected-response))))
+  (testing "beerReviews(skip: 0, first: 1, orderBy: TIME, orderType: DESC)"
+    (let [graphql-query (long-str "{"
+                                  "  beerReviews(skip: 0, first: 1, orderBy: TIME, orderType: DESC) {"
+                                  "    idBeerReview"
+                                  "  }"
+                                  "}")
+          expected-response (long-str "{"
+                                      " \"data\": {"
+                                      "   \"beerReviews\": ["
+                                      "     {"
+                                      "       \"idBeerReview\": 7"
+                                      "     }"
+                                      "   ]"
+                                      " }"
+                                      "}")
+          response (execute-graphql-query graphql-query)]
+      (is (is-data-equal response expected-response))))
+  (testing "beerReviews(skip: 0, first: 10, orderBy: TIME, orderType: ASC, beers: [1,3])"
+    (let [graphql-query (long-str "{"
+                                  "  beerReviews(skip: 0, first: 10, orderBy: TIME, orderType: ASC, beers: [1,3]) {"
+                                  "    idBeerReview"
+                                  "  }"
+                                  "}")
+          expected-response (long-str "{"
+                                      " \"data\": {"
+                                      "   \"beerReviews\": ["
+                                      "     {"
+                                      "       \"idBeerReview\": 1"
+                                      "     },"
+                                      "     {"
+                                      "       \"idBeerReview\": 2"
+                                      "     },"
+                                      "     {"
+                                      "       \"idBeerReview\": 5"
+                                      "     }"
+                                      "   ]"
+                                      " }"
+                                      "}")
+          response (execute-graphql-query graphql-query)]
+      (is (is-data-equal response expected-response))))
+  (testing "beerReviews(skip: 0, first: 10, orderBy: TIME, orderType: ASC, cips: [\\\"mahm1904\\\",\\\"dald2202\\\"])"
+    (let [graphql-query (long-str "{"
+                                  "  beerReviews(skip: 0, first: 10, orderBy: TIME, orderType: ASC, cips: [\\\"mahm1904\\\",\\\"dald2202\\\"]) {"
+                                  "    idBeerReview"
+                                  "  }"
+                                  "}")
+          expected-response (long-str "{"
+                                      " \"data\": {"
+                                      "   \"beerReviews\": ["
+                                      "     {"
+                                      "       \"idBeerReview\": 2"
+                                      "     },"
+                                      "     {"
+                                      "       \"idBeerReview\": 4"
+                                      "     }"
+                                      "   ]"
+                                      " }"
+                                      "}")
+          response (execute-graphql-query graphql-query)]
+      (is (is-data-equal response expected-response))))
+  (testing "beerReviews(skip: 0, first: 10, orderBy: TIME, orderType: ASC, beers: [1,3], cips: [\\\"mahm1904\\\",\\\"dald2202\\\"])"
+    (let [graphql-query (long-str "{"
+                                  "  beerReviews(skip: 0, first: 10, orderBy: TIME, orderType: ASC, beers: [1,3], cips: [\\\"mahm1904\\\",\\\"dald2202\\\"]) {"
+                                  "    idBeerReview"
+                                  "  }"
+                                  "}")
+          expected-response (long-str "{"
+                                      " \"data\": {"
+                                      "   \"beerReviews\": ["
+                                      "     {"
+                                      "       \"idBeerReview\": 2"
+                                      "     }"
+                                      "   ]"
+                                      " }"
+                                      "}")
+          response (execute-graphql-query graphql-query)]
       (is (is-data-equal response expected-response)))))

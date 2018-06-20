@@ -55,7 +55,7 @@
 (deftest test-resolve-brewery-reviews
   (testing "breweryReviews(skip: 1, first: 2, orderBy: TIME, orderType: ASC)"
     (let [graphql-query (long-str "{"
-                                  "  breweryReviews(skip: 1, first: 2, orderBy: TIME, orderType: ASC){"
+                                  "  breweryReviews(skip: 1, first: 2, orderBy: TIME, orderType: ASC) {"
                                   "    idBreweryReview"
                                   "    cip"
                                   "    idBrewery"
@@ -121,7 +121,7 @@
       (is (is-data-equal response expected-response))))
   (testing "breweryReviews(skip: 0, first: 1, orderBy: TIME, orderType: ASC)"
     (let [graphql-query (long-str "{"
-                                  "  breweryReviews(skip: 0, first: 1, orderBy: TIME, orderType: ASC){"
+                                  "  breweryReviews(skip: 0, first: 1, orderBy: TIME, orderType: ASC) {"
                                   "    idBreweryReview"
                                   "  }"
                                   "}")
@@ -138,7 +138,7 @@
       (is (is-data-equal response expected-response))))
   (testing "breweryReviews(skip: 0, first: 1, orderBy: TIME, orderType: DESC)"
     (let [graphql-query (long-str "{"
-                                  "  breweryReviews(skip: 0, first: 1, orderBy: TIME, orderType: DESC){"
+                                  "  breweryReviews(skip: 0, first: 1, orderBy: TIME, orderType: DESC) {"
                                   "    idBreweryReview"
                                   "  }"
                                   "}")
@@ -155,7 +155,7 @@
       (is (is-data-equal response expected-response))))
   (testing "breweryReviews(skip: 0, first: 10, orderBy: TIME, orderType: ASC, breweries: [1,3])"
     (let [graphql-query (long-str "{"
-                                  "  breweryReviews(skip: 0, first: 10, orderBy: TIME, orderType: ASC, breweries: [1,3]){"
+                                  "  breweryReviews(skip: 0, first: 10, orderBy: TIME, orderType: ASC, breweries: [1,3]) {"
                                   "    idBreweryReview"
                                   "  }"
                                   "}")
@@ -173,9 +173,9 @@
                                       "}")
           response (execute-graphql-query graphql-query)]
       (is (is-data-equal response expected-response))))
-  (testing "breweryReviews(skip: 0, first: 10, orderBy: TIME, orderType: ASC, cips: [\\\"mahm1904\\\", \\\"pele1704\\\"])"
+  (testing "breweryReviews(skip: 0, first: 10, orderBy: TIME, orderType: ASC, cips: [\\\"mahm1904\\\",\\\"pele1704\\\"])"
     (let [graphql-query (long-str "{"
-                                  "  breweryReviews(skip: 0, first: 10, orderBy: TIME, orderType: ASC, cips: [\\\"mahm1904\\\", \\\"pele1704\\\"]){"
+                                  "  breweryReviews(skip: 0, first: 10, orderBy: TIME, orderType: ASC, cips: [\\\"mahm1904\\\", \\\"pele1704\\\"]) {"
                                   "    idBreweryReview"
                                   "  }"
                                   "}")
@@ -193,9 +193,9 @@
                                       "}")
           response (execute-graphql-query graphql-query)]
       (is (is-data-equal response expected-response))))
-  (testing "breweryReviews(skip: 0, first: 10, orderBy: TIME, orderType: ASC, breweries: [3,4], cips: [\\\"mahm1904\\\", \\\"pele1704\\\"])"
+  (testing "breweryReviews(skip: 0, first: 10, orderBy: TIME, orderType: ASC, breweries: [3,4], cips: [\\\"mahm1904\\\",\\\"pele1704\\\"])"
     (let [graphql-query (long-str "{"
-                                  "  breweryReviews(skip: 0, first: 10, orderBy: TIME, orderType: ASC, breweries: [3,4], cips: [\\\"mahm1904\\\", \\\"pele1704\\\"]){"
+                                  "  breweryReviews(skip: 0, first: 10, orderBy: TIME, orderType: ASC, breweries: [3,4], cips: [\\\"mahm1904\\\", \\\"pele1704\\\"]) {"
                                   "    idBreweryReview"
                                   "  }"
                                   "}")
