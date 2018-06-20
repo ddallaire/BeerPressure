@@ -71,8 +71,8 @@
              :BeerReview           {:description "A review of a beer"
                                     :fields      {:idBeerReview {:type        Int
                                                                  :description "The identifier of the beer review in the system"}
-                                                  :cip          {:type        (non-null String)
-                                                                 :description "The identifier of the user that did the review"}
+                                                  :user         {:type        :User
+                                                                 :description "The user that posted the beer review"}
                                                   :idBeer       {:type        Int
                                                                  :description "The identifier of the beer in the system"}
                                                   :title        {:type        (non-null String)

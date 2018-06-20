@@ -14,17 +14,23 @@
                      (map #(hash-map :user %)
                           (get-beer-review-thumbsups {:idBeerReview (get beer-review :idBeerReview)}))))
 
+(defn fill-beer-review-user
+  [beer-review]
+  (assoc beer-review :user beer-review))
+
 (defn resolve-beer-review
   [context args _value]
   (let [beer-review (first
                       (convert-naming-convention (check-error (get-beer-review args))))]
-    (fill-beer-review-thumbsups beer-review)))
+    (fill-beer-review-user (fill-beer-review-thumbsups beer-review))))
 
 (defn generate-beer-reviews-query-beginning
   [args]
   (case (get args :orderBy)
-    :TIME "SELECT id_beer_review, cip, id_beer, title, content, image_path, rating, time FROM beer_review"
-    :THUMBSUP_COUNT "SELECT id_beer_review, cip, id_beer, title, content, image_path, rating, time FROM beer_review_with_thumbsup_count"))
+    :TIME "SELECT id_beer_review, \"user\".cip, name, surname, id_beer, title, content, image_path, rating, time FROM beer_review
+               INNER JOIN \"user\" ON \"user\".cip = beer_review.cip"
+    :THUMBSUP_COUNT "SELECT id_beer_review, \"user\".cip, name, surname, id_beer, title, content, image_path, rating, time FROM beer_review_with_thumbsup_count
+                         INNER JOIN \"user\" ON \"user\".cip = beer_review_with_thumbsup_count.cip"))
 
 (defn generate-beer-reviews-query-in-clause-beers
   [args]
@@ -37,7 +43,7 @@
   [args]
   (let [cips (get args :cips)]
     (if (not= cips [])
-      (str "cip IN " (cip-list-to-in-clause cips))
+      (str "\"user\".cip IN " (cip-list-to-in-clause cips))
       "")))
 
 (defn generate-beer-reviews-query-where
@@ -70,4 +76,4 @@
   [context args _value]
   (let [beer-reviews (convert-naming-convention
                        (check-error (jdbc/query db-spec (generate-beer-reviews-query args))))]
-    (map #(fill-beer-review-thumbsups %) beer-reviews)))
+    (map #(fill-beer-review-user (fill-beer-review-thumbsups %)) beer-reviews)))
