@@ -11,18 +11,20 @@
 (defn fill-brewery-review-thumbsups
   [brewery-review]
   (assoc brewery-review :thumbsups
-                     (map #(hash-map :user %)
-                          (get-brewery-review-thumbsups {:idBreweryReview (get brewery-review :idBreweryReview)}))))
+                        (map #(hash-map :user %)
+                             (get-brewery-review-thumbsups {:idBreweryReview (get brewery-review :idBreweryReview)}))))
 
 (defn resolve-brewery-review
   [context args _value]
   (let [brewery-review (first
-                      (convert-naming-convention (check-error (get-brewery-review args))))]
+                         (convert-naming-convention (check-error (get-brewery-review args))))]
     (fill-brewery-review-thumbsups brewery-review)))
 
 (defn generate-brewery-reviews-query-beginning
   [args]
-  "SELECT id_brewery_review, cip, id_brewery, title, content, image_path, rating, time FROM brewery_review")
+  (case (get args :orderBy)
+    :TIME "SELECT id_brewery_review, cip, id_brewery, title, content, image_path, rating, time FROM brewery_review"
+    :THUMBSUP_COUNT "SELECT id_brewery_review, cip, id_brewery, title, content, image_path, rating, time FROM brewery_review_with_thumbsup_count"))
 
 (defn generate-brewery-reviews-query-in-clause-breweries
   [args]
@@ -52,7 +54,10 @@
   (case (get args :orderBy)
     :TIME (case (get args :orderType)
             :ASC "ORDER BY time ASC"
-            :DESC "ORDER BY time DESC")))
+            :DESC "ORDER BY time DESC")
+    :THUMBSUP_COUNT (case (get args :orderType)
+                      :ASC "ORDER BY thumbsup_count ASC, time ASC"
+                      :DESC "ORDER BY thumbsup_count DESC, time ASC")))
 
 (defn generate-brewery-reviews-query
   [args]
@@ -64,5 +69,5 @@
 (defn resolve-brewery-reviews
   [context args _value]
   (let [brewery-reviews (convert-naming-convention
-                       (check-error (jdbc/query db-spec (generate-brewery-reviews-query args))))]
+                          (check-error (jdbc/query db-spec (generate-brewery-reviews-query args))))]
     (map #(fill-brewery-review-thumbsups %) brewery-reviews)))
