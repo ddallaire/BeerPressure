@@ -5,7 +5,7 @@
     [beerpressure.db.beer-style :as db.beer-style]
     [beerpressure.db.beer :as db.beer]
     [beerpressure.db.brewery :as db.brewery]
-    [beerpressure.db.comment.beer-comment :as beer-comment]
+    [beerpressure.db.comment.beer-review-comment :as beer-comment]
     [beerpressure.db.review.beer-review :as beer-review]
     [beerpressure.db.comment.brewery-comment :as brewery-comment]
     [beerpressure.db.review.brewery-review :as brewery-review]
