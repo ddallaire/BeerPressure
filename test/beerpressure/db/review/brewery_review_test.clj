@@ -319,3 +319,16 @@
                                       "}")
           response (execute-graphql-query graphql-query)]
       (is (is-data-equal response expected-response)))))
+
+(deftest test-brewery-review-thumbsup
+  (testing "brewery review thumbs-up mutations"
+    (let [insert-graphql-query (long-str "mutation insertBreweryReviewThumbsup {"
+                                         "  insertBreweryReviewThumbsup(id: 1)"
+                                         "}")
+          delete-graphql-query (long-str "mutation deleteBreweryReviewThumbsup{"
+                                         "  deleteBreweryReviewThumbsup(id: 1)"
+                                         "}")]
+      (execute-graphql-query insert-graphql-query)
+      (is (not (empty? (query-sql-statement "SELECT * FROM brewery_review_user_thumbsup WHERE id_brewery_review = 1 AND cip = 'test1234'"))))
+      (execute-graphql-query delete-graphql-query)
+      (is (empty? (query-sql-statement "SELECT * FROM brewery_review_user_thumbsup WHERE id_brewery_review = 1 AND cip = 'test1234'"))))))

@@ -282,21 +282,31 @@
                                                                  :description   "Filter review comments by cips. ([] = disabled filter)"
                                                                  :default-value []}}
                                      :resolve     :resolve-beer-review-comments}}
- :mutations {:login                    {:type        :User
-                                        :description "Login the user using the CAS ticket"
-                                        :args        {:ticket {:type        (non-null String)
-                                                               :description "The CAS ticket"}}
-                                        :resolve     :resolve-login}
-             :logout                   {:type        Int
-                                        :description "Logout the user"
-                                        :resolve     :resolve-logout}
-             :insertBeerReviewThumbsup {:type        Int
-                                        :description "The logged user add a thumbs-up to the specified beer review"
-                                        :args        {:id {:type        Int
-                                                           :description "The beer review id"}}
-                                        :resolve     :resolve-insert-beer-review-thumbsup}
-             :deleteBeerReviewThumbsup {:type        Int
-                                        :description "The logged user remove his thumbs-up from the specified beer review"
-                                        :args        {:id {:type        Int
-                                                           :description "The beer review id"}}
-                                        :resolve     :resolve-delete-beer-review-thumbsup}}}
+ :mutations {:login                       {:type        :User
+                                           :description "Login the user using the CAS ticket"
+                                           :args        {:ticket {:type        (non-null String)
+                                                                  :description "The CAS ticket"}}
+                                           :resolve     :resolve-login}
+             :logout                      {:type        Int
+                                           :description "Logout the user"
+                                           :resolve     :resolve-logout}
+             :insertBreweryReviewThumbsup {:type        Int
+                                           :description "The logged user add a thumbs-up to the specified brewery review"
+                                           :args        {:id {:type        Int
+                                                              :description "The brewery review id"}}
+                                           :resolve     :resolve-insert-brewery-review-thumbsup}
+             :deleteBreweryReviewThumbsup {:type        Int
+                                           :description "The logged user remove his thumbs-up from the specified brewery review"
+                                           :args        {:id {:type        Int
+                                                              :description "The brewery review id"}}
+                                           :resolve     :resolve-delete-brewery-review-thumbsup}
+             :insertBeerReviewThumbsup    {:type        Int
+                                           :description "The logged user add a thumbs-up to the specified beer review"
+                                           :args        {:id {:type        Int
+                                                              :description "The beer review id"}}
+                                           :resolve     :resolve-insert-beer-review-thumbsup}
+             :deleteBeerReviewThumbsup    {:type        Int
+                                           :description "The logged user remove his thumbs-up from the specified beer review"
+                                           :args        {:id {:type        Int
+                                                              :description "The beer review id"}}
+                                           :resolve     :resolve-delete-beer-review-thumbsup}}}
