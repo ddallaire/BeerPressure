@@ -7,7 +7,9 @@
              :BeerStyleOrder {:description "Define how breweries can be sorted"
                               :values      [:NAME]}
              :BeerOrder      {:description "Define how beers can be sorted"
-                              :values      [:NAME :RATING]}}
+                              :values      [:NAME :RATING]}
+             :ReviewOrder    {:description "Define how reviews can be sorted"
+                              :values      [:TIME]}}
  :objects   {:User                 {:description "A user logged into the system"
                                     :fields      {:cip     {:type        (non-null String)
                                                             :description "The cip of the user"}
@@ -22,6 +24,9 @@
                                                          :description "The identifier of the tag in the system"}
                                                   :name {:type        (non-null String)
                                                          :description "The displayed name of the tag"}}}
+             :Thumbsup             {:description "A thumbs-up applied to a beer or brewery review"
+                                    :fields      {:user {:type        :User
+                                                         :description "The user that applied the thumbs-up"}}}
              :Brewery              {:description "A brewery that produces beers"
                                     :fields      {:id          {:type        Int
                                                                 :description "The identifier of the brewery in the system"}
@@ -77,7 +82,9 @@
                                                   :rating       {:type        Float
                                                                  :description "The rating of the beer in the review"}
                                                   :time         {:type        (non-null String)
-                                                                 :description "Time at which the review of the beer was posted"}}}
+                                                                 :description "Time at which the review of the beer was posted"}
+                                                  :thumbsups    {:type        (list :Thumbsup)
+                                                                 :description "The thumbs-ups applied top the review"}}}
              :BreweryReview        {:description "A review of a brewery"
                                     :fields      {:idBreweryReview {:type        Int
                                                                     :description "The identifier of the brewery review in the system"}
@@ -94,7 +101,9 @@
                                                   :rating          {:type        Float
                                                                     :description "The rating of the brewery in the review"}
                                                   :time            {:type        (non-null String)
-                                                                    :description "Time at which the review of the brewery was posted"}}}
+                                                                    :description "Time at which the review of the brewery was posted"}
+                                                  :thumbsups       {:type        (list :Thumbsup)
+                                                                    :description "The thumbs-ups applied top the review"}}}
              :BeerReviewComment    {:description "A comment of a beer review"
                                     :fields      {:idBeerReviewComment {:type        Int
                                                                         :description "The identifier of the beer review comment in the system"}
@@ -154,10 +163,20 @@
                                      :resolve     :resolve-brewery-review}
              :breweryReviews        {:type        (list :BreweryReview)
                                      :description "Retrieve all reviews for a brewery"
-                                     :args        {:skip  {:type        Int
-                                                           :description "Brewery reviews to skip"}
-                                                   :first {:type        Int
-                                                           :description "Brewery reviews to return"}}
+                                     :args        {:skip      {:type        Int
+                                                               :description "Brewery reviews to skip"}
+                                                   :first     {:type        Int
+                                                               :description "Brewery reviews to return"}
+                                                   :orderBy   {:type        (non-null :ReviewOrder)
+                                                               :description "Determine how to sort the result"}
+                                                   :orderType {:type        (non-null :OrderType)
+                                                               :description "Ascending or descending sort"}
+                                                   :breweries {:type          (list Int)
+                                                               :description   "Filter reviews by brewery ids. ([] = disabled filter)"
+                                                               :default-value []}
+                                                   :cips      {:type          (list String)
+                                                               :description   "Filter reviews by cips. ([] = disabled filter)"
+                                                               :default-value []}}
                                      :resolve     :resolve-brewery-reviews}
              :breweryReviewComment  {:type        :BreweryReviewComment
                                      :description "Retrieve a single brewery review comment by its id"
@@ -215,11 +234,21 @@
                                                                   :description "The id of the desired beer review"}}
                                      :resolve     :resolve-beer-review}
              :beerReviews           {:type        (list :BeerReview)
-                                     :description "Retrieve all reviews for a beer"
-                                     :args        {:skip  {:type        Int
-                                                           :description "Beer reviews to skip"}
-                                                   :first {:type        Int
-                                                           :description "Beer reviews to return"}}
+                                     :description "Retrieve all beer reviews"
+                                     :args        {:skip      {:type        Int
+                                                               :description "Beer reviews to skip"}
+                                                   :first     {:type        Int
+                                                               :description "Beer reviews to return"}
+                                                   :orderBy   {:type        (non-null :ReviewOrder)
+                                                               :description "Determine how to sort the result"}
+                                                   :orderType {:type        (non-null :OrderType)
+                                                               :description "Ascending or descending sort"}
+                                                   :beers     {:type          (list Int)
+                                                               :description   "Filter reviews by beer ids. ([] = disabled filter)"
+                                                               :default-value []}
+                                                   :cips      {:type          (list String)
+                                                               :description   "Filter reviews by cips. ([] = disabled filter)"
+                                                               :default-value []}}
                                      :resolve     :resolve-beer-reviews}
              :beerReviewComment     {:type        :BeerReviewComment
                                      :description "Retrieve a single beer review comment by its id"
