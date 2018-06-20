@@ -7,7 +7,7 @@
     [beerpressure.db.brewery :as db.brewery]
     [beerpressure.db.comment.beer-review-comment :as beer-comment]
     [beerpressure.db.review.beer-review :as beer-review]
-    [beerpressure.db.comment.brewery-comment :as brewery-comment]
+    [beerpressure.db.comment.brewery-review-comment :as brewery-comment]
     [beerpressure.db.review.brewery-review :as brewery-review]
     [clojure.java.io :as io]
     [clojure.edn :as edn]

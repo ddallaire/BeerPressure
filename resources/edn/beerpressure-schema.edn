@@ -187,12 +187,20 @@
                                      :resolve     :resolve-brewery-review-comment}
              :breweryReviewComments {:type        (list :BreweryReviewComment)
                                      :description "Retrieve all comments for a brewery review"
-                                     :args        {:skip            {:type        Int
-                                                                     :description "Brewery review comments to skip"}
-                                                   :first           {:type        Int
-                                                                     :description "Brewery review comments to return"}
-                                                   :idBreweryReview {:type        Int
-                                                                     :description "The id of the desired brewery review"}}
+                                     :args        {:skip           {:type        Int
+                                                                    :description "Brewery review comments to skip"}
+                                                   :first          {:type        Int
+                                                                    :description "Brewery review comments to return"}
+                                                   :orderBy        {:type        (non-null :ReviewCommentOrder)
+                                                                    :description "Determine how to sort the result"}
+                                                   :orderType      {:type        (non-null :OrderType)
+                                                                    :description "Ascending or descending sort"}
+                                                   :breweryReviews {:type          (list Int)
+                                                                    :description   "Filter review comments by brewery review ids. ([] = disabled filter)"
+                                                                    :default-value []}
+                                                   :cips           {:type          (list String)
+                                                                    :description   "Filter review comments by cips. ([] = disabled filter)"
+                                                                    :default-value []}}
                                      :resolve     :resolve-brewery-review-comments}
              :beerStyles            {:type        (list :BeerStyle)
                                      :description "Retrieve all beer styles ordered by name"
@@ -259,20 +267,20 @@
                                      :resolve     :resolve-beer-review-comment}
              :beerReviewComments    {:type        (list :BeerReviewComment)
                                      :description "Retrieve all comments for a beer review"
-                                     :args        {:skip          {:type        Int
-                                                                   :description "Beer review comments to skip"}
-                                                   :first         {:type        Int
-                                                                   :description "Beer review comments to return"}
-                                                   :orderBy       {:type        (non-null :ReviewCommentOrder)
-                                                                   :description "Determine how to sort the result"}
-                                                   :orderType     {:type        (non-null :OrderType)
-                                                                   :description "Ascending or descending sort"}
+                                     :args        {:skip        {:type        Int
+                                                                 :description "Beer review comments to skip"}
+                                                   :first       {:type        Int
+                                                                 :description "Beer review comments to return"}
+                                                   :orderBy     {:type        (non-null :ReviewCommentOrder)
+                                                                 :description "Determine how to sort the result"}
+                                                   :orderType   {:type        (non-null :OrderType)
+                                                                 :description "Ascending or descending sort"}
                                                    :beerReviews {:type          (list Int)
-                                                                   :description   "Filter review comments by beer review ids. ([] = disabled filter)"
-                                                                   :default-value []}
-                                                   :cips          {:type          (list String)
-                                                                   :description   "Filter review comments by cips. ([] = disabled filter)"
-                                                                   :default-value []}}
+                                                                 :description   "Filter review comments by beer review ids. ([] = disabled filter)"
+                                                                 :default-value []}
+                                                   :cips        {:type          (list String)
+                                                                 :description   "Filter review comments by cips. ([] = disabled filter)"
+                                                                 :default-value []}}
                                      :resolve     :resolve-beer-review-comments}}
  :mutations {:login  {:type        :User
                       :description "Login the user using the CAS ticket"
