@@ -111,8 +111,8 @@
                                                                         :description "The identifier of the beer review comment in the system"}
                                                   :idBeerReview        {:type        Int
                                                                         :description "The identifier of the beer review"}
-                                                  :cip                 {:type        (non-null String)
-                                                                        :description "The identifier of the user that posted the comment"}
+                                                  :user                {:type        :User
+                                                                        :description "The user that posted the beer review comment"}
                                                   :content             {:type        (non-null String)
                                                                         :description "The content of the comment"}
                                                   :time                {:type        (non-null String)

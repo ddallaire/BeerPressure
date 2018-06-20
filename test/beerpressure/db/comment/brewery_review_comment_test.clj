@@ -1,4 +1,4 @@
-(ns beerpressure.db.comment.brewery-comment-test
+(ns beerpressure.db.comment.brewery-review-comment-test
   (:require [clojure.test :refer :all]
             [beerpressure.handler :refer :all]
             [beerpressure.db.common-test :refer :all]))
