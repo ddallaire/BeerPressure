@@ -209,4 +209,38 @@
                                       " }"
                                       "}")
           response (execute-graphql-query graphql-query)]
+      (is (is-data-equal response expected-response))))
+  (testing "breweryReviews(skip: 0, first: 1, orderBy: THUMBSUP_COUNT, orderType: ASC)"
+    (let [graphql-query (long-str "{"
+                                  "  breweryReviews(skip: 0, first: 1, orderBy: THUMBSUP_COUNT, orderType: ASC) {"
+                                  "    idBreweryReview"
+                                  "  }"
+                                  "}")
+          expected-response (long-str "{"
+                                      " \"data\": {"
+                                      "   \"breweryReviews\": ["
+                                      "     {"
+                                      "       \"idBreweryReview\": 2"
+                                      "     }"
+                                      "   ]"
+                                      " }"
+                                      "}")
+          response (execute-graphql-query graphql-query)]
+      (is (is-data-equal response expected-response))))
+  (testing "breweryReviews(skip: 0, first: 1, orderBy: THUMBSUP_COUNT, orderType: DESC)"
+    (let [graphql-query (long-str "{"
+                                  "  breweryReviews(skip: 0, first: 1, orderBy: THUMBSUP_COUNT, orderType: DESC) {"
+                                  "    idBreweryReview"
+                                  "  }"
+                                  "}")
+          expected-response (long-str "{"
+                                      " \"data\": {"
+                                      "   \"breweryReviews\": ["
+                                      "     {"
+                                      "       \"idBreweryReview\": 1"
+                                      "     }"
+                                      "   ]"
+                                      " }"
+                                      "}")
+          response (execute-graphql-query graphql-query)]
       (is (is-data-equal response expected-response)))))

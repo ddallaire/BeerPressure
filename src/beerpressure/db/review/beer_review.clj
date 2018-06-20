@@ -22,7 +22,9 @@
 
 (defn generate-beer-reviews-query-beginning
   [args]
-  "SELECT id_beer_review, cip, id_beer, title, content, image_path, rating, time FROM Beer_Review")
+  (case (get args :orderBy)
+    :TIME "SELECT id_beer_review, cip, id_beer, title, content, image_path, rating, time FROM beer_review"
+    :THUMBSUP_COUNT "SELECT id_beer_review, cip, id_beer, title, content, image_path, rating, time FROM beer_review_with_thumbsup_count"))
 
 (defn generate-beer-reviews-query-in-clause-beers
   [args]
@@ -52,7 +54,10 @@
   (case (get args :orderBy)
     :TIME (case (get args :orderType)
             :ASC "ORDER BY time ASC"
-            :DESC "ORDER BY time DESC")))
+            :DESC "ORDER BY time DESC")
+    :THUMBSUP_COUNT (case (get args :orderType)
+                      :ASC "ORDER BY thumbsup_count ASC, time ASC"
+                      :DESC "ORDER BY thumbsup_count DESC, time ASC")))
 
 (defn generate-beer-reviews-query
   [args]

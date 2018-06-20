@@ -9,7 +9,7 @@
              :BeerOrder          {:description "Define how beers can be sorted"
                                   :values      [:NAME :RATING]}
              :ReviewOrder        {:description "Define how reviews can be sorted"
-                                  :values      [:TIME]}
+                                  :values      [:TIME :THUMBSUP_COUNT]}
              :ReviewCommentOrder {:description "Define how review comments can be sorted"
                                   :values      [:TIME]}}
  :objects   {:User                 {:description "A user logged into the system"

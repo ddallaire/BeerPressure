@@ -231,4 +231,38 @@
                                       " }"
                                       "}")
           response (execute-graphql-query graphql-query)]
+      (is (is-data-equal response expected-response))))
+  (testing "beerReviews(skip: 0, first: 1, orderBy: THUMBSUP_COUNT, orderType: ASC)"
+    (let [graphql-query (long-str "{"
+                                  "  beerReviews(skip: 0, first: 1, orderBy: THUMBSUP_COUNT, orderType: ASC) {"
+                                  "    idBeerReview"
+                                  "  }"
+                                  "}")
+          expected-response (long-str "{"
+                                      " \"data\": {"
+                                      "   \"beerReviews\": ["
+                                      "     {"
+                                      "       \"idBeerReview\": 2"
+                                      "     }"
+                                      "   ]"
+                                      " }"
+                                      "}")
+          response (execute-graphql-query graphql-query)]
+      (is (is-data-equal response expected-response))))
+  (testing "beerReviews(skip: 0, first: 1, orderBy: THUMBSUP_COUNT, orderType: DESC)"
+    (let [graphql-query (long-str "{"
+                                  "  beerReviews(skip: 0, first: 1, orderBy: THUMBSUP_COUNT, orderType: DESC) {"
+                                  "    idBeerReview"
+                                  "  }"
+                                  "}")
+          expected-response (long-str "{"
+                                      " \"data\": {"
+                                      "   \"beerReviews\": ["
+                                      "     {"
+                                      "       \"idBeerReview\": 1"
+                                      "     }"
+                                      "   ]"
+                                      " }"
+                                      "}")
+          response (execute-graphql-query graphql-query)]
       (is (is-data-equal response expected-response)))))

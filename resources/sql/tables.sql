@@ -1065,6 +1065,24 @@ CREATE OR REPLACE VIEW brewery_with_rating AS
         LEFT JOIN all_brewery_ratings ON all_brewery_ratings.id_brewery = brewery.id_brewery
         GROUP BY brewery.id_brewery, name, description, image_path;
 
+CREATE OR REPLACE VIEW beer_review_with_thumbsup_count AS
+    SELECT beer_review.id_beer_review, beer_review.cip, id_beer, title, content, image_path, rating, time,
+        (CASE WHEN count(beer_review_user_thumbsup.cip) is NULL THEN 0
+                    ELSE count(beer_review_user_thumbsup.cip)
+                 END) as thumbsup_count
+        FROM beer_review
+        LEFT JOIN beer_review_user_thumbsup ON beer_review_user_thumbsup.id_beer_review = beer_review.id_beer_review
+        GROUP BY beer_review.id_beer_review, beer_review.cip, id_beer, title, content, image_path, rating, time;
+
+CREATE OR REPLACE VIEW brewery_review_with_thumbsup_count AS
+    SELECT brewery_review.id_brewery_review, brewery_review.cip, id_brewery, title, content, image_path, rating, time,
+        (CASE WHEN count(brewery_review_user_thumbsup.cip) is NULL THEN 0
+                    ELSE count(brewery_review_user_thumbsup.cip)
+                 END) as thumbsup_count
+        FROM brewery_review
+        LEFT JOIN brewery_review_user_thumbsup ON brewery_review_user_thumbsup.id_brewery_review = brewery_review.id_brewery_review
+        GROUP BY brewery_review.id_brewery_review, brewery_review.cip, id_brewery, title, content, image_path, rating, time;
+
 CREATE TABLE authentication_token(
     cip CHAR(8) PRIMARY KEY REFERENCES "user"(cip),
     token VARCHAR(1024) NOT NULL,
