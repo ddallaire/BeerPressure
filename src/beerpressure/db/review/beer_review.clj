@@ -1,16 +1,68 @@
 (ns beerpressure.db.review.beer-review
   (:require [environ.core :refer [env]]
             [yesql.core :refer [defqueries]]
-            [beerpressure.db.common :refer [db-spec, check-error, convert-naming-convention]]))
+            [clojure.string :as str]
+            [beerpressure.db.common :refer :all]
+            [clojure.java.jdbc :as jdbc]))
 
 (defqueries "sql/review/operations_beer_review.sql"
             {:connection db-spec})
 
+(defn fill-beer-review-thumbsups
+  [beer-review]
+  (assoc beer-review :thumbsups
+                     (map #(hash-map :user %)
+                          (get-beer-review-thumbsups {:idBeerReview (get beer-review :idBeerReview)}))))
+
 (defn resolve-beer-review
   [context args _value]
-   (first
-     (convert-naming-convention (check-error (get-beer-review args)))))
+  (let [beer-review (first
+                      (convert-naming-convention (check-error (get-beer-review args))))]
+    (fill-beer-review-thumbsups beer-review)))
+
+(defn generate-beer-reviews-query-beginning
+  [args]
+  "SELECT id_beer_review, cip, id_beer, title, content, image_path, rating, time FROM Beer_Review")
+
+(defn generate-beer-reviews-query-in-clause-beers
+  [args]
+  (let [beers (get args :beers)]
+    (if (not= beers [])
+      (str "id_beer IN " (integer-list-to-in-clause beers))
+      "")))
+
+(defn generate-beer-reviews-query-in-clause-cips
+  [args]
+  (let [cips (get args :cips)]
+    (if (not= cips [])
+      (str "cip IN " (integer-list-to-in-clause cips))
+      "")))
+
+(defn generate-beer-reviews-query-where
+  [args]
+  (let [in-clauses [(generate-beer-reviews-query-in-clause-beers args)
+                    (generate-beer-reviews-query-in-clause-cips args)]
+        valid-in-clauses (filter #(not= "" %) in-clauses)]
+    (if (not= valid-in-clauses [])
+      (str "WHERE " (str/join " AND " valid-in-clauses))
+      "")))
+
+(defn generate-beer-reviews-query-order-by
+  [args]
+  (case (get args :orderBy)
+    :TIME (case (get args :orderType)
+            :ASC "ORDER BY time ASC"
+            :DESC "ORDER BY time DESC")))
+
+(defn generate-beer-reviews-query
+  [args]
+  (str (generate-beer-reviews-query-beginning args) " "
+       (generate-beer-reviews-query-where args) " "
+       (generate-beer-reviews-query-order-by args) " "
+       (generate-query-limit-offset args)))
 
 (defn resolve-beer-reviews
   [context args _value]
-  (convert-naming-convention (check-error (get-beer-reviews args))))
+  (let [beer-reviews (convert-naming-convention
+                       (check-error (jdbc/query db-spec (generate-beer-reviews-query args))))]
+    (map #(fill-beer-review-thumbsups %) beer-reviews)))
