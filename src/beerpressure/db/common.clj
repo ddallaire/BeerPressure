@@ -26,7 +26,7 @@
 (defn convert-naming-convention
   [queryResult]
   (map #(clojure.set/rename-keys % {:image_path :imagePath, :alcohol_percent :alcoholPercent, :id_beer :idBeer, :id_beer_review :idBeerReview, :id_beer_review_comment :idBeerReviewComment,
-                                     :id_brewery :idBrewery, :id_brewery_review :idBreweryReview, :id_brewery_review_comment :idBreweryReviewComment}) queryResult))
+                                    :id_brewery :idBrewery, :id_brewery_review :idBreweryReview, :id_brewery_review_comment :idBreweryReviewComment}) queryResult))
 
 (defn get-authentication-token-from-context
   [context]
@@ -35,6 +35,11 @@
 (defn integer-list-to-in-clause
   [list]
   (str "(" (s/join ", " list) ")"))
+
+(defn cip-list-to-in-clause
+  [list]
+  (let [escaped-strings (map #(str "'" (s/replace % #"[^a-zA-Z0-9]" "") "'") list)]
+    (str "(" (s/join ", " escaped-strings) ")")))
 
 (defn generate-query-limit-offset
   [args]

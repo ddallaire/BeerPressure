@@ -35,7 +35,7 @@
   [args]
   (let [cips (get args :cips)]
     (if (not= cips [])
-      (str "cip IN " (integer-list-to-in-clause cips))
+      (str "cip IN " (cip-list-to-in-clause cips))
       "")))
 
 (defn generate-brewery-reviews-query-where
