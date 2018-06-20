@@ -5,9 +5,9 @@
     [beerpressure.db.beer-style :as db.beer-style]
     [beerpressure.db.beer :as db.beer]
     [beerpressure.db.brewery :as db.brewery]
-    [beerpressure.db.comment.beer-review-comment :as beer-comment]
+    [beerpressure.db.comment.beer-review-comment :as beer-review-comment]
     [beerpressure.db.review.beer-review :as beer-review]
-    [beerpressure.db.comment.brewery-review-comment :as brewery-comment]
+    [beerpressure.db.comment.brewery-review-comment :as brewery-review-comment]
     [beerpressure.db.review.brewery-review :as brewery-review]
     [clojure.java.io :as io]
     [clojure.edn :as edn]
@@ -29,10 +29,10 @@
                          :resolve-beers                   db.beer/resolve-beers
                          :resolve-brewery-review          brewery-review/resolve-brewery-review
                          :resolve-brewery-reviews         brewery-review/resolve-brewery-reviews
-                         :resolve-brewery-review-comment  brewery-comment/resolve-brewery-review-comment
-                         :resolve-brewery-review-comments brewery-comment/resolve-brewery-review-comments
+                         :resolve-brewery-review-comment  brewery-review-comment/resolve-brewery-review-comment
+                         :resolve-brewery-review-comments brewery-review-comment/resolve-brewery-review-comments
                          :resolve-beer-review             beer-review/resolve-beer-review
                          :resolve-beer-reviews            beer-review/resolve-beer-reviews
-                         :resolve-beer-review-comment     beer-comment/resolve-beer-review-comment
-                         :resolve-beer-review-comments    beer-comment/resolve-beer-review-comments})
+                         :resolve-beer-review-comment     beer-review-comment/resolve-beer-review-comment
+                         :resolve-beer-review-comments    beer-review-comment/resolve-beer-review-comments})
       schema/compile))

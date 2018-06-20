@@ -32,6 +32,10 @@
   [context]
   (get @(get context :cache) :authorization))
 
+(defn fill-user-from-row
+  [row]
+  (assoc row :user row))
+
 (defn integer-list-to-in-clause
   [list]
   (str "(" (s/join ", " list) ")"))

@@ -10,12 +10,14 @@
 
 (defn resolve-beer-review-comment
   [context args _value]
-  (first
-    (convert-naming-convention (check-error (get-beer-review-comment args)))))
+  (let [beer-review-comment (first
+                              (convert-naming-convention (check-error (get-beer-review-comment args))))]
+    (fill-user-from-row beer-review-comment)))
 
 (defn generate-beer-review-comments-query-beginning
   [args]
-  "SELECT id_beer_review_comment, id_beer_review, cip, content, time FROM beer_review_comment")
+  "SELECT id_beer_review_comment, id_beer_review, \"user\".cip, name, surname, content, time FROM beer_review_comment
+      INNER JOIN \"user\" ON \"user\".cip = beer_review_comment.cip")
 
 (defn generate-beer-review-comments-query-in-clause-beer-reviews
   [args]
@@ -28,7 +30,7 @@
   [args]
   (let [cips (get args :cips)]
     (if (not= cips [])
-      (str "cip IN " (cip-list-to-in-clause cips))
+      (str "\"user\".cip IN " (cip-list-to-in-clause cips))
       "")))
 
 (defn generate-beer-review-comments-query-where
@@ -56,6 +58,6 @@
 
 (defn resolve-beer-review-comments
   [context args _value]
-  (convert-naming-convention
-    (check-error
-      (jdbc/query db-spec (generate-beer-review-comments-query args)))))
+  (let [beer-review-comments (convert-naming-convention
+                               (check-error (jdbc/query db-spec (generate-beer-review-comments-query args))))]
+    (map #(fill-user-from-row %) beer-review-comments)))
