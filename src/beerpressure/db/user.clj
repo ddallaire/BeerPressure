@@ -12,6 +12,10 @@
   [token]
   (first (get-logged-user-db {:token token})))
 
+(defn get-logged-user-from-context
+  [context]
+  (get-logged-user (get-authentication-token-from-context context)))
+
 (defn update-token-time
   [token]
   (update-token-time-db! {:token token}))

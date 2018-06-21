@@ -345,3 +345,111 @@
                                       "}")
           response (execute-graphql-query graphql-query)]
       (is (is-data-equal response expected-response)))))
+
+(deftest test-beer-review-mutations
+  (testing "beer review mutations"
+    (let [insert-graphql-query (long-str "mutation insertBeerReview {"
+                                         "  insertBeerReview(idBeer: 1, title: \\\"A title\\\", content: \\\"A content\\\", imagePath: null, rating: 2.5) {"
+                                         "    idBeerReview"
+                                         "    user {"
+                                         "      cip"
+                                         "      name"
+                                         "      surname"
+                                         "    }"
+                                         "    idBeer"
+                                         "    title"
+                                         "    content"
+                                         "    imagePath"
+                                         "    rating"
+                                         "    thumbsups {"
+                                         "      user {"
+                                         "        cip"
+                                         "        name"
+                                         "        surname"
+                                         "      }"
+                                         "    }"
+                                         "  }"
+                                         "}")
+          update-graphql-query (long-str "mutation updateBeerReview {"
+                                         "  updateBeerReview(idBeerReview: 100, title: \\\"A new title\\\", content: \\\"A new content\\\", imagePath: \\\"bob\\\", rating: 3.5) {"
+                                         "    idBeerReview"
+                                         "    user {"
+                                         "      cip"
+                                         "      name"
+                                         "      surname"
+                                         "    }"
+                                         "    idBeer"
+                                         "    title"
+                                         "    content"
+                                         "    imagePath"
+                                         "    rating"
+                                         "    thumbsups {"
+                                         "      user {"
+                                         "        cip"
+                                         "        name"
+                                         "        surname"
+                                         "      }"
+                                         "    }"
+                                         "  }"
+                                         "}")
+          delete-graphql-query (long-str "mutation deleteBeerReview {"
+                                         "  deleteBeerReview(id: 100)"
+                                         "}")
+          expected-insert-response (long-str "{"
+                                             " \"data\": {"
+                                             "   \"insertBeerReview\": {"
+                                             "     \"idBeerReview\": 100,"
+                                             "     \"user\": {"
+                                             "       \"cip\": \"test1234\","
+                                             "       \"name\": \"testName\""
+                                             "       \"surname\": \"testSurname\""
+                                             "     }"
+                                             "     \"idBeer\": 1,"
+                                             "     \"title\": \"A title\","
+                                             "     \"content\": \"A content\","
+                                             "     \"imagePath\": null,"
+                                             "     \"rating\": 2.5,"
+                                             "     \"thumbsups\": []"
+                                             "   }"
+                                             " }"
+                                             "}")
+          expected-update-response (long-str "{"
+                                             " \"data\": {"
+                                             "   \"updateBeerReview\": {"
+                                             "     \"idBeerReview\": 100,"
+                                             "     \"user\": {"
+                                             "       \"cip\": \"test1234\","
+                                             "       \"name\": \"testName\""
+                                             "       \"surname\": \"testSurname\""
+                                             "     }"
+                                             "     \"idBeer\": 1,"
+                                             "     \"title\": \"A new title\","
+                                             "     \"content\": \"A new content\","
+                                             "     \"imagePath\": \"bob\","
+                                             "     \"rating\": 3.5,"
+                                             "     \"thumbsups\": []"
+                                             "   }"
+                                             " }"
+                                             "}")
+          verification-query (long-str "SELECT * FROM beer_review"
+                                       "WHERE id_beer_review = 100 AND cip = 'test1234' AND time <= now()")]
+      (is (is-data-equal (execute-graphql-query insert-graphql-query) expected-insert-response))
+      (is (not (empty? (query-sql-statement verification-query))))
+      (is (is-data-equal (execute-graphql-query update-graphql-query) expected-update-response))
+      (execute-graphql-query delete-graphql-query)
+      (is (empty? (query-sql-statement verification-query))))))
+
+(deftest test-beer-review-thumbsup
+  (testing "beer review thumbs-up mutations"
+    (let [insert-graphql-query (long-str "mutation insertBeerReviewThumbsup {"
+                                         "  insertBeerReviewThumbsup(id: 1)"
+                                         "}")
+          delete-graphql-query (long-str "mutation deleteBeerReviewThumbsup{"
+                                         "  deleteBeerReviewThumbsup(id: 1)"
+                                         "}")
+          verification-query (long-str "SELECT * FROM beer_review_user_thumbsup"
+                                       "WHERE id_beer_review = 1 AND cip = 'test1234'")]
+      (execute-graphql-query insert-graphql-query)
+      (is (not (empty? (query-sql-statement verification-query))))
+      (execute-graphql-query delete-graphql-query)
+      (is (empty? (query-sql-statement verification-query))))))

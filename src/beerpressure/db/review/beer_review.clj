@@ -3,7 +3,8 @@
             [yesql.core :refer [defqueries]]
             [clojure.string :as str]
             [beerpressure.db.common :refer :all]
-            [clojure.java.jdbc :as jdbc]))
+            [clojure.java.jdbc :as jdbc]
+            [beerpressure.db.user :refer [get-logged-user-from-context]]))
 
 (defqueries "sql/review/operations_beer_review.sql"
             {:connection db-spec})
@@ -73,3 +74,37 @@
   (let [beer-reviews (convert-naming-convention
                        (check-error (jdbc/query db-spec (generate-beer-reviews-query args))))]
     (map #(fill-user-from-row (fill-beer-review-thumbsups %)) beer-reviews)))
+
+(defn resolve-insert-beer-review
+  [context args _value]
+  (let [cip (get (get-logged-user-from-context context) :cip)
+        idBeerReview (get (first
+                               (check-error
+                                 (insert-beer-review (assoc args :cip cip))))
+                             :id_beer_review)]
+    (let [beer-review (first (convert-naming-convention
+                                  (check-error (get-beer-review (hash-map :idBeerReview idBeerReview)))))]
+      (fill-user-from-row (fill-beer-review-thumbsups beer-review)))))
+
+(defn resolve-update-beer-review
+  [context args _value]
+  (let [cip (get (get-logged-user-from-context context) :cip)]
+    (check-error (update-beer-review! (assoc args :cip cip)))
+    (let [beer-review (first (convert-naming-convention
+                                  (check-error (get-beer-review args))))]
+      (fill-user-from-row (fill-beer-review-thumbsups beer-review)))))
+
+(defn resolve-delete-beer-review
+  [context args _value]
+  (let [cip (get (get-logged-user-from-context context) :cip)]
+    (check-error (delete-beer-review! (assoc args :cip cip)))))
+
+(defn resolve-insert-beer-review-thumbsup
+  [context args _value]
+  (let [cip (get (get-logged-user-from-context context) :cip)]
+    (check-error (insert-beer-review-thumbsup! (assoc args :cip cip)))))
+
+(defn resolve-delete-beer-review-thumbsup
+  [context args _value]
+  (let [cip (get (get-logged-user-from-context context) :cip)]
+    (check-error (delete-beer-review-thumbsup! (assoc args :cip cip)))))

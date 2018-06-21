@@ -282,11 +282,131 @@
                                                                  :description   "Filter review comments by cips. ([] = disabled filter)"
                                                                  :default-value []}}
                                      :resolve     :resolve-beer-review-comments}}
- :mutations {:login  {:type        :User
-                      :description "Login the user using the CAS ticket"
-                      :args        {:ticket {:type        (non-null String)
-                                             :description "The CAS ticket"}}
-                      :resolve     :resolve-login}
-             :logout {:type        Int
-                      :description "Logout the user"
-                      :resolve     :resolve-logout}}}
+ :mutations {:login                       {:type        :User
+                                           :description "Login the user using the CAS ticket"
+                                           :args        {:ticket {:type        (non-null String)
+                                                                  :description "The CAS ticket"}}
+                                           :resolve     :resolve-login}
+             :logout                      {:type        Int
+                                           :description "Logout the user"
+                                           :resolve     :resolve-logout}
+             :insertBreweryReview         {:type        :BreweryReview
+                                           :description "Insert a new brewery review"
+                                           :args        {:idBrewery {:type        Int
+                                                                     :description "The identifier of the brewery in the system"}
+                                                         :title     {:type        (non-null String)
+                                                                     :description "The review title"}
+                                                         :content   {:type        (non-null String)
+                                                                     :description "The review content"}
+                                                         :imagePath {:type        String
+                                                                     :description "The review image path"}
+                                                         :rating    {:type        Float
+                                                                     :description "The review rating"}}
+                                           :resolve     :resolve-insert-brewery-review}
+             :updateBreweryReview         {:type        :BreweryReview
+                                           :description "Update the specified brewery review"
+                                           :args        {:idBreweryReview {:type        Int
+                                                                           :description "The identifier of the brewery review in the system"}
+                                                         :title           {:type        (non-null String)
+                                                                           :description "The review title"}
+                                                         :content         {:type        (non-null String)
+                                                                           :description "The review content"}
+                                                         :imagePath       {:type        String
+                                                                           :description "The review image path"}
+                                                         :rating          {:type        Float
+                                                                           :description "The review rating"}}
+                                           :resolve     :resolve-update-brewery-review}
+             :deleteBreweryReview         {:type        Int
+                                           :description "Delete the specified brewery review"
+                                           :args        {:id {:type        Int
+                                                              :description "The identifier of the brewery review in the system"}}
+                                           :resolve     :resolve-delete-brewery-review}
+             :insertBreweryReviewThumbsup {:type        Int
+                                           :description "The logged user add a thumbs-up to the specified brewery review"
+                                           :args        {:id {:type        Int
+                                                              :description "The brewery review id"}}
+                                           :resolve     :resolve-insert-brewery-review-thumbsup}
+             :deleteBreweryReviewThumbsup {:type        Int
+                                           :description "The logged user remove his thumbs-up from the specified brewery review"
+                                           :args        {:id {:type        Int
+                                                              :description "The brewery review id"}}
+                                           :resolve     :resolve-delete-brewery-review-thumbsup}
+             :insertBreweryReviewComment  {:type        :BreweryReviewComment
+                                           :description "Insert a new brewery review comment"
+                                           :args        {:idBreweryReview {:type        Int
+                                                                           :description "The identifier of the brewery review in the system"}
+                                                         :content         {:type        (non-null String)
+                                                                           :description "The review comment content"}}
+                                           :resolve     :resolve-insert-brewery-review-comment}
+             :updateBreweryReviewComment  {:type        :BreweryReviewComment
+                                           :description "Update the specified brewery review comment"
+                                           :args        {:idBreweryReviewComment {:type        Int
+                                                                                  :description "The identifier of the brewery review comment in the system"}
+                                                         :content                {:type        (non-null String)
+                                                                                  :description "The review comment content"}}
+                                           :resolve     :resolve-update-brewery-review-comment}
+             :deleteBreweryReviewComment  {:type        Int
+                                           :description "Delete the specified brewery review comment"
+                                           :args        {:id {:type        Int
+                                                              :description "The identifier of the brewery review comment in the system"}}
+                                           :resolve     :resolve-delete-brewery-review-comment}
+             :insertBeerReview            {:type        :BeerReview
+                                           :description "Insert a new beer review"
+                                           :args        {:idBeer    {:type        Int
+                                                                     :description "The identifier of the beer in the system"}
+                                                         :title     {:type        (non-null String)
+                                                                     :description "The review title"}
+                                                         :content   {:type        (non-null String)
+                                                                     :description "The review content"}
+                                                         :imagePath {:type        String
+                                                                     :description "The review image path"}
+                                                         :rating    {:type        Float
+                                                                     :description "The review rating"}}
+                                           :resolve     :resolve-insert-beer-review}
+             :updateBeerReview            {:type        :BeerReview
+                                           :description "Update the specified beer review"
+                                           :args        {:idBeerReview {:type        Int
+                                                                        :description "The identifier of the beer review in the system"}
+                                                         :title        {:type        (non-null String)
+                                                                        :description "The review title"}
+                                                         :content      {:type        (non-null String)
+                                                                        :description "The review content"}
+                                                         :imagePath    {:type        String
+                                                                        :description "The review image path"}
+                                                         :rating       {:type        Float
+                                                                        :description "The review rating"}}
+                                           :resolve     :resolve-update-beer-review}
+             :deleteBeerReview            {:type        Int
+                                           :description "Delete the specified beer review"
+                                           :args        {:id {:type        Int
+                                                              :description "The identifier of the beer review in the system"}}
+                                           :resolve     :resolve-delete-beer-review}
+             :insertBeerReviewThumbsup    {:type        Int
+                                           :description "The logged user add a thumbs-up to the specified beer review"
+                                           :args        {:id {:type        Int
+                                                              :description "The beer review id"}}
+                                           :resolve     :resolve-insert-beer-review-thumbsup}
+             :deleteBeerReviewThumbsup    {:type        Int
+                                           :description "The logged user remove his thumbs-up from the specified beer review"
+                                           :args        {:id {:type        Int
+                                                              :description "The beer review id"}}
+                                           :resolve     :resolve-delete-beer-review-thumbsup}
+             :insertBeerReviewComment     {:type        :BeerReviewComment
+                                           :description "Insert a new beer review comment"
+                                           :args        {:idBeerReview {:type        Int
+                                                                        :description "The identifier of the beer review in the system"}
+                                                         :content      {:type        (non-null String)
+                                                                        :description "The review comment content"}}
+                                           :resolve     :resolve-insert-beer-review-comment}
+             :updateBeerReviewComment     {:type        :BeerReviewComment
+                                           :description "Update the specified beer review comment"
+                                           :args        {:idBeerReviewComment {:type        Int
+                                                                               :description "The identifier of the beer review comment in the system"}
+                                                         :content             {:type        (non-null String)
+                                                                               :description "The review comment content"}}
+                                           :resolve     :resolve-update-beer-review-comment}
+             :deleteBeerReviewComment     {:type        Int
+                                           :description "Delete the specified beer review comment"
+                                           :args        {:id {:type        Int
+                                                              :description "The identifier of the beer review comment in the system"}}
+                                           :resolve     :resolve-delete-beer-review-comment}}}

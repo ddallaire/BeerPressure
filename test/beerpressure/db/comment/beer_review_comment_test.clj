@@ -163,3 +163,68 @@
                                       "}")
           response (execute-graphql-query graphql-query)]
       (is (is-data-equal response expected-response)))))
+
+(deftest test-beer-review-mutations
+  (testing "beer review comment mutations"
+    (let [insert-graphql-query (long-str "mutation insertBeerReviewComment {"
+                                         "  insertBeerReviewComment(idBeerReview: 1, content: \\\"A content\\\") {"
+                                         "    idBeerReviewComment"
+                                         "    idBeerReview"
+                                         "    user {"
+                                         "      cip"
+                                         "      name"
+                                         "      surname"
+                                         "    }"
+                                         "    content"
+                                         "  }"
+                                         "}")
+          update-graphql-query (long-str "mutation updateBeerReviewComment {"
+                                         "  updateBeerReviewComment(idBeerReviewComment: 100, content: \\\"A new content\\\") {"
+                                         "    idBeerReviewComment"
+                                         "    idBeerReview"
+                                         "    user {"
+                                         "      cip"
+                                         "      name"
+                                         "      surname"
+                                         "    }"
+                                         "    content"
+                                         "  }"
+                                         "}")
+          delete-graphql-query (long-str "mutation deleteBeerReviewComment {"
+                                         "  deleteBeerReviewComment(id: 100)"
+                                         "}")
+          expected-insert-response (long-str "{"
+                                             " \"data\": {"
+                                             "   \"insertBeerReviewComment\": {"
+                                             "     \"idBeerReviewComment\": 100,"
+                                             "     \"user\": {"
+                                             "       \"cip\": \"test1234\","
+                                             "       \"name\": \"testName\""
+                                             "       \"surname\": \"testSurname\""
+                                             "     }"
+                                             "     \"idBeerReview\": 1,"
+                                             "     \"content\": \"A content\""
+                                             "   }"
+                                             " }"
+                                             "}")
+          expected-update-response (long-str "{"
+                                             " \"data\": {"
+                                             "   \"updateBeerReviewComment\": {"
+                                             "     \"idBeerReviewComment\": 100,"
+                                             "     \"user\": {"
+                                             "       \"cip\": \"test1234\","
+                                             "       \"name\": \"testName\""
+                                             "       \"surname\": \"testSurname\""
+                                             "     }"
+                                             "     \"idBeerReview\": 1,"
+                                             "     \"content\": \"A new content\""
+                                             "   }"
+                                             " }"
+                                             "}")
+          verification-query (long-str "SELECT * FROM beer_review_comment"
+                                       "WHERE id_beer_review_comment = 100 AND cip = 'test1234' AND time <= now()")]
+      (is (is-data-equal (execute-graphql-query insert-graphql-query) expected-insert-response))
+      (is (not (empty? (query-sql-statement verification-query))))
+      (is (is-data-equal (execute-graphql-query update-graphql-query) expected-update-response))
+      (execute-graphql-query delete-graphql-query)
+      (is (empty? (query-sql-statement verification-query))))))

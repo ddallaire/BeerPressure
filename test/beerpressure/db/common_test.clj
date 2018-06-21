@@ -17,6 +17,10 @@
                            (remove-sql-comments statement) #"\n" " ")
                          #"\x{FEFF}" "")))
 
+(defn query-sql-statement
+  [statement]
+  (jdbc/query db-spec statement))
+
 (defn execute-sql-statement
   [statement]
   (jdbc/execute! db-spec [statement]))
