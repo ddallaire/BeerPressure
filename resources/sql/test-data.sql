@@ -64,7 +64,7 @@ INSERT INTO beer_brewery(id_brewery, id_beer) VALUES
     (5, 5),
     (6, 5);
 
-INSERT INTO tag (id_tag, name) VALUES
+INSERT INTO tag(id_tag, name) VALUES
     (1, 'Industrielle'),
     (2, 'Artisanale'),
     (3, 'Bon choix'),
@@ -190,3 +190,11 @@ INSERT INTO brewery_review_user_thumbsup(id_brewery_review, cip) VALUES
     (7, 'parp2009'),
     (2, 'royj1933');
 
+ALTER SEQUENCE brewery_id_brewery_seq RESTART WITH 100;
+ALTER SEQUENCE beer_style_id_style_seq RESTART WITH 100;
+ALTER SEQUENCE beer_id_beer_seq RESTART WITH 100;
+ALTER SEQUENCE tag_id_tag_seq RESTART WITH 100;
+ALTER SEQUENCE beer_review_id_beer_review_seq RESTART WITH 100;
+ALTER SEQUENCE beer_review_comment_id_beer_review_comment_seq RESTART WITH 100;
+ALTER SEQUENCE brewery_review_id_brewery_review_seq RESTART WITH 100;
+ALTER SEQUENCE brewery_review_comment_id_brewery_review_comment_seq RESTART WITH 100;

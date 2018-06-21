@@ -290,6 +290,37 @@
              :logout                      {:type        Int
                                            :description "Logout the user"
                                            :resolve     :resolve-logout}
+             :insertBreweryReview         {:type        :BreweryReview
+                                           :description "Insert a new brewery review"
+                                           :args        {:idBrewery {:type        Int
+                                                                     :description "The identifier of the brewery in the system"}
+                                                         :title     {:type        (non-null String)
+                                                                     :description "The review title"}
+                                                         :content   {:type        (non-null String)
+                                                                     :description "The review content"}
+                                                         :imagePath {:type        String
+                                                                     :description "The review image path"}
+                                                         :rating    {:type        Float
+                                                                     :description "The review rating"}}
+                                           :resolve     :resolve-insert-brewery-review}
+             :updateBreweryReview         {:type        :BreweryReview
+                                           :description "Update the specified brewery review"
+                                           :args        {:idBreweryReview {:type        Int
+                                                                           :description "The identifier of the brewery review in the system"}
+                                                         :title           {:type        (non-null String)
+                                                                           :description "The review title"}
+                                                         :content         {:type        (non-null String)
+                                                                           :description "The review content"}
+                                                         :imagePath       {:type        (non-null String)
+                                                                           :description "The review image path"}
+                                                         :rating          {:type        Float
+                                                                           :description "The review rating"}}
+                                           :resolve     :resolve-update-brewery-review}
+             :deleteBreweryReview         {:type        Int
+                                           :description "Delete the specified brewery review"
+                                           :args        {:id {:type        Int
+                                                                           :description "The identifier of the brewery review in the system"}}
+                                           :resolve     :resolve-delete-brewery-review}
              :insertBreweryReviewThumbsup {:type        Int
                                            :description "The logged user add a thumbs-up to the specified brewery review"
                                            :args        {:id {:type        Int

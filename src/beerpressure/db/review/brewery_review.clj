@@ -75,6 +75,30 @@
                           (check-error (jdbc/query db-spec (generate-brewery-reviews-query args))))]
     (map #(fill-user-from-row (fill-brewery-review-thumbsups %)) brewery-reviews)))
 
+(defn resolve-insert-brewery-review
+  [context args _value]
+  (let [cip (get (get-logged-user-from-context context) :cip)
+        idBreweryReview (get (first
+                               (check-error
+                                 (insert-brewery-review (assoc args :cip cip))))
+                             :id_brewery_review)]
+    (let [brewery-review (first (convert-naming-convention
+                                  (check-error (get-brewery-review (hash-map :idBreweryReview idBreweryReview)))))]
+      (fill-user-from-row (fill-brewery-review-thumbsups brewery-review)))))
+
+(defn resolve-update-brewery-review
+  [context args _value]
+  (let [cip (get (get-logged-user-from-context context) :cip)]
+    (check-error (update-brewery-review! (assoc args :cip cip)))
+    (let [brewery-review (first (convert-naming-convention
+                                  (check-error (get-brewery-review args))))]
+      (fill-user-from-row (fill-brewery-review-thumbsups brewery-review)))))
+
+(defn resolve-delete-brewery-review
+  [context args _value]
+  (let [cip (get (get-logged-user-from-context context) :cip)]
+    (check-error (delete-brewery-review! (assoc args :cip cip)))))
+
 (defn resolve-insert-brewery-review-thumbsup
   [context args _value]
   (let [cip (get (get-logged-user-from-context context) :cip)]

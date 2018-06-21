@@ -320,12 +320,103 @@
           response (execute-graphql-query graphql-query)]
       (is (is-data-equal response expected-response)))))
 
-(deftest test-brewery-review-thumbsup
+(deftest test-brewery-review-mutations
+  (testing "brewery review mutations"
+    (let [insert-graphql-query (long-str "mutation insertBreweryReview {"
+                                         "  insertBreweryReview (idBrewery: 1, title: \\\"A title\\\", content: \\\"A content\\\", imagePath: null, rating: 2.5) {"
+                                         "    idBreweryReview"
+                                         "    user {"
+                                         "      cip"
+                                         "      name"
+                                         "      surname"
+                                         "    }"
+                                         "    idBrewery"
+                                         "    title"
+                                         "    content"
+                                         "    imagePath"
+                                         "    rating"
+                                         "    thumbsups {"
+                                         "      user {"
+                                         "        cip"
+                                         "        name"
+                                         "        surname"
+                                         "      }"
+                                         "    }"
+                                         "  }"
+                                         "}")
+          update-graphql-query (long-str "mutation updateBreweryReview {"
+                                         "  updateBreweryReview(idBreweryReview: 100, title: \\\"A new title\\\", content: \\\"A new content\\\", imagePath: \\\"bob\\\", rating: 3.5) {"
+                                         "    idBreweryReview"
+                                         "    user {"
+                                         "      cip"
+                                         "      name"
+                                         "      surname"
+                                         "    }"
+                                         "    idBrewery"
+                                         "    title"
+                                         "    content"
+                                         "    imagePath"
+                                         "    rating"
+                                         "    thumbsups {"
+                                         "      user {"
+                                         "        cip"
+                                         "        name"
+                                         "        surname"
+                                         "      }"
+                                         "    }"
+                                         "  }"
+                                         "}")
+          delete-graphql-query (long-str "mutation deleteBreweryReview {"
+                                         "  deleteBreweryReview(id: 100)"
+                                         "}")
+          expected-insert-response (long-str "{"
+                                             " \"data\": {"
+                                             "   \"insertBreweryReview\": {"
+                                             "     \"idBreweryReview\": 100,"
+                                             "     \"user\": {"
+                                             "       \"cip\": \"test1234\","
+                                             "       \"name\": \"testName\""
+                                             "       \"surname\": \"testSurname\""
+                                             "     }"
+                                             "     \"idBrewery\": 1,"
+                                             "     \"title\": \"A title\","
+                                             "     \"content\": \"A content\","
+                                             "     \"imagePath\": null,"
+                                             "     \"rating\": 2.5,"
+                                             "     \"thumbsups\": []"
+                                             "   }"
+                                             " }"
+                                             "}")
+          expected-update-response (long-str "{"
+                                             " \"data\": {"
+                                             "   \"updateBreweryReview\": {"
+                                             "     \"idBreweryReview\": 100,"
+                                             "     \"user\": {"
+                                             "       \"cip\": \"test1234\","
+                                             "       \"name\": \"testName\""
+                                             "       \"surname\": \"testSurname\""
+                                             "     }"
+                                             "     \"idBrewery\": 1,"
+                                             "     \"title\": \"A new title\","
+                                             "     \"content\": \"A new content\","
+                                             "     \"imagePath\": \"bob\","
+                                             "     \"rating\": 3.5,"
+                                             "     \"thumbsups\": []"
+                                             "   }"
+                                             " }"
+                                             "}")]
+      (is (is-data-equal (execute-graphql-query insert-graphql-query) expected-insert-response))
+      (is (not (empty? (query-sql-statement "SELECT * FROM brewery_review WHERE id_brewery_review = 100 AND cip = 'test1234' AND time <= now()"))))
+      (is (is-data-equal (execute-graphql-query update-graphql-query) expected-update-response))
+      (execute-graphql-query delete-graphql-query)
+      (is (empty? (query-sql-statement "SELECT * FROM brewery_review WHERE id_brewery_review = 100 AND cip = 'test1234'"))))))
+
+(deftest test-brewery-review-thumbsup-mutations
   (testing "brewery review thumbs-up mutations"
     (let [insert-graphql-query (long-str "mutation insertBreweryReviewThumbsup {"
                                          "  insertBreweryReviewThumbsup(id: 1)"
                                          "}")
-          delete-graphql-query (long-str "mutation deleteBreweryReviewThumbsup{"
+          delete-graphql-query (long-str "mutation deleteBreweryReviewThumbsup {"
                                          "  deleteBreweryReviewThumbsup(id: 1)"
                                          "}")]
       (execute-graphql-query insert-graphql-query)
