@@ -45,6 +45,9 @@
 
                          :resolve-beer-review                    beer-review/resolve-beer-review
                          :resolve-beer-reviews                   beer-review/resolve-beer-reviews
+                         :resolve-insert-beer-review          beer-review/resolve-insert-beer-review
+                         :resolve-update-beer-review          beer-review/resolve-update-beer-review
+                         :resolve-delete-beer-review          beer-review/resolve-delete-beer-review
                          :resolve-insert-beer-review-thumbsup    beer-review/resolve-insert-beer-review-thumbsup
                          :resolve-delete-beer-review-thumbsup    beer-review/resolve-delete-beer-review-thumbsup
 
