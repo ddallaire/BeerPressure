@@ -349,7 +349,7 @@
 (deftest test-beer-review-mutations
   (testing "beer review mutations"
     (let [insert-graphql-query (long-str "mutation insertBeerReview {"
-                                         "  insertBeerReview (idBeer: 1, title: \\\"A title\\\", content: \\\"A content\\\", imagePath: null, rating: 2.5) {"
+                                         "  insertBeerReview(idBeer: 1, title: \\\"A title\\\", content: \\\"A content\\\", imagePath: null, rating: 2.5) {"
                                          "    idBeerReview"
                                          "    user {"
                                          "      cip"

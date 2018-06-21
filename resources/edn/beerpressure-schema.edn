@@ -331,6 +331,25 @@
                                            :args        {:id {:type        Int
                                                               :description "The brewery review id"}}
                                            :resolve     :resolve-delete-brewery-review-thumbsup}
+             :insertBreweryReviewComment  {:type        :BreweryReviewComment
+                                           :description "Insert a new brewery review comment"
+                                           :args        {:idBreweryReview {:type        Int
+                                                                           :description "The identifier of the brewery review in the system"}
+                                                         :content         {:type        (non-null String)
+                                                                           :description "The review comment content"}}
+                                           :resolve     :resolve-insert-brewery-review-comment}
+             :updateBreweryReviewComment  {:type        :BreweryReviewComment
+                                           :description "Update the specified brewery review comment"
+                                           :args        {:idBreweryReviewComment {:type        Int
+                                                                                  :description "The identifier of the brewery review comment in the system"}
+                                                         :content                {:type        (non-null String)
+                                                                                  :description "The review comment content"}}
+                                           :resolve     :resolve-update-brewery-review-comment}
+             :deleteBreweryReviewComment  {:type        Int
+                                           :description "Delete the specified brewery review comment"
+                                           :args        {:id {:type        Int
+                                                              :description "The identifier of the brewery review comment in the system"}}
+                                           :resolve     :resolve-delete-brewery-review-comment}
              :insertBeerReview            {:type        :BeerReview
                                            :description "Insert a new beer review"
                                            :args        {:idBeer    {:type        Int

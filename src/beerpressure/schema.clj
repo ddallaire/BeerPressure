@@ -42,6 +42,9 @@
 
                          :resolve-brewery-review-comment         brewery-review-comment/resolve-brewery-review-comment
                          :resolve-brewery-review-comments        brewery-review-comment/resolve-brewery-review-comments
+                         :resolve-insert-brewery-review-comment  brewery-review-comment/resolve-insert-brewery-review-comment
+                         :resolve-update-brewery-review-comment  brewery-review-comment/resolve-update-brewery-review-comment
+                         :resolve-delete-brewery-review-comment  brewery-review-comment/resolve-delete-brewery-review-comment
 
                          :resolve-beer-review                    beer-review/resolve-beer-review
                          :resolve-beer-reviews                   beer-review/resolve-beer-reviews

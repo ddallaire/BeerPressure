@@ -154,3 +154,66 @@
                                       "}")
           response (execute-graphql-query graphql-query)]
       (is (is-data-equal response expected-response)))))
+
+(deftest test-brewery-review-mutations
+  (testing "brewery review comment mutations"
+    (let [insert-graphql-query (long-str "mutation insertBreweryReviewComment {"
+                                         "  insertBreweryReviewComment(idBreweryReview: 1, content: \\\"A content\\\") {"
+                                         "    idBreweryReviewComment"
+                                         "    idBreweryReview"
+                                         "    user {"
+                                         "      cip"
+                                         "      name"
+                                         "      surname"
+                                         "    }"
+                                         "    content"
+                                         "  }"
+                                         "}")
+          update-graphql-query (long-str "mutation updateBreweryReviewComment {"
+                                         "  updateBreweryReviewComment(idBreweryReviewComment: 100, content: \\\"A new content\\\") {"
+                                         "    idBreweryReviewComment"
+                                         "    idBreweryReview"
+                                         "    user {"
+                                         "      cip"
+                                         "      name"
+                                         "      surname"
+                                         "    }"
+                                         "    content"
+                                         "  }"
+                                         "}")
+          delete-graphql-query (long-str "mutation deleteBreweryReviewComment {"
+                                         "  deleteBreweryReviewComment(id: 100)"
+                                         "}")
+          expected-insert-response (long-str "{"
+                                             " \"data\": {"
+                                             "   \"insertBreweryReviewComment\": {"
+                                             "     \"idBreweryReviewComment\": 100,"
+                                             "     \"user\": {"
+                                             "       \"cip\": \"test1234\","
+                                             "       \"name\": \"testName\""
+                                             "       \"surname\": \"testSurname\""
+                                             "     }"
+                                             "     \"idBreweryReview\": 1,"
+                                             "     \"content\": \"A content\""
+                                             "   }"
+                                             " }"
+                                             "}")
+          expected-update-response (long-str "{"
+                                             " \"data\": {"
+                                             "   \"updateBreweryReviewComment\": {"
+                                             "     \"idBreweryReviewComment\": 100,"
+                                             "     \"user\": {"
+                                             "       \"cip\": \"test1234\","
+                                             "       \"name\": \"testName\""
+                                             "       \"surname\": \"testSurname\""
+                                             "     }"
+                                             "     \"idBreweryReview\": 1,"
+                                             "     \"content\": \"A new content\""
+                                             "   }"
+                                             " }"
+                                             "}")]
+      (is (is-data-equal (execute-graphql-query insert-graphql-query) expected-insert-response))
+      (is (not (empty? (query-sql-statement "SELECT * FROM brewery_review_comment WHERE id_brewery_review_comment = 100 AND cip = 'test1234' AND time <= now()"))))
+      (is (is-data-equal (execute-graphql-query update-graphql-query) expected-update-response))
+      (execute-graphql-query delete-graphql-query)
+      (is (empty? (query-sql-statement "SELECT * FROM brewery_review_comment WHERE id_brewery_review_comment = 100 AND cip = 'test1234'"))))))
