@@ -220,9 +220,11 @@
                                              "     \"content\": \"A new content\""
                                              "   }"
                                              " }"
-                                             "}")]
+                                             "}")
+          verification-query (long-str "SELECT * FROM beer_review_comment"
+                                       "WHERE id_beer_review_comment = 100 AND cip = 'test1234' AND time <= now()")]
       (is (is-data-equal (execute-graphql-query insert-graphql-query) expected-insert-response))
-      (is (not (empty? (query-sql-statement "SELECT * FROM beer_review_comment WHERE id_beer_review_comment = 100 AND cip = 'test1234' AND time <= now()"))))
+      (is (not (empty? (query-sql-statement verification-query))))
       (is (is-data-equal (execute-graphql-query update-graphql-query) expected-update-response))
       (execute-graphql-query delete-graphql-query)
-      (is (empty? (query-sql-statement "SELECT * FROM beer_review_comment WHERE id_beer_review_comment = 100 AND cip = 'test1234'"))))))
+      (is (empty? (query-sql-statement verification-query))))))
