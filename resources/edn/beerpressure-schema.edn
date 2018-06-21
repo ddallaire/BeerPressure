@@ -390,4 +390,23 @@
                                            :description "The logged user remove his thumbs-up from the specified beer review"
                                            :args        {:id {:type        Int
                                                               :description "The beer review id"}}
-                                           :resolve     :resolve-delete-beer-review-thumbsup}}}
+                                           :resolve     :resolve-delete-beer-review-thumbsup}
+             :insertBeerReviewComment     {:type        :BeerReviewComment
+                                           :description "Insert a new beer review comment"
+                                           :args        {:idBeerReview {:type        Int
+                                                                        :description "The identifier of the beer review in the system"}
+                                                         :content      {:type        (non-null String)
+                                                                        :description "The review comment content"}}
+                                           :resolve     :resolve-insert-beer-review-comment}
+             :updateBeerReviewComment     {:type        :BeerReviewComment
+                                           :description "Update the specified beer review comment"
+                                           :args        {:idBeerReviewComment {:type        Int
+                                                                               :description "The identifier of the beer review comment in the system"}
+                                                         :content             {:type        (non-null String)
+                                                                               :description "The review comment content"}}
+                                           :resolve     :resolve-update-beer-review-comment}
+             :deleteBeerReviewComment     {:type        Int
+                                           :description "Delete the specified beer review comment"
+                                           :args        {:id {:type        Int
+                                                              :description "The identifier of the beer review comment in the system"}}
+                                           :resolve     :resolve-delete-beer-review-comment}}}

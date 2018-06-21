@@ -3,7 +3,8 @@
             [yesql.core :refer [defqueries]]
             [clojure.string :as str]
             [beerpressure.db.common :refer :all]
-            [clojure.java.jdbc :as jdbc]))
+            [clojure.java.jdbc :as jdbc]
+            [beerpressure.db.user :refer [get-logged-user-from-context]]))
 
 (defqueries "sql/comment/operations_beer_comment.sql"
             {:connection db-spec})
@@ -61,3 +62,28 @@
   (let [beer-review-comments (convert-naming-convention
                                (check-error (jdbc/query db-spec (generate-beer-review-comments-query args))))]
     (map #(fill-user-from-row %) beer-review-comments)))
+
+(defn resolve-insert-beer-review-comment
+  [context args _value]
+  (let [cip (get (get-logged-user-from-context context) :cip)
+        idBeerReviewComment (get (first
+                                      (check-error
+                                        (insert-beer-review-comment (assoc args :cip cip))))
+                                    :id_beer_review_comment)]
+    (let [beer-review-comment (first (convert-naming-convention
+                                          (check-error (get-beer-review-comment
+                                                         (hash-map :idBeerReviewComment idBeerReviewComment)))))]
+      (fill-user-from-row beer-review-comment))))
+
+(defn resolve-update-beer-review-comment
+  [context args _value]
+  (let [cip (get (get-logged-user-from-context context) :cip)]
+    (check-error (update-beer-review-comment! (assoc args :cip cip)))
+    (let [beer-review-comment (first (convert-naming-convention
+                                          (check-error (get-beer-review-comment args))))]
+      (fill-user-from-row beer-review-comment))))
+
+(defn resolve-delete-beer-review-comment
+  [context args _value]
+  (let [cip (get (get-logged-user-from-context context) :cip)]
+    (check-error (delete-beer-review-comment! (assoc args :cip cip)))))

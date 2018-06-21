@@ -48,12 +48,15 @@
 
                          :resolve-beer-review                    beer-review/resolve-beer-review
                          :resolve-beer-reviews                   beer-review/resolve-beer-reviews
-                         :resolve-insert-beer-review          beer-review/resolve-insert-beer-review
-                         :resolve-update-beer-review          beer-review/resolve-update-beer-review
-                         :resolve-delete-beer-review          beer-review/resolve-delete-beer-review
+                         :resolve-insert-beer-review             beer-review/resolve-insert-beer-review
+                         :resolve-update-beer-review             beer-review/resolve-update-beer-review
+                         :resolve-delete-beer-review             beer-review/resolve-delete-beer-review
                          :resolve-insert-beer-review-thumbsup    beer-review/resolve-insert-beer-review-thumbsup
                          :resolve-delete-beer-review-thumbsup    beer-review/resolve-delete-beer-review-thumbsup
 
                          :resolve-beer-review-comment            beer-review-comment/resolve-beer-review-comment
-                         :resolve-beer-review-comments           beer-review-comment/resolve-beer-review-comments})
+                         :resolve-beer-review-comments           beer-review-comment/resolve-beer-review-comments
+                         :resolve-insert-beer-review-comment     beer-review-comment/resolve-insert-beer-review-comment
+                         :resolve-update-beer-review-comment     beer-review-comment/resolve-update-beer-review-comment
+                         :resolve-delete-beer-review-comment     beer-review-comment/resolve-delete-beer-review-comment})
       schema/compile))
