@@ -4,7 +4,8 @@
             [clojure.string :as str]
             [beerpressure.db.common :refer :all]
             [clojure.java.jdbc :as jdbc]
-            [beerpressure.db.user :refer [get-logged-user-from-context]]))
+            [beerpressure.db.user :refer [get-logged-user-from-context]]
+            [beerpressure.db.review.common :refer :all]))
 
 (defqueries "sql/review/operations_brewery_review.sql"
             {:connection db-spec})
@@ -77,22 +78,26 @@
 
 (defn resolve-insert-brewery-review
   [context args _value]
-  (let [cip (get (get-logged-user-from-context context) :cip)
-        idBreweryReview (get (first
-                               (check-error
-                                 (insert-brewery-review (assoc args :cip cip))))
-                             :id_brewery_review)]
-    (let [brewery-review (first (convert-naming-convention
-                                  (check-error (get-brewery-review (hash-map :idBreweryReview idBreweryReview)))))]
-      (fill-user-from-row (fill-brewery-review-thumbsups brewery-review)))))
+  (if (is-valid-review args)
+    (let [cip (get (get-logged-user-from-context context) :cip)
+          idBreweryReview (get (first
+                                 (check-error
+                                   (insert-brewery-review (assoc args :cip cip))))
+                               :id_brewery_review)]
+      (let [brewery-review (first (convert-naming-convention
+                                    (check-error (get-brewery-review (hash-map :idBreweryReview idBreweryReview)))))]
+        (fill-user-from-row (fill-brewery-review-thumbsups brewery-review))))
+    nil))
 
 (defn resolve-update-brewery-review
   [context args _value]
-  (let [cip (get (get-logged-user-from-context context) :cip)]
-    (check-error (update-brewery-review! (assoc args :cip cip)))
-    (let [brewery-review (first (convert-naming-convention
-                                  (check-error (get-brewery-review args))))]
-      (fill-user-from-row (fill-brewery-review-thumbsups brewery-review)))))
+  (if (is-valid-review args)
+    (let [cip (get (get-logged-user-from-context context) :cip)]
+      (check-error (update-brewery-review! (assoc args :cip cip)))
+      (let [brewery-review (first (convert-naming-convention
+                                    (check-error (get-brewery-review args))))]
+        (fill-user-from-row (fill-brewery-review-thumbsups brewery-review))))
+    nil))
 
 (defn resolve-delete-brewery-review
   [context args _value]
