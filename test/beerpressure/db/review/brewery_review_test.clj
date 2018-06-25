@@ -411,7 +411,30 @@
       (is (not (empty? (query-sql-statement verification-query))))
       (is (is-data-equal (execute-graphql-query update-graphql-query) expected-update-response))
       (execute-graphql-query delete-graphql-query)
-      (is (empty? (query-sql-statement verification-query))))))
+      (is (empty? (query-sql-statement verification-query)))))
+  (testing "invalid rating brewery review mutations"
+    (let [insert-graphql-query (long-str "mutation insertBreweryReview {"
+                                         "  insertBreweryReview(idBrewery: 1, title: \\\"A title\\\", content: \\\"A content\\\", imagePath: null, rating: 6) {"
+                                         "    idBreweryReview"
+                                         "  }"
+                                         "}")
+          update-graphql-query (long-str "mutation updateBreweryReview {"
+                                         "  updateBreweryReview(idBreweryReview: 100, title: \\\"A new title\\\", content: \\\"A new content\\\", imagePath: \\\"bob\\\", rating: 6) {"
+                                         "    idBreweryReview"
+                                         "  }"
+                                         "}")
+          expected-insert-response (long-str "{"
+                                             " \"data\": {"
+                                             "   \"insertBreweryReview\": null"
+                                             " }"
+                                             "}")
+          expected-update-response (long-str "{"
+                                             " \"data\": {"
+                                             "   \"updateBreweryReview\": null"
+                                             " }"
+                                             "}")]
+      (is (is-data-equal (execute-graphql-query insert-graphql-query) expected-insert-response))
+      (is (is-data-equal (execute-graphql-query update-graphql-query) expected-update-response)))))
 
 (deftest test-brewery-review-thumbsup-mutations
   (testing "brewery review thumbs-up mutations"

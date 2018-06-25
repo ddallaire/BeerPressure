@@ -437,7 +437,30 @@
       (is (not (empty? (query-sql-statement verification-query))))
       (is (is-data-equal (execute-graphql-query update-graphql-query) expected-update-response))
       (execute-graphql-query delete-graphql-query)
-      (is (empty? (query-sql-statement verification-query))))))
+      (is (empty? (query-sql-statement verification-query)))))
+  (testing "Invalid rating beer review mutations"
+    (let [insert-graphql-query (long-str "mutation insertBeerReview {"
+                                         "  insertBeerReview(idBeer: 1, title: \\\"A title\\\", content: \\\"A content\\\", imagePath: null, rating: -1) {"
+                                         "    idBeerReview"
+                                         "  }"
+                                         "}")
+          update-graphql-query (long-str "mutation updateBeerReview {"
+                                         "  updateBeerReview(idBeerReview: 100, title: \\\"A new title\\\", content: \\\"A new content\\\", imagePath: \\\"bob\\\", rating: 6) {"
+                                         "    idBeerReview"
+                                         "  }"
+                                         "}")
+          expected-insert-response (long-str "{"
+                                             " \"data\": {"
+                                             "   \"insertBeerReview\": null"
+                                             " }"
+                                             "}")
+          expected-update-response (long-str "{"
+                                             " \"data\": {"
+                                             "   \"updateBeerReview\": null"
+                                             " }"
+                                             "}")]
+      (is (is-data-equal (execute-graphql-query insert-graphql-query) expected-insert-response))
+      (is (is-data-equal (execute-graphql-query update-graphql-query) expected-update-response)))))
 
 (deftest test-beer-review-thumbsup
   (testing "beer review thumbs-up mutations"
