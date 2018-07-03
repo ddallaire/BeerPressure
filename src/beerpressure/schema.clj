@@ -34,6 +34,9 @@
 
                          :resolve-beer                           db.beer/resolve-beer
                          :resolve-beers                          db.beer/resolve-beers
+                         :resolve-insert-beer                    db.beer/resolve-insert-beer
+                         :resolve-update-beer                    db.beer/resolve-update-beer
+                         :resolve-delete-beer                    db.beer/resolve-delete-beer
 
                          :resolve-brewery-review                 brewery-review/resolve-brewery-review
                          :resolve-brewery-reviews                brewery-review/resolve-brewery-reviews
