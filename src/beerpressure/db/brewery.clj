@@ -2,7 +2,9 @@
   (:require [environ.core :refer [env]]
             [yesql.core :refer [defqueries]]
             [beerpressure.db.common :refer :all]
-            [clojure.java.jdbc :as jdbc]))
+            [clojure.java.jdbc :as jdbc]
+            [beerpressure.db.tag :refer [get-tags-id-or-insert-tags]]
+            [clojure.string :as str]))
 
 (defqueries "sql/operations_brewery.sql"
             {:connection db-spec})
@@ -60,3 +62,39 @@
   (let [breweries (check-error
                     (jdbc/query db-spec (generate-breweries-query args)))]
     (convert-naming-convention (map #(fill-brewery-tags %) breweries))))
+
+(defn unassociate-tags-of-brewery
+  [brewery-id]
+  (check-error (delete-brewery-tags! {:id brewery-id})))
+
+(defn associate-tags-with-brewery
+  [tag-ids brewery_id]
+  (if (empty? tag-ids)
+    0
+    (let [query-beginning "INSERT INTO tag_brewery(id_tag, id_brewery) VALUES "
+          values (str/join ", " (map #(str "(" % "," brewery_id ")") tag-ids))
+          query (str query-beginning values)]
+      (check-error (jdbc/execute! db-spec query)))))
+
+(defn resolve-insert-brewery
+  [context args _value]
+  (let [tag-ids (get-tags-id-or-insert-tags (get args :tags))
+        brewery-id (get (first (check-error (insert-brewery args))) :id_brewery)]
+    (associate-tags-with-brewery tag-ids brewery-id)
+    (let [brewery (first (convert-naming-convention (check-error (get-brewery {:id brewery-id}))))]
+      (fill-brewery-tags brewery))))
+
+(defn resolve-update-brewery
+  [context args _value]
+  (let [tag-ids (get-tags-id-or-insert-tags (get args :tags))
+        brewery-id (get args :id)]
+    (check-error (update-brewery! args))
+    (unassociate-tags-of-brewery brewery-id)
+    (associate-tags-with-brewery tag-ids brewery-id)
+    (let [brewery (first (convert-naming-convention (check-error (get-brewery {:id brewery-id}))))]
+      (fill-brewery-tags brewery))))
+
+(defn resolve-delete-brewery
+  [context args _value]
+  (unassociate-tags-of-brewery (get args :id))
+  (check-error (delete-brewery! args)))

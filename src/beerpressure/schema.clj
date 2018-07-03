@@ -26,6 +26,9 @@
 
                          :resolve-brewery                        db.brewery/resolve-brewery
                          :resolve-breweries                      db.brewery/resolve-breweries
+                         :resolve-insert-brewery                 db.brewery/resolve-insert-brewery
+                         :resolve-update-brewery                 db.brewery/resolve-update-brewery
+                         :resolve-delete-brewery                 db.brewery/resolve-delete-brewery
 
                          :resolve-beer-styles                    db.beer-style/resolve-beer-styles
 

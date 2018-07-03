@@ -290,6 +290,35 @@
              :logout                      {:type        Int
                                            :description "Logout the user"
                                            :resolve     :resolve-logout}
+             :insertBrewery               {:type        :Brewery
+                                           :description "Insert a new brewery"
+                                           :args        {:name        {:type        (non-null String)
+                                                                       :description "The displayed name of the brewery"}
+                                                         :description {:type        String
+                                                                       :description "The description of the brewery"}
+                                                         :imagePath   {:type        String
+                                                                       :description "The logo or the building of the brewery"}
+                                                         :tags        {:type        (list String)
+                                                                       :description "The tags associated to the brewery"}}
+                                           :resolve     :resolve-insert-brewery}
+             :updateBrewery               {:type        :Brewery
+                                           :description "Update a brewery"
+                                           :args        {:id          {:type        Int
+                                                                       :description "The identifier of the brewery in the system"}
+                                                         :name        {:type        (non-null String)
+                                                                       :description "The displayed name of the brewery"}
+                                                         :description {:type        String
+                                                                       :description "The description of the brewery"}
+                                                         :imagePath   {:type        String
+                                                                       :description "The logo or the building of the brewery"}
+                                                         :tags        {:type        (list String)
+                                                                       :description "The tags associated to the brewery"}}
+                                           :resolve     :resolve-update-brewery}
+             :deleteBrewery               {:type        Int
+                                           :description "Delete a brewery"
+                                           :args        {:id {:type        Int
+                                                              :description "The identifier of the brewery in the system"}}
+                                           :resolve     :resolve-delete-brewery}
              :insertBreweryReview         {:type        :BreweryReview
                                            :description "Insert a new brewery review"
                                            :args        {:idBrewery {:type        Int

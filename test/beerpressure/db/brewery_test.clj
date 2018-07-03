@@ -404,3 +404,82 @@
           response (execute-graphql-query graphql-query)]
       (is (is-data-equal response expected-response)))))
 
+(deftest test-brewery-mutations
+  (testing "brewery mutations"
+    (let [insert-graphql-query (long-str "mutation insertBrewery {"
+                                         "  insertBrewery(name: \\\"A name\\\", description: \\\"A description\\\", imagePath: \\\"A path\\\", tags: [\\\"Industrielle\\\", \\\"A new one\\\"]) {"
+                                         "    id"
+                                         "    name"
+                                         "    description"
+                                         "    imagePath"
+                                         "    tags {"
+                                         "      id"
+                                         "      name"
+                                         "    }"
+                                         "    rating"
+                                         "  }"
+                                         "}")
+          update-graphql-query (long-str "mutation updateBrewery {"
+                                         "  updateBrewery(id: 100, name: \\\"A new name\\\", description: \\\"A new description\\\", imagePath: \\\"A new path\\\", tags: [\\\"Industrielle\\\", \\\"A new one 2\\\"]) {"
+                                         "    id"
+                                         "    name"
+                                         "    description"
+                                         "    imagePath"
+                                         "    tags {"
+                                         "      id"
+                                         "      name"
+                                         "    }"
+                                         "    rating"
+                                         "  }"
+                                         "}")
+          delete-graphql-query (long-str "mutation deleteBrewery {"
+                                         "  deleteBrewery(id: 100)"
+                                         "}")
+          expected-insert-response (long-str "{"
+                                             " \"data\": {"
+                                             "   \"insertBrewery\": {"
+                                             "     \"id\": 100,"
+                                             "     \"name\": \"A name\","
+                                             "     \"description\": \"A description\","
+                                             "     \"imagePath\": \"A path\","
+                                             "     \"tags\": ["
+                                             "       {"
+                                             "         \"id\": 1,"
+                                             "         \"name\": \"Industrielle\""
+                                             "       },"
+                                             "       {"
+                                             "         \"id\": 100,"
+                                             "         \"name\": \"A new one\""
+                                             "       }"
+                                             "     ],"
+                                             "     \"rating\": 0.0"
+                                             "   }"
+                                             " }"
+                                             "}")
+          expected-update-response (long-str "{"
+                                             " \"data\": {"
+                                             "   \"updateBrewery\": {"
+                                             "     \"id\": 100,"
+                                             "     \"name\": \"A new name\","
+                                             "     \"description\": \"A new description\","
+                                             "     \"imagePath\": \"A new path\","
+                                             "     \"tags\": ["
+                                             "       {"
+                                             "         \"id\": 1,"
+                                             "         \"name\": \"Industrielle\""
+                                             "       },"
+                                             "       {"
+                                             "         \"id\": 101,"
+                                             "         \"name\": \"A new one 2\""
+                                             "       }"
+                                             "     ],"
+                                             "     \"rating\": 0.0"
+                                             "   }"
+                                             " }"
+                                             "}")
+          verification-query "SELECT * FROM brewery WHERE id_brewery = 100"]
+      (is (is-data-equal (execute-graphql-query insert-graphql-query) expected-insert-response))
+      (is (not (empty? (query-sql-statement verification-query))))
+      (is (is-data-equal (execute-graphql-query update-graphql-query) expected-update-response))
+      (execute-graphql-query delete-graphql-query)
+      (is (empty? (query-sql-statement verification-query))))))
