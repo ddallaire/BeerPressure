@@ -1,6 +1,7 @@
 (ns beerpressure.db.common
   (:require [environ.core :refer [env]]
-            [clojure.string :as s]))
+            [clojure.string :as s]
+            [clojure.java.jdbc :as jdbc]))
 
 (def db-spec {:classname   "org.postgresql.Driver"
               :subprotocol "postgresql"
@@ -48,3 +49,12 @@
 (defn generate-query-limit-offset
   [args]
   (str "LIMIT " (get args :first) " OFFSET " (get args :skip)))
+
+(defn execute-association-query
+  [table-name list-column-name fixed-column-name ids id]
+  (if (empty? ids)
+    0
+    (let [query-beginning (str "INSERT INTO " table-name "(" list-column-name ", " fixed-column-name ") VALUES ")
+          values (s/join ", " (map #(str "(" % "," id ")") ids))
+          query (str query-beginning values)]
+      (check-error (jdbc/execute! db-spec query)))))

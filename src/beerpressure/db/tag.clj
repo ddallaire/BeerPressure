@@ -18,3 +18,14 @@
                  :BEER_POPULARITY (case (get args :orderType)
                                     :ASC (get-tags-ordered-by-beer-popularity-asc args)
                                     :DESC (get-tags-ordered-by-beer-popularity-desc args)))))
+
+(defn get-tag-id-or-insert-tag
+  [tag-name]
+  (let [tag (first (check-error (get-tags-where-name {:name tag-name})))]
+    (if (= tag nil)
+      (get (first (check-error (insert-tag {:name tag-name}))) :id_tag)
+      (get tag :id))))
+
+(defn get-tags-id-or-insert-tags
+  [tag-names]
+  (map #(get-tag-id-or-insert-tag %) tag-names))

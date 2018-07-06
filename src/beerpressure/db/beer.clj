@@ -4,7 +4,8 @@
             [yesql.core :refer [defqueries]]
             [beerpressure.db.common :refer :all]
             [beerpressure.db.brewery :refer [fill-brewery-tags]]
-            [clojure.java.jdbc :as jdbc]))
+            [clojure.java.jdbc :as jdbc]
+            [beerpressure.db.tag :refer [get-tags-id-or-insert-tags]]))
 
 (defqueries "sql/operations_beer.sql"
             {:connection db-spec})
@@ -103,3 +104,47 @@
   (let [beers (check-error
                 (jdbc/query db-spec (generate-beers-query args)))]
     (convert-naming-convention (map #(fill-beer-style (fill-beer-tags (fill-beer-breweries %))) beers))))
+
+(defn unassociate-beer-breweries
+  [beer-id]
+  (check-error (delete-beer-breweries! {:id beer-id})))
+
+(defn associate-beer-breweries
+  [brewery-ids beer-id]
+  (execute-association-query "beer_brewery" "id_brewery" "id_beer" brewery-ids beer-id))
+
+(defn unassociate-beer-tags
+  [beer-id]
+  (check-error (delete-beer-tags! {:id beer-id})))
+
+(defn associate-beer-tags
+  [tag-ids beer-id]
+  (execute-association-query "beer_tag" "id_tag" "id_beer" tag-ids beer-id))
+
+(defn resolve-insert-beer
+  [context args _value]
+  (let [tag-ids (get-tags-id-or-insert-tags (get args :tags))
+        beer-id (get (first (check-error (insert-beer args))) :id_beer)]
+    (associate-beer-breweries (get args :breweries) beer-id)
+    (associate-beer-tags tag-ids beer-id)
+    (let [beer (first (convert-naming-convention (check-error (get-beer {:id beer-id}))))]
+      (fill-beer-style (fill-beer-tags (fill-beer-breweries beer))))))
+
+(defn resolve-update-beer
+  [context args _value]
+  (let [tag-ids (get-tags-id-or-insert-tags (get args :tags))
+        beer-id (get args :id)]
+    (check-error (update-beer! args))
+    (unassociate-beer-breweries beer-id)
+    (associate-beer-breweries (get args :breweries) beer-id)
+    (unassociate-beer-tags beer-id)
+    (associate-beer-tags tag-ids beer-id)
+    (let [beer (first (convert-naming-convention (check-error (get-beer {:id beer-id}))))]
+      (fill-beer-style (fill-beer-tags (fill-beer-breweries beer))))))
+
+(defn resolve-delete-beer
+  [context args _value]
+  (let [beer-id (get args :id)]
+    (unassociate-beer-breweries beer-id)
+    (unassociate-beer-tags beer-id)
+    (check-error (delete-beer! args))))

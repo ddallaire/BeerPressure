@@ -10,3 +10,21 @@ SELECT tag.id_tag AS id, name FROM tag
 
 -- name: get-beer
 SELECT id_beer AS id, name, description, ibu, alcohol_percent, image_path, rating, id_style, name_style FROM beer_with_rating WHERE id_beer = :id;
+
+-- name: insert-beer
+INSERT INTO beer(name, description, ibu, alcohol_percent, image_path, id_style) VALUES
+    (:name, :description, :ibu, :alcoholPercent, :imagePath, :style)
+    RETURNING id_beer;
+
+-- name: update-beer!
+UPDATE beer SET name = :name, description = :description, ibu=:ibu, alcohol_percent=:alcoholPercent, image_path = :imagePath, id_style=:style
+   WHERE id_beer = :id;
+
+-- name: delete-beer-breweries!
+DELETE FROM beer_brewery WHERE id_beer = :id;
+
+-- name: delete-beer-tags!
+DELETE FROM beer_tag WHERE id_beer = :id;
+
+-- name: delete-beer!
+DELETE FROM beer WHERE id_beer = :id;

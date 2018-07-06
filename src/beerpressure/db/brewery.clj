@@ -2,7 +2,8 @@
   (:require [environ.core :refer [env]]
             [yesql.core :refer [defqueries]]
             [beerpressure.db.common :refer :all]
-            [clojure.java.jdbc :as jdbc]))
+            [clojure.java.jdbc :as jdbc]
+            [beerpressure.db.tag :refer [get-tags-id-or-insert-tags]]))
 
 (defqueries "sql/operations_brewery.sql"
             {:connection db-spec})
@@ -60,3 +61,34 @@
   (let [breweries (check-error
                     (jdbc/query db-spec (generate-breweries-query args)))]
     (convert-naming-convention (map #(fill-brewery-tags %) breweries))))
+
+(defn unassociate-brewery-tags
+  [brewery-id]
+  (check-error (delete-brewery-tags! {:id brewery-id})))
+
+(defn associate-brewery-tags
+  [tag-ids brewery-id]
+  (execute-association-query "tag_brewery" "id_tag" "id_brewery" tag-ids brewery-id))
+
+(defn resolve-insert-brewery
+  [context args _value]
+  (let [tag-ids (get-tags-id-or-insert-tags (get args :tags))
+        brewery-id (get (first (check-error (insert-brewery args))) :id_brewery)]
+    (associate-brewery-tags tag-ids brewery-id)
+    (let [brewery (first (convert-naming-convention (check-error (get-brewery {:id brewery-id}))))]
+      (fill-brewery-tags brewery))))
+
+(defn resolve-update-brewery
+  [context args _value]
+  (let [tag-ids (get-tags-id-or-insert-tags (get args :tags))
+        brewery-id (get args :id)]
+    (check-error (update-brewery! args))
+    (unassociate-brewery-tags brewery-id)
+    (associate-brewery-tags tag-ids brewery-id)
+    (let [brewery (first (convert-naming-convention (check-error (get-brewery {:id brewery-id}))))]
+      (fill-brewery-tags brewery))))
+
+(defn resolve-delete-brewery
+  [context args _value]
+  (unassociate-brewery-tags (get args :id))
+  (check-error (delete-brewery! args)))

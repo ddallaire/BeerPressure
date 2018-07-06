@@ -26,11 +26,17 @@
 
                          :resolve-brewery                        db.brewery/resolve-brewery
                          :resolve-breweries                      db.brewery/resolve-breweries
+                         :resolve-insert-brewery                 db.brewery/resolve-insert-brewery
+                         :resolve-update-brewery                 db.brewery/resolve-update-brewery
+                         :resolve-delete-brewery                 db.brewery/resolve-delete-brewery
 
                          :resolve-beer-styles                    db.beer-style/resolve-beer-styles
 
                          :resolve-beer                           db.beer/resolve-beer
                          :resolve-beers                          db.beer/resolve-beers
+                         :resolve-insert-beer                    db.beer/resolve-insert-beer
+                         :resolve-update-beer                    db.beer/resolve-update-beer
+                         :resolve-delete-beer                    db.beer/resolve-delete-beer
 
                          :resolve-brewery-review                 brewery-review/resolve-brewery-review
                          :resolve-brewery-reviews                brewery-review/resolve-brewery-reviews
