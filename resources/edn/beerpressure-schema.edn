@@ -12,122 +12,157 @@
                                   :values      [:TIME :THUMBSUP_COUNT]}
              :ReviewCommentOrder {:description "Define how review comments can be sorted"
                                   :values      [:TIME]}}
- :objects   {:User                 {:description "A user logged into the system"
-                                    :fields      {:cip     {:type        (non-null String)
-                                                            :description "The cip of the user"}
-                                                  :name    {:type        (non-null String)
-                                                            :descriprion "The name of the user"}
-                                                  :surname {:type        (non-null String)
-                                                            :description "The surname of the user"}
-                                                  :token   {:type        String
-                                                            :description "The authentication token"}}}
-             :Tag                  {:description "A tag applied to a beer or brewery"
-                                    :fields      {:id   {:type        Int
-                                                         :description "The identifier of the tag in the system"}
-                                                  :name {:type        (non-null String)
-                                                         :description "The displayed name of the tag"}}}
-             :Thumbsup             {:description "A thumbs-up applied to a beer or brewery review"
-                                    :fields      {:user {:type        :User
-                                                         :description "The user that applied the thumbs-up"}}}
-             :Brewery              {:description "A brewery that produces beers"
-                                    :fields      {:id          {:type        Int
-                                                                :description "The identifier of the brewery in the system"}
-                                                  :name        {:type        (non-null String)
-                                                                :description "The displayed name of the brewery"}
-                                                  :description {:type        String
-                                                                :description "The description of the brewery"}
-                                                  :imagePath   {:type        String
-                                                                :description "The logo or the building of the brewery"}
-                                                  :tags        {:type        (list :Tag)
-                                                                :description "The tags associated to the brewery"}
-                                                  :rating      {:type        Float
-                                                                :description "The brewery rating"}}}
-             :BeerStyle            {:description "A style of a beer"
-                                    :fields      {:id   {:type        Int
-                                                         :description "The identifier of the beer style"}
-                                                  :name {:type        (non-null String)
-                                                         :description "The name of the beer style"}}}
-             :Beer                 {:description "A beer produced by a brewery"
-                                    :fields      {:id             {:type        Int
-                                                                   :description "The identifier of the beer in the system"}
-                                                  :name           {:type        (non-null String)
-                                                                   :description "The displayed name of the beer"}
-                                                  :description    {:type        (non-null String)
+ :objects   {:User                    {:description "A user logged into the system"
+                                       :fields      {:cip     {:type        (non-null String)
+                                                               :description "The cip of the user"}
+                                                     :name    {:type        (non-null String)
+                                                               :descriprion "The name of the user"}
+                                                     :surname {:type        (non-null String)
+                                                               :description "The surname of the user"}
+                                                     :token   {:type        String
+                                                               :description "The authentication token"}}}
+             :Tag                     {:description "A tag applied to a beer or brewery"
+                                       :fields      {:id   {:type        Int
+                                                            :description "The identifier of the tag in the system"}
+                                                     :name {:type        (non-null String)
+                                                            :description "The displayed name of the tag"}}}
+             :Thumbsup                {:description "A thumbs-up applied to a beer or brewery review"
+                                       :fields      {:user {:type        :User
+                                                            :description "The user that applied the thumbs-up"}}}
+             :Brewery                 {:description "A brewery that produces beers"
+                                       :fields      {:id          {:type        Int
+                                                                   :description "The identifier of the brewery in the system"}
+                                                     :name        {:type        (non-null String)
+                                                                   :description "The displayed name of the brewery"}
+                                                     :description {:type        String
                                                                    :description "The description of the brewery"}
-                                                  :ibu            {:type        Int
-                                                                   :description "The IBU value of the beer"}
-                                                  :alcoholPercent {:type        Float
-                                                                   :description "The alcohol percentage content of the beer"}
-                                                  :imagePath      {:type        String
-                                                                   :description "The logo or the building of the beer"}
-                                                  :breweries      {:type        (list :Brewery)
-                                                                   :description "The breweries that have created the beer"}
-                                                  :tags           {:type        (list :Tag)
-                                                                   :description "The tags associated to the beer"}
-                                                  :rating         {:type        Float
-                                                                   :description "The beer rating"}
-                                                  :style          {:type        :BeerStyle
-                                                                   :description "The style of the beer"}}}
-             :BeerReview           {:description "A review of a beer"
-                                    :fields      {:idBeerReview {:type        Int
-                                                                 :description "The identifier of the beer review in the system"}
-                                                  :user         {:type        :User
-                                                                 :description "The user that posted the beer review"}
-                                                  :idBeer       {:type        Int
-                                                                 :description "The identifier of the beer in the system"}
-                                                  :title        {:type        (non-null String)
-                                                                 :description "Title of the beer review"}
-                                                  :content      {:type        (non-null String)
-                                                                 :description "Content of the beer review"}
-                                                  :imagePath    {:type        String
-                                                                 :description "The logo or the building of the beer"}
-                                                  :rating       {:type        Float
-                                                                 :description "The rating of the beer in the review"}
-                                                  :time         {:type        (non-null String)
-                                                                 :description "Time at which the review of the beer was posted"}
-                                                  :thumbsups    {:type        (list :Thumbsup)
-                                                                 :description "The thumbs-ups applied top the review"}}}
-             :BreweryReview        {:description "A review of a brewery"
-                                    :fields      {:idBreweryReview {:type        Int
-                                                                    :description "The identifier of the brewery review in the system"}
-                                                  :user            {:type        :User
-                                                                    :description "The user that posted the brewery review"}
-                                                  :idBrewery       {:type        Int
-                                                                    :description "The identifier of the brewery in the system"}
-                                                  :title           {:type        (non-null String)
-                                                                    :description "Title of the brewery review"}
-                                                  :content         {:type        (non-null String)
-                                                                    :description "Content of the brewery review"}
-                                                  :imagePath       {:type        String
-                                                                    :description "The logo or the building of the brewery"}
-                                                  :rating          {:type        Float
-                                                                    :description "The rating of the brewery in the review"}
-                                                  :time            {:type        (non-null String)
-                                                                    :description "Time at which the review of the brewery was posted"}
-                                                  :thumbsups       {:type        (list :Thumbsup)
+                                                     :imagePath   {:type        String
+                                                                   :description "The logo or the building of the brewery"}
+                                                     :tags        {:type        (list :Tag)
+                                                                   :description "The tags associated to the brewery"}
+                                                     :rating      {:type        Float
+                                                                   :description "The brewery rating"}}}
+             :BeerStyle               {:description "A style of a beer"
+                                       :fields      {:id   {:type        Int
+                                                            :description "The identifier of the beer style"}
+                                                     :name {:type        (non-null String)
+                                                            :description "The name of the beer style"}}}
+             :Beer                    {:description "A beer produced by a brewery"
+                                       :fields      {:id             {:type        Int
+                                                                      :description "The identifier of the beer in the system"}
+                                                     :name           {:type        (non-null String)
+                                                                      :description "The displayed name of the beer"}
+                                                     :description    {:type        (non-null String)
+                                                                      :description "The description of the brewery"}
+                                                     :ibu            {:type        Int
+                                                                      :description "The IBU value of the beer"}
+                                                     :alcoholPercent {:type        Float
+                                                                      :description "The alcohol percentage content of the beer"}
+                                                     :imagePath      {:type        String
+                                                                      :description "The logo or the building of the beer"}
+                                                     :breweries      {:type        (list :Brewery)
+                                                                      :description "The breweries that have created the beer"}
+                                                     :tags           {:type        (list :Tag)
+                                                                      :description "The tags associated to the beer"}
+                                                     :rating         {:type        Float
+                                                                      :description "The beer rating"}
+                                                     :style          {:type        :BeerStyle
+                                                                      :description "The style of the beer"}}}
+             :BeerReview              {:description "A review of a beer"
+                                       :fields      {:idBeerReview {:type        Int
+                                                                    :description "The identifier of the beer review in the system"}
+                                                     :user         {:type        :User
+                                                                    :description "The user that posted the beer review"}
+                                                     :idBeer       {:type        Int
+                                                                    :description "The identifier of the beer in the system"}
+                                                     :title        {:type        (non-null String)
+                                                                    :description "Title of the beer review"}
+                                                     :content      {:type        (non-null String)
+                                                                    :description "Content of the beer review"}
+                                                     :imagePath    {:type        String
+                                                                    :description "The logo or the building of the beer"}
+                                                     :rating       {:type        Float
+                                                                    :description "The rating of the beer in the review"}
+                                                     :time         {:type        (non-null String)
+                                                                    :description "Time at which the review of the beer was posted"}
+                                                     :thumbsups    {:type        (list :Thumbsup)
                                                                     :description "The thumbs-ups applied top the review"}}}
-             :BeerReviewComment    {:description "A comment of a beer review"
-                                    :fields      {:idBeerReviewComment {:type        Int
-                                                                        :description "The identifier of the beer review comment in the system"}
-                                                  :idBeerReview        {:type        Int
-                                                                        :description "The identifier of the beer review"}
-                                                  :user                {:type        :User
-                                                                        :description "The user that posted the beer review comment"}
-                                                  :content             {:type        (non-null String)
-                                                                        :description "The content of the comment"}
-                                                  :time                {:type        (non-null String)
-                                                                        :description "Time at which the comment was posted"}}}
-             :BreweryReviewComment {:description "A comment of a brewery review"
-                                    :fields      {:idBreweryReviewComment {:type        Int
-                                                                           :description "The identifier of the brewery review comment in the system"}
-                                                  :idBreweryReview        {:type        Int
-                                                                           :description "The identifier of the brewery review"}
-                                                  :user                   {:type        :User
-                                                                           :description "The user that posted the brewery review comment"}
-                                                  :content                {:type        (non-null String)
+             :BreweryReview           {:description "A review of a brewery"
+                                       :fields      {:idBreweryReview {:type        Int
+                                                                       :description "The identifier of the brewery review in the system"}
+                                                     :user            {:type        :User
+                                                                       :description "The user that posted the brewery review"}
+                                                     :idBrewery       {:type        Int
+                                                                       :description "The identifier of the brewery in the system"}
+                                                     :title           {:type        (non-null String)
+                                                                       :description "Title of the brewery review"}
+                                                     :content         {:type        (non-null String)
+                                                                       :description "Content of the brewery review"}
+                                                     :imagePath       {:type        String
+                                                                       :description "The logo or the building of the brewery"}
+                                                     :rating          {:type        Float
+                                                                       :description "The rating of the brewery in the review"}
+                                                     :time            {:type        (non-null String)
+                                                                       :description "Time at which the review of the brewery was posted"}
+                                                     :thumbsups       {:type        (list :Thumbsup)
+                                                                       :description "The thumbs-ups applied top the review"}}}
+             :BeerReviewComment       {:description "A comment of a beer review"
+                                       :fields      {:idBeerReviewComment {:type        Int
+                                                                           :description "The identifier of the beer review comment in the system"}
+                                                     :idBeerReview        {:type        Int
+                                                                           :description "The identifier of the beer review"}
+                                                     :user                {:type        :User
+                                                                           :description "The user that posted the beer review comment"}
+                                                     :content             {:type        (non-null String)
                                                                            :description "The content of the comment"}
-                                                  :time                   {:type        (non-null String)
-                                                                           :description "Time at which the comment was posted"}}}}
+                                                     :time                {:type        (non-null String)
+                                                                           :description "Time at which the comment was posted"}}}
+             :BreweryReviewComment    {:description "A comment of a brewery review"
+                                       :fields      {:idBreweryReviewComment {:type        Int
+                                                                              :description "The identifier of the brewery review comment in the system"}
+                                                     :idBreweryReview        {:type        Int
+                                                                              :description "The identifier of the brewery review"}
+                                                     :user                   {:type        :User
+                                                                              :description "The user that posted the brewery review comment"}
+                                                     :content                {:type        (non-null String)
+                                                                              :description "The content of the comment"}
+                                                     :time                   {:type        (non-null String)
+                                                                              :description "Time at which the comment was posted"}}}
+             :BreweryAndReview        {:description "Brewery and brewery review container"
+                                       :fields      {:brewery {:type        :Brewery
+                                                               :description "The brewery"}
+                                                     :review  {:type        :BreweryReview
+                                                               :description "The review"}}}
+             :BeerAndReview           {:description "Beer and beer review container"
+                                       :fields      {:beer   {:type        :Beer
+                                                              :description "The brewery"}
+                                                     :review {:type        :BeerReview
+                                                              :description "The review"}}}
+             :BreweryReviewAndComment {:description "Brewery review and comment container"
+                                       :fields      {:breweryReview {:type        :BreweryReview
+                                                                     :description "The brewery review"}
+                                                     :comment       {:type        :BreweryReviewComment
+                                                                     :description "The comment"}}}
+             :BeerReviewAndComment    {:description "Beer review and comment container"
+                                       :fields      {:beerReview {:type        :BeerReview
+                                                                  :description "The beer review"}
+                                                     :comment    {:type        :BeerReviewComment
+                                                                  :description "The comment"}}}
+             :Profile                 {:description "A user profile"
+                                       :fields      {:user                      {:type        :User
+                                                                                 :description "The user of the profile"}
+                                                     :breweryReviewedBy         {:type        (list :BreweryAndReview)
+                                                                                 :description "The brewery reviews that the user has written"}
+                                                     :beerReviewedBy            {:type        (list :BeerAndReview)
+                                                                                 :description "The beer reviews that the user has written"}
+                                                     :breweryReviewsCommentedBy {:type       (list :BreweryReviewAndComment)
+                                                                                 :descrption "The brewery reviews that the user has commented"}
+                                                     :beerReviewsCommentedBy    {:type       (list :BeerReviewAndComment)
+                                                                                 :descrption "The beer reviews that the user has commented"}
+                                                     :breweryReviewsThumbsupBy  {:type       (list :BreweryReview)
+                                                                                 :descrption "The brewery reviews that the user has applied thumbsup"}
+                                                     :beerReviewsThumbsupBy     {:type       (list :BeerReview)
+                                                                                 :descrption "The beer reviews that the user has applied thumbsup"}}}}
  :queries   {:tags                  {:type        (list :Tag)
                                      :description "Retrieve all tags ordered by name"
                                      :args        {:skip      {:type        (non-null Int)
@@ -281,7 +316,48 @@
                                                    :cips        {:type          (list String)
                                                                  :description   "Filter review comments by cips. ([] = disabled filter)"
                                                                  :default-value []}}
-                                     :resolve     :resolve-beer-review-comments}}
+                                     :resolve     :resolve-beer-review-comments}
+             :profile               {:type        :Profile
+                                     :description "Retrieve an user profile everything sorted by time in descending order"
+                                     :args        {:cip                            {:type        String
+                                                                                    :description "The cip of the profile user"}
+                                                   :breweryReviewedBySkip          {:type          Int
+                                                                                    :description   "Brewery review to skip"
+                                                                                    :default-value 0}
+                                                   :breweryReviewedByFirst         {:type          Int
+                                                                                    :description   "Brewery review to return"
+                                                                                    :default-value 10}
+                                                   :beerReviewedBySkip             {:type          Int
+                                                                                    :description   "Brewery review to skip"
+                                                                                    :default-value 0}
+                                                   :beerReviewedByFirst            {:type          Int
+                                                                                    :description   "Brewery review to return"
+                                                                                    :default-value 10}
+                                                   :breweryReviewsCommentedBySkip  {:type          Int
+                                                                                    :description   "Brewery review to skip"
+                                                                                    :default-value 0}
+                                                   :breweryReviewsCommentedByFirst {:type          Int
+                                                                                    :description   "Brewery review to return"
+                                                                                    :default-value 10}
+                                                   :beerReviewsCommentedBySkip     {:type          Int
+                                                                                    :description   "Brewery review to skip"
+                                                                                    :default-value 0}
+                                                   :beerReviewsCommentedByFirst    {:type          Int
+                                                                                    :description   "Brewery review to return"
+                                                                                    :default-value 10}
+                                                   :breweryReviewsThumbsupBySkip   {:type          Int
+                                                                                    :description   "Brewery review to skip"
+                                                                                    :default-value 0}
+                                                   :breweryReviewsThumbsupByFirst  {:type          Int
+                                                                                    :description   "Brewery review to return"
+                                                                                    :default-value 10}
+                                                   :beerReviewsThumbsupBySkip      {:type          Int
+                                                                                    :description   "Brewery review to skip"
+                                                                                    :default-value 0}
+                                                   :beerReviewsThumbsupByFirst     {:type          Int
+                                                                                    :description   "Brewery review to return"
+                                                                                    :default-value 10}}
+                                     :resolve     :resolve-profile}}
  :mutations {:login                       {:type        :User
                                            :description "Login the user using the CAS ticket"
                                            :args        {:ticket {:type        (non-null String)

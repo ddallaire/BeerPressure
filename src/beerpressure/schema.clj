@@ -9,6 +9,7 @@
     [beerpressure.db.review.beer-review :as beer-review]
     [beerpressure.db.comment.brewery-review-comment :as brewery-review-comment]
     [beerpressure.db.review.brewery-review :as brewery-review]
+    [beerpressure.db.profile :as profile]
     [clojure.java.io :as io]
     [clojure.edn :as edn]
     [com.walmartlabs.lacinia.schema :as schema]
@@ -64,5 +65,7 @@
                          :resolve-beer-review-comments           beer-review-comment/resolve-beer-review-comments
                          :resolve-insert-beer-review-comment     beer-review-comment/resolve-insert-beer-review-comment
                          :resolve-update-beer-review-comment     beer-review-comment/resolve-update-beer-review-comment
-                         :resolve-delete-beer-review-comment     beer-review-comment/resolve-delete-beer-review-comment})
+                         :resolve-delete-beer-review-comment     beer-review-comment/resolve-delete-beer-review-comment
+
+                         :resolve-profile                        profile/resolve-profile})
       schema/compile))
