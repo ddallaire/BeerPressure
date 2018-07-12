@@ -471,8 +471,6 @@
                                                                           :description "The brewery ids that have created the beer"}
                                                          :tags           {:type        (list String)
                                                                           :description "The tags associated to the beer"}
-                                                         :rating         {:type        Float
-                                                                          :description "The beer rating"}
                                                          :style          {:type        Int
                                                                           :description "The style id of the beer"}}
                                            :resolve     :resolve-insert-beer}
@@ -494,8 +492,6 @@
                                                                           :description "The brewery ids that have created the beer"}
                                                          :tags           {:type        (list String)
                                                                           :description "The tags associated to the beer"}
-                                                         :rating         {:type        Float
-                                                                          :description "The beer rating"}
                                                          :style          {:type        Int
                                                                           :description "The style id of the beer"}}
                                            :resolve     :resolve-update-beer}
